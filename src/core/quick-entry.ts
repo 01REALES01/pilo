@@ -128,6 +128,22 @@ function splitNote(text: string): { head: string; note: string | null } {
   };
 }
 
+/**
+ * Reads an amount that arrives on its own - the text the language model copied
+ * out of a message ("12 mil", "$15.000"). The whole string has to be one
+ * amount: parseMoney alone would strip the letters from "20 lucas" and store
+ * $20, and from "1.5 millones" and store $1,50. Positive, in minor units;
+ * throws instead of guessing.
+ */
+export function readAmountText(text: string, currency: string): bigint {
+  const token = joinSpelledMultipliers(text.trim()).replace(/\s+/g, '');
+  if (!AMOUNT_TOKEN.test(token)) {
+    throw new Error(`"${text}" is not an amount on its own.`);
+  }
+  const minor = readAmount(token, currency);
+  return minor < 0n ? -minor : minor;
+}
+
 export function parseQuickEntry(input: string, currency: string): QuickEntryResult {
   const { head, note } = splitNote(joinSpelledMultipliers(input.trim()));
   const words = head.split(/\s+/).filter(Boolean);
