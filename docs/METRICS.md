@@ -280,6 +280,26 @@ Registro de mediciones del proyecto. Gobernado por el **principio P6** de `IMPLE
 
 ---
 
+## L1 — Capa LLM
+
+### [2026-10-10] Clasificación de mensajes de chat que el parser rechaza (L1.0)
+
+- **Valor:** 95% (35/37) con `gemini-3.5-flash-lite`; p95 1,35 s.
+- **Qué se mide:** si el modelo elige bien la intención (registrar, consultar un día, un mes, el saldo, función no disponible, no entendido) y sus argumentos (monto, fecha, comercio, tipo, mes, categoría), sobre los mensajes que el parser determinista **rechaza**. Los que el parser acepta nunca llegan al modelo.
+- **n:** 37 frases escritas a mano (`scripts/llm-eval/cases.json`), **no** mensajes de usuarios. Hoy fijo en el set: sábado 2026-10-10.
+- **Método:** `npx tsx scripts/llm-eval/run.mts <modelo>`. Llamadas secuenciales, `temperature: 0`, salida estructurada con JSON Schema, plan de pago (tier `standard`). La respuesta pasa por `validateIntent`: el monto lo lee el parser, no el modelo. Acierto = todos los campos esperados iguales.
+- **Línea base:** primera medición. Antes de L1 estos mensajes recibían "no entendí" en el 100% de los casos.
+- **Delta:** no aplica.
+
+| Modelo | Acierto | Registrar gasto | Latencia p50 / p95 / máx | Tokens entrada / salida | Timeouts (30 s) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `gemini-3.5-flash-lite` | **35/37 (95%)** | 12/12 | 776 / 1.349 / 2.749 ms | 302 / 69 | 1/37 |
+| `gemini-3.1-flash-lite` (corrida previa, n=34) | 32/34 (94%) | 10/10 | 896 / 2.657 / 3.340 ms | 302 / 33 | 1/34 |
+
+- **Fallos de 3.5:** "mañana voy a gastar…" → `unsupported` en vez de `unclear` (respuesta aceptable para el usuario); "¿cuál es mi saldo?" → timeout a los 30 s.
+- **Conclusión:** se mantiene `gemini-3.5-flash-lite`: mismo acierto, la mitad de p95 y sin timeouts en la corrida de comparación. El timeout de producción es 10 s con respuesta inmediata ("Entendiendo…") y caída al formato corto.
+- **Hallazgo lateral:** la evaluación detectó que el parser, tras aprender "k/mil/M", aceptaba frases que debía dejar al modelo ("gasté 20 lucas…" se habría guardado como $20). Corregido antes de producción.
+
 ## Fase 5 — Insights
 
 ### [ pendiente ] Precisión de alertas
