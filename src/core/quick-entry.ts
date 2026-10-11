@@ -93,6 +93,23 @@ const OPENING_VERBS = new Set(['gasté', 'gaste', 'pagué', 'pague', 'compré', 
  */
 const SHORTHAND_DIGITS = /^[+-]?\$?\d+(?:[.,]\d{1,2})?$/;
 
+/**
+ * Slang units. "20 lucas" is twenty thousand to a person and twenty pesos to
+ * parseMoney, and slang is out of scope by decision - so a line that uses one
+ * is refused rather than stored a thousand times too small.
+ */
+const SLANG_UNITS = new Set(['luca', 'lucas', 'luquitas', 'lukas', 'barra', 'barras', 'palo', 'palos']);
+
+/** "20000 pesos almuerzo": the unit is not part of the merchant. */
+const PLAIN_UNITS = new Set(['peso', 'pesos', 'pesitos', 'cop']);
+
+/**
+ * Words a sentence puts right before an amount at its end: "salió en 32 mil",
+ * "por 15 mil". A merchant ending in one is a sentence, not a shop - better
+ * left to the language model, which can pull the shop out of it.
+ */
+const TRAILING_CONNECTORS = new Set(['en', 'por', 'de', 'a', 'y', 'fue', 'salió', 'salio', 'costó', 'costo', 'vale', 'valió', 'valio']);
+
 /** Reads an amount token, shorthand included. Throws when it will not guess. */
 function readAmount(token: string, currency: string): bigint {
   const suffix = SHORTHAND.exec(token)?.[1]?.toLowerCase();
@@ -164,11 +181,18 @@ export function parseQuickEntry(input: string, currency: string): QuickEntryResu
   }
 
   const rest = amountIsFirst ? words.slice(1) : words.slice(0, -1);
-  // "20k en bershka": the "en" belongs to the sentence, not to the shop.
-  if (amountIsFirst && rest.length > 1 && (rest[0] as string).toLowerCase() === 'en') {
-    rest.shift();
+  const lower = (word: string | undefined) => (word ?? '').toLowerCase();
+  if (amountIsFirst) {
+    if (SLANG_UNITS.has(lower(rest[0]))) {
+      return { ok: false, reason: 'no_amount' };
+    }
+    if (rest.length > 1 && PLAIN_UNITS.has(lower(rest[0]))) rest.shift();
+    // "20k en bershka": the "en" belongs to the sentence, not to the shop.
+    if (rest.length > 1 && lower(rest[0]) === 'en') rest.shift();
+  } else if (TRAILING_CONNECTORS.has(lower(rest[rest.length - 1]))) {
+    return { ok: false, reason: 'no_amount' };
   }
-  const merchant = rest.join(' ');
+  const merchant = rest.join(' ').replace(/[,;:]+$/, '');
   if (!HAS_A_LETTER.test(merchant)) {
     return { ok: false, reason: 'no_merchant' };
   }

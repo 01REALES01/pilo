@@ -234,4 +234,19 @@ describe('amounts as they are written in a chat (L1, before any model)', () => {
   it('does not invent precision the shorthand cannot carry', () => {
     expect(read('1,234k cosa')).toBe('no_amount');
   });
+
+  it('refuses slang units instead of storing them a thousand times too small', () => {
+    expect(read('gasté 20 lucas en bershka')).toBe('no_amount');
+    expect(read('20 barras arriendo')).toBe('no_amount');
+  });
+
+  it('drops "pesos" and trailing punctuation from the merchant', () => {
+    expect(read('20000 pesos almuerzo')).toEqual([2_000_000n, 'almuerzo']);
+    expect(read('pagué el arriendo, 1,2 millones')).toEqual([120_000_000n, 'el arriendo']);
+  });
+
+  it('leaves a sentence ending in "en 32 mil" to the model', () => {
+    expect(read('fui a cine y salió en 32 mil')).toBe('no_amount');
+    expect(read('almorcé en el corrientazo por 15 mil')).toBe('no_amount');
+  });
 });
