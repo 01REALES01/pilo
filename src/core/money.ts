@@ -77,6 +77,15 @@ export function negate(a: Money): Money {
   return { minor: -a.minor, currency: a.currency };
 }
 
+/**
+ * Scales an amount by a whole factor: "20k" is 20 times a thousand. A bigint
+ * factor, so "1,5M" is $1,50 x 1 000 000 in exact minor units - never a
+ * float that could land on $1.499.999,99.
+ */
+export function multiply(a: Money, factor: bigint): Money {
+  return { minor: a.minor * factor, currency: a.currency };
+}
+
 export function isZero(a: Money): boolean {
   return a.minor === 0n;
 }

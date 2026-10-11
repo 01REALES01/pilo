@@ -194,3 +194,44 @@ describe('the examples the bot hands out', () => {
     expect(missing, 'the help text stopped offering these').toEqual([]);
   });
 });
+
+describe('amounts as they are written in a chat (L1, before any model)', () => {
+  const read = (text: string) => {
+    const result = parseQuickEntry(text, 'COP');
+    return result.ok ? [result.entry.amountMinor, result.entry.merchant] : result.reason;
+  };
+
+  it('reads k, mil and M, glued or spelled out', () => {
+    expect(read('20k bershka')).toEqual([2_000_000n, 'bershka']);
+    expect(read('20K bershka')).toEqual([2_000_000n, 'bershka']);
+    expect(read('bershka 20 mil')).toEqual([2_000_000n, 'bershka']);
+    expect(read('1,5M arriendo')).toEqual([150_000_000n, 'arriendo']);
+    expect(read('arriendo 2 millones')).toEqual([200_000_000n, 'arriendo']);
+    expect(read('$12mil almuerzo')).toEqual([1_200_000n, 'almuerzo']);
+  });
+
+  it('reads a spend said as a sentence', () => {
+    expect(read('gasté 20k en bershka')).toEqual([2_000_000n, 'bershka']);
+    expect(read('Pagué 12 mil en el almuerzo')).toEqual([1_200_000n, 'el almuerzo']);
+    expect(read('compre 8000 pan')).toEqual([800_000n, 'pan']);
+  });
+
+  it('keeps an income an income', () => {
+    const result = parseQuickEntry('+1,5M salario', 'COP');
+    expect(result.ok && result.entry.type).toBe('income');
+  });
+
+  it('leaves dates and questions to the model', () => {
+    // "ayer" is not an amount and the amount is not at either end.
+    expect(read('ayer gasté 12 mil en el almuerzo')).toBe('no_amount');
+    expect(read('cuanto gaste ayer?')).toBe('no_amount');
+  });
+
+  it('does not take the verb for a merchant', () => {
+    expect(read('gasté 20k')).toBe('no_merchant');
+  });
+
+  it('does not invent precision the shorthand cannot carry', () => {
+    expect(read('1,234k cosa')).toBe('no_amount');
+  });
+});

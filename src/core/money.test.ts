@@ -9,6 +9,7 @@ import {
   isNegative,
   isZero,
   money,
+  multiply,
   negate,
   parseMoney,
   subtract,
@@ -195,6 +196,13 @@ describe('toDecimalString - the plain decimal, no locale', () => {
   it('stays exact past the range a double can represent', () => {
     // 2^53 minor units is about 90 billion pesos. A number would round here.
     expect(toDecimalString(9_007_199_254_740_993n)).toBe('90071992547409.93');
+  });
+});
+
+describe('multiply', () => {
+  it('scales exactly, decimals included', () => {
+    expect(multiply(money(150n, 'COP'), 1_000_000n)).toEqual(money(150_000_000n, 'COP'));
+    expect(multiply(money(2_000n, 'COP'), 1_000n)).toEqual(money(2_000_000n, 'COP'));
   });
 });
 

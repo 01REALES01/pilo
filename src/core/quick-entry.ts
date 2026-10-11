@@ -1,4 +1,4 @@
-import { parseMoney } from '@/core/money';
+import { multiply, parseMoney } from '@/core/money';
 
 /**
  * Reading a spend out of a sentence somebody typed.
@@ -17,7 +17,17 @@ import { parseMoney } from '@/core/money';
  * WHAT IT DELIBERATELY DOES NOT DO
  * --------------------------------
  * No dates ("ayer"), no currencies other than the profile's, no categories, no
- * multiple spends in one line. Every one of those is a guess about intent, and
+ * multiple spends in one line. Those go to the language model (block L1), and
+ * only after this parser has said no - it stays the first door, and the cheap
+ * one.
+ *
+ * WHAT IT DOES READ, SINCE L1
+ * ---------------------------
+ * The way amounts are actually written in a Colombian chat: "20k", "20 mil",
+ * "1,5M", "2 millones". And a spend said as a sentence, "gasté 20k en
+ * bershka": one opening verb from a short fixed list and an "en" after the
+ * amount are dropped. Both are rules that fit in a sentence, so the user can
+ * predict them, and every message they catch is one the model never sees. Every one of those is a guess about intent, and
  * the doctrine here - the SMS parsers, the amount reader - is that a wrong
  * answer costs more than no answer. When it cannot read something it says so
  * and the user retypes; it never files an approximation.
@@ -54,7 +64,45 @@ const MAX_NOTE = 1000;
  * you can state in one sentence is one the user can predict - which matters far
  * more here than catching an extra phrasing.
  */
-const AMOUNT_TOKEN = /^[+-]?\$?\d[\d.,]*$/;
+const AMOUNT_TOKEN = /^[+-]?\$?\d[\d.,]*(?:k|mil|m)?$/i;
+
+/** The suffix that multiplies, read off an amount token. */
+const SHORTHAND = /(k|mil|m)$/i;
+const MULTIPLIER: Readonly<Record<string, bigint>> = { k: 1_000n, mil: 1_000n, m: 1_000_000n };
+
+/**
+ * Glues "20 mil" into "20mil" and "1,5 millones" into "1,5m", so the amount is
+ * one token again and the first-or-last-word rule still holds.
+ */
+function joinSpelledMultipliers(text: string): string {
+  return text
+    .replace(/(\d)\s+mil\b/giu, '$1mil')
+    .replace(/(\d)\s*(?:millones|millón|millon)\b/giu, '$1m');
+}
+
+/**
+ * Verbs a spend is announced with. Fixed and short on purpose: each is a word
+ * that can only mean "I spent", so dropping it never eats a merchant.
+ */
+const OPENING_VERBS = new Set(['gasté', 'gaste', 'pagué', 'pague', 'compré', 'compre']);
+
+/**
+ * With a multiplier, only a plain number with up to two decimals: "1,5k",
+ * "2.25M". "1,234k" could be 1.234 thousand or 1,234 thousand, and a
+ * thousand-fold disagreement is not one to settle by guessing.
+ */
+const SHORTHAND_DIGITS = /^[+-]?\$?\d+(?:[.,]\d{1,2})?$/;
+
+/** Reads an amount token, shorthand included. Throws when it will not guess. */
+function readAmount(token: string, currency: string): bigint {
+  const suffix = SHORTHAND.exec(token)?.[1]?.toLowerCase();
+  const digits = suffix ? token.slice(0, -suffix.length) : token;
+  if (suffix && !SHORTHAND_DIGITS.test(digits)) {
+    throw new Error(`Ambiguous shorthand amount "${token}".`);
+  }
+  const amount = parseMoney(digits, currency);
+  return suffix ? multiply(amount, MULTIPLIER[suffix] as bigint).minor : amount.minor;
+}
 
 /** A merchant has to be something you could recognise later. "15000" is not. */
 const HAS_A_LETTER = /\p{L}/u;
@@ -81,8 +129,11 @@ function splitNote(text: string): { head: string; note: string | null } {
 }
 
 export function parseQuickEntry(input: string, currency: string): QuickEntryResult {
-  const { head, note } = splitNote(input.trim());
+  const { head, note } = splitNote(joinSpelledMultipliers(input.trim()));
   const words = head.split(/\s+/).filter(Boolean);
+  if (words.length > 1 && OPENING_VERBS.has((words[0] as string).toLowerCase())) {
+    words.shift();
+  }
 
   if (words.length < 2) {
     // One word is either a bare amount or a bare name; neither is a spend.
@@ -101,7 +152,7 @@ export function parseQuickEntry(input: string, currency: string): QuickEntryResu
 
   let minor: bigint;
   try {
-    minor = parseMoney(rawAmount, currency).minor;
+    minor = readAmount(rawAmount, currency);
   } catch {
     // parseMoney refuses more than two decimals, among other things. Its
     // refusals are deliberate and are not overridden here.
@@ -112,7 +163,12 @@ export function parseQuickEntry(input: string, currency: string): QuickEntryResu
     return { ok: false, reason: 'not_positive' };
   }
 
-  const merchant = (amountIsFirst ? words.slice(1) : words.slice(0, -1)).join(' ');
+  const rest = amountIsFirst ? words.slice(1) : words.slice(0, -1);
+  // "20k en bershka": the "en" belongs to the sentence, not to the shop.
+  if (amountIsFirst && rest.length > 1 && (rest[0] as string).toLowerCase() === 'en') {
+    rest.shift();
+  }
+  const merchant = rest.join(' ');
   if (!HAS_A_LETTER.test(merchant)) {
     return { ok: false, reason: 'no_merchant' };
   }
