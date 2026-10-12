@@ -298,7 +298,8 @@ Registro de mediciones del proyecto. Gobernado por el **principio P6** de `IMPLE
 
 - **Fallos de 3.5:** "mañana voy a gastar…" → `unsupported` en vez de `unclear` (respuesta aceptable para el usuario); "¿cuál es mi saldo?" → timeout a los 30 s.
 - **Conclusión:** se mantiene `gemini-3.5-flash-lite`: mismo acierto, la mitad de p95 y sin timeouts en la corrida de comparación. El timeout de producción es 10 s con respuesta inmediata ("Entendiendo…") y caída al formato corto.
-- **Hallazgo lateral:** la evaluación detectó que el parser, tras aprender "k/mil/M", aceptaba frases que debía dejar al modelo ("gasté 20 lucas…" se habría guardado como $20). Corregido antes de producción.
+- **Re-corrida 2026-10-12** (n=42, añadidas frases con "k": "32k", "100k", "2k", "300k"): **40/42 (95%)**, registrar gasto **17/17**, p50/p95 772/904 ms, 315/65 tokens, sin timeouts.
+- **Hallazgo lateral:** la evaluación detectó que el parser, tras aprender "k/mil/M", aceptaba frases que debía dejar al modelo ("gasté 20 lucas…" se habría guardado como $20). Corregido antes de producción. La segunda corrida destapó otro: "anoche en rappi se me fueron 45k" lo tomaba el parser con fecha de hoy; ahora toda línea que nombra un día va al modelo.
 
 ## Fase 5 — Insights
 
