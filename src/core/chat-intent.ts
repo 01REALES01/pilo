@@ -166,7 +166,7 @@ export function buildIntentSystemPrompt(todayKey: string): string {
     'Clasificas mensajes de chat de Reasonny, una app de finanzas personales en Colombia (pesos colombianos).',
     `Hoy es ${weekday} ${todayKey}.`,
     'Devuelve UNA intención. No respondas al usuario ni calcules nada.',
-    '- record_spend: registra un gasto o ingreso. amount_text = el monto copiado tal cual aparece ("12 mil", "20k", "$15.000"), sin convertirlo. merchant = dónde o en qué. date = YYYY-MM-DD ("ayer" = un día antes de hoy); si no dice, hoy. is_income = true solo si recibió dinero.',
+    '- record_spend: registra un gasto o ingreso. amount_text = el monto copiado tal cual aparece ("32k", "100k", "12 mil", "$15.000"), sin convertirlo; "k" significa mil. merchant = dónde o en qué. date = YYYY-MM-DD ("ayer" = un día antes de hoy); si no dice, hoy. is_income = true solo si recibió dinero.',
     '- spending_on_day: pregunta cuánto gastó un día concreto. date = YYYY-MM-DD.',
     '- spending_in_month: pregunta por el gasto de un mes, en total o en una categoría. month_offset = 0 este mes, -1 el mes pasado. category = la palabra de categoría que usó o null.',
     '- balance: pregunta por su saldo o cuánto tiene.',
