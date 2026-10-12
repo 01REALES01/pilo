@@ -112,7 +112,21 @@ const PLAIN_UNITS = new Set(['peso', 'pesos', 'pesitos', 'cop']);
  * "por 15 mil". A merchant ending in one is a sentence, not a shop - better
  * left to the language model, which can pull the shop out of it.
  */
-const TRAILING_CONNECTORS = new Set(['en', 'por', 'de', 'a', 'y', 'fue', 'salió', 'salio', 'costó', 'costo', 'vale', 'valió', 'valio']);
+const TRAILING_CONNECTORS = new Set([
+  'en', 'por', 'de', 'a', 'y', 'fue', 'fueron', 'salió', 'salio', 'costó', 'costo',
+  'vale', 'valió', 'valio', 'gasté', 'gaste', 'pagué', 'pague',
+]);
+
+/**
+ * Words that put a spend on another day. This parser dates everything "now",
+ * so "anoche en rappi 45k" would be filed under today - a wrong day is a wrong
+ * month at the edges. A line naming a day is left to the language model,
+ * which turns it into a date that is then checked.
+ */
+const DAY_WORDS = new Set([
+  'ayer', 'anoche', 'anteayer', 'antier', 'antenoche', 'mañana',
+  'lunes', 'martes', 'miércoles', 'miercoles', 'jueves', 'viernes', 'sábado', 'sabado', 'domingo',
+]);
 
 /** Reads an amount token, shorthand included. Throws when it will not guess. */
 function readAmount(token: string, currency: string): bigint {
@@ -188,6 +202,9 @@ export function parseQuickEntry(input: string, currency: string): QuickEntryResu
 
   const rest = amountIsFirst ? words.slice(1) : words.slice(0, -1);
   const lower = (word: string | undefined) => (word ?? '').toLowerCase();
+  if (rest.some((word) => DAY_WORDS.has(lower(word).replace(/[.,!?]/g, '')))) {
+    return { ok: false, reason: 'no_amount' };
+  }
   if (amountIsFirst) {
     if (SLANG_UNITS.has(lower(rest[0]))) {
       return { ok: false, reason: 'no_amount' };

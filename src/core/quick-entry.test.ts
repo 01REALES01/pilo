@@ -259,4 +259,11 @@ describe('amounts as they are written in a chat (L1, before any model)', () => {
     expect(read('bershka 32k.')).toEqual([3_200_000n, 'bershka']);
     expect(read('1,5k parqueadero')).toEqual([150_000n, 'parqueadero']);
   });
+
+  it('leaves any line that names a day to the model, which can date it', () => {
+    expect(read('anoche en rappi se me fueron 45k')).toBe('no_amount');
+    expect(read('45k rappi ayer')).toBe('no_amount');
+    expect(read('el jueves 60k gasolina')).toBe('no_amount');
+    expect(read('en rappi se me fueron 45k')).toBe('no_amount');
+  });
 });
