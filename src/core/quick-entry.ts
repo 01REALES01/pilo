@@ -71,11 +71,15 @@ const SHORTHAND = /(k|mil|m)$/i;
 const MULTIPLIER: Readonly<Record<string, bigint>> = { k: 1_000n, mil: 1_000n, m: 1_000_000n };
 
 /**
- * Glues "20 mil" into "20mil" and "1,5 millones" into "1,5m", so the amount is
- * one token again and the first-or-last-word rule still holds.
+ * Glues "32 k" into "32k", "20 mil" into "20mil" and "1,5 millones" into
+ * "1,5m", so the amount is one token again and the first-or-last-word rule
+ * still holds. "k" is how most people write thousands in a chat - "32k",
+ * "100k" - and a stray space before it must not turn $32.000 into $32 with a
+ * merchant called "k bershka".
  */
 function joinSpelledMultipliers(text: string): string {
   return text
+    .replace(/(\d)\s+k\b/giu, '$1k')
     .replace(/(\d)\s+mil\b/giu, '$1mil')
     .replace(/(\d)\s*(?:millones|millón|millon)\b/giu, '$1m');
 }
@@ -162,7 +166,9 @@ export function readAmountText(text: string, currency: string): bigint {
 }
 
 export function parseQuickEntry(input: string, currency: string): QuickEntryResult {
-  const { head, note } = splitNote(joinSpelledMultipliers(input.trim()));
+  // A full stop or an exclamation at the end is punctuation, not part of the
+  // amount: "bershka 32k." is "bershka 32k".
+  const { head, note } = splitNote(joinSpelledMultipliers(input.trim().replace(/[.!?]+$/, '')));
   const words = head.split(/\s+/).filter(Boolean);
   if (words.length > 1 && OPENING_VERBS.has((words[0] as string).toLowerCase())) {
     words.shift();
