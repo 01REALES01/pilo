@@ -249,4 +249,14 @@ describe('amounts as they are written in a chat (L1, before any model)', () => {
     expect(read('fui a cine y salió en 32 mil')).toBe('no_amount');
     expect(read('almorcé en el corrientazo por 15 mil')).toBe('no_amount');
   });
+
+  it('reads k the way people write it: 32k, 100k, 2k, with or without a space', () => {
+    expect(read('32k bershka')).toEqual([3_200_000n, 'bershka']);
+    expect(read('100k mercado')).toEqual([10_000_000n, 'mercado']);
+    expect(read('tinto 2k')).toEqual([200_000n, 'tinto']);
+    expect(read('32 k bershka')).toEqual([3_200_000n, 'bershka']);
+    expect(read('bershka 32 K')).toEqual([3_200_000n, 'bershka']);
+    expect(read('bershka 32k.')).toEqual([3_200_000n, 'bershka']);
+    expect(read('1,5k parqueadero')).toEqual([150_000n, 'parqueadero']);
+  });
 });
