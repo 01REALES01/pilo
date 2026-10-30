@@ -228,7 +228,7 @@ El autor es de Barranquilla. La calidez costeña va para los hábitos; con la pl
 | ✅ Sí | «Anotado: $12.000 en Café.» | Neutral con el monto |
 | ❌ Nunca | «¡Qué nota! Gastaste $80.000 en rumba.» | Celebrar un gasto premia el monto, y opinar de él es asesoría (P4) |
 
-Pendiente: decidir si la voz costeña llega a la interfaz (§8.5). Los 3 usuarios actuales no son necesariamente costeños.
+Decidido el 30-oct-2026: **poca en la interfaz**, un toque por sección como máximo, y más en el bot. Los 3 usuarios actuales no son necesariamente costeños. La regla operativa está en [`PILO_COPY.md`](PILO_COPY.md) §3.3.
 
 ---
 
@@ -358,8 +358,8 @@ Tampoco hace falta tocar el nombre del paquete en `package.json`, el proyecto de
 
 ### 8.5 Preguntas abiertas
 
-- ¿Qué frase reemplaza a «Razón y dinero, en el mismo lugar»?
-- ¿La voz costeña llega a la interfaz o se queda en el bot?
+- ~~¿Qué frase reemplaza a «Razón y dinero, en el mismo lugar»?~~ **«Pagas. Pilo anota.»** (30-oct-2026). El plan completo del copy está en [`PILO_COPY.md`](PILO_COPY.md).
+- ~~¿La voz costeña llega a la interfaz o se queda en el bot?~~ **Poca en la interfaz**, más en el bot ([`PILO_COPY.md`](PILO_COPY.md) §7).
 - ¿Pilo es el avatar del bot desde el primer día del cambio de nombre?
 - ¿Se cuenta en público la historia del tití barranquillero? Si sí, con la especie bien dicha (§3.2).
 - ¿Rive algún día? Solo si aparece una necesidad que CSS no cubra (§6.2).
