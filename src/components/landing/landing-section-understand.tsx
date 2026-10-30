@@ -74,7 +74,7 @@ export function LandingSectionUnderstand(): React.ReactElement {
         </p>
 
         <p className="landing-reveal-subhead">
-          Pilo aprende el comportamiento de tu capital antes de que el mes cierre.
+          Pilo aprende tus comercios: la segunda vez, ya no pregunta.
           Una interfaz pensada para darte dirección, no culpa.
         </p>
       </div>

@@ -69,9 +69,7 @@ export function LandingGrandFinaleFooter(): React.ReactElement {
             <h4 className="landing-finale-nav-heading">Cómo funciona</h4>
             <a href="#features-zero-touch" className="landing-finale-nav-item">Registro sin esfuerzo</a>
             <a href="#features-telegram" className="landing-finale-nav-item">Notificaciones en Telegram</a>
-            <a href="#features-vision" className="landing-finale-nav-item">Conciliación por extracto</a>
             <a href="#features-faq" className="landing-finale-nav-item">Preguntas frecuentes</a>
-            <a href="#features-telemetry" className="landing-finale-nav-item">Insights sobre tu comportamiento</a>
           </div>
 
           <div className="landing-finale-nav-col">
@@ -79,7 +77,7 @@ export function LandingGrandFinaleFooter(): React.ReactElement {
             <span className="landing-finale-nav-item">Aislamiento por usuario</span>
             <span className="landing-finale-nav-item">Sin venta ni cesión de datos</span>
             <span className="landing-finale-nav-item">Cifrado en reposo</span>
-            <span className="landing-finale-nav-item">Acceso a tu banco de solo lectura</span>
+            <span className="landing-finale-nav-item">Sin acceso a tu banco</span>
             <Link href="/privacidad" className="landing-finale-nav-item">
               {t('auth_consent_link')}
             </Link>

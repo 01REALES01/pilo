@@ -17,6 +17,9 @@ interface SimulationItem {
   readonly time: string;
 }
 
+/** An illustrative average, not a measurement: the mockup needs a figure. */
+const DEMO_DAILY_PACE_MINOR = 12500000n;
+
 const SIMULATION_POOL: readonly SimulationItem[] = [
   {
     store: 'Starbucks Reserva · Chicó',
@@ -132,9 +135,9 @@ const PILO_STEPS: readonly string[] = [
   'Un atajo en tu iPhone lo registra en segundo plano',
   'El motor de reglas reconoce tus comercios de siempre',
   'Solo te pregunta la categoría cuando de verdad duda',
-  'Respondes con dos toques desde la pantalla de bloqueo',
+  'Respondes con dos toques en Telegram',
   'El efectivo y los QR entran por un mensaje de Telegram',
-  'A fin de mes el extracto recupera lo que faltara',
+  'Escribes /hoy o /mes y ves cómo vas',
   'Nunca abriste un formulario, y el mes cuadra',
 ];
 
@@ -146,15 +149,15 @@ interface InsightExample {
 const INSIGHT_EXAMPLES: readonly InsightExample[] = [
   {
     quote: '«Tus pedidos de comida a domicilio de noche vienen subiendo estas últimas semanas.»',
-    desc: 'Detecta cuándo un hábito se acelera, mientras todavía queda mes por delante.',
+    desc: 'Detectará cuándo un hábito se acelera, mientras todavía queda mes por delante.',
   },
   {
     quote: '«Hay cobros que se repiten todos los meses y quizá ya no estés usando.»',
-    desc: 'Identifica cargos recurrentes que se camuflan bajo nombres poco claros en el extracto.',
+    desc: 'Identificará cargos recurrentes que se camuflan bajo nombres poco claros en el extracto.',
   },
   {
     quote: '«A este ritmo, terminas el mes por encima de lo que gastaste el anterior.»',
-    desc: 'Proyecta hacia dónde va tu comportamiento y te lo dice mientras aún puedes ajustarlo.',
+    desc: 'Proyectará hacia dónde va tu comportamiento y te lo dirá mientras aún puedes ajustarlo.',
   },
 ];
 
@@ -309,14 +312,16 @@ export function LandingProductShowcase(): React.ReactElement {
               {/* Balance Hero Card Real de la App */}
               <div className="landing-phone-app-hero">
                 <div className="landing-phone-app-greeting">
-                  <span>Hola, Jean Paul</span>
-                  <div className="landing-phone-app-avatar">JP</div>
+                  <span>Hola, Camila</span>
+                  <div className="landing-phone-app-avatar">C</div>
                 </div>
                 <div className="landing-phone-app-balance">
                   <Money amountMinor={simulatedBalanceMinor} currency="COP" />
                 </div>
                 <div className="landing-phone-app-pacing">
-                  Ritmo: Óptimo · $125.000/día proyectado
+                  {/* The label and the per-day average the real balance card
+                      shows (balance-hero.tsx): no rating, no projection. */}
+                  Ritmo de gasto · <Money amountMinor={DEMO_DAILY_PACE_MINOR} currency="COP" /> / día
                 </div>
               </div>
 
@@ -409,7 +414,7 @@ export function LandingProductShowcase(): React.ReactElement {
             Capturar es la mitad. <span className="landing-headline-gold">La otra es entender.</span>
           </h3>
           <p className="landing-insight-subhead">
-            Ejemplos del tipo de observación que el sistema puede generar a partir de tus propios datos. No son cifras reales ni promesas de resultado: son la forma que tendría lo que te diría.
+            Todavía no está construido. Son ejemplos del tipo de observación que el sistema podrá generar a partir de tus propios datos. No son cifras reales ni promesas de resultado: son la forma que tendría lo que te diría.
           </p>
         </div>
 

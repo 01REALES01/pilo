@@ -11,7 +11,7 @@ export function LandingSectionTrust(): React.ReactElement {
         </h2>
 
         <p className="landing-word-subhead" style={{ margin: '0 auto 36px auto', maxWidth: '580px' }}>
-          Sin pantallas saturadas de números. Solo la certeza de saber exactamente cuánto puedes gastar hoy sin tocar tus metas de mañana.
+          Sin pantallas saturadas de números. Solo cuánto llevas este mes, sin tener que buscarlo.
         </p>
 
         <Link href="/sign-in" className="landing-gold-cta-btn">

@@ -169,7 +169,7 @@ export function LandingTopBar(): React.ReactElement {
               Crear cuenta con tu correo →
             </Link>
             <div className="landing-mobile-trust-note">
-              <span>Sincronización de solo lectura</span>
+              <span>Sin la clave de tu banco</span>
               <span>·</span>
               <span>Sin publicidad</span>
             </div>
