@@ -10,7 +10,7 @@ import { getCurrentUser } from '@/lib/session';
 import { ConsentForm } from './consent-form';
 
 export const metadata: Metadata = {
-  title: 'Autorización — Reasonny',
+  title: 'Autorización — Pilo',
   robots: { index: false, follow: false },
 };
 

@@ -231,7 +231,7 @@ describe('PWA Notifications System (lib/notifications.ts)', () => {
 
     await sendWelcomeNotification();
 
-    expect(showNotificationMock).toHaveBeenCalledWith('Reasonny', {
+    expect(showNotificationMock).toHaveBeenCalledWith('Pilo', {
       body: '🔔 ¡Notificaciones activadas! Te avisaremos al instante con cada gasto guardado.',
       icon: '/icons/icon-192.png',
       badge: '/icons/icon-192.png',

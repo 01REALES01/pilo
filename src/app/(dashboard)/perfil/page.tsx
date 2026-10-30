@@ -15,7 +15,7 @@ import { ProfileForm } from './profile-form';
 
 // P8: Authenticated app is strictly noindex
 export const metadata: Metadata = {
-  title: 'Perfil — Reasonny',
+  title: 'Perfil — Pilo',
   robots: { index: false, follow: false },
 };
 

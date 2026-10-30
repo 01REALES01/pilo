@@ -15,7 +15,7 @@ import { getCurrentUser } from '@/lib/session';
 
 // P8: Authenticated app is strictly noindex
 export const metadata: Metadata = {
-  title: 'Mes — Reasonny',
+  title: 'Mes — Pilo',
   robots: { index: false, follow: false },
 };
 

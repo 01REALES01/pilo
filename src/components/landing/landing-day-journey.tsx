@@ -10,7 +10,7 @@ import { Money } from '@/components/ui/money';
  *
  * Una sola línea y los momentos colgados de ella en zigzag: uno arriba, el
  * siguiente abajo, intercalados para que mientras lees uno ya asome el
- * otro. Cada momento dice qué hiciste, qué hizo Reasonny y lo que te costó,
+ * otro. Cada momento dice qué hiciste, qué hizo Pilo y lo que te costó,
  * con el fragmento real (el recibo, la pregunta del bot, la regla, la
  * escalera del día) dibujado en línea fina.
  *
@@ -28,7 +28,7 @@ import { Money } from '@/components/ui/money';
 const CATEGORY_CHOICES = ['Restaurante', 'Café', 'Mercado', 'Transporte'] as const;
 
 /* Los ocho pasos de la comparación «Hasta hoy», tres gastos: el cierre los
-   compara con lo que costó el martes con Reasonny. */
+   compara con lo que costó el martes con Pilo. */
 const MANUAL_STEPS_PER_EXPENSE = 8;
 const EXPENSES_IN_THE_DAY = 3;
 

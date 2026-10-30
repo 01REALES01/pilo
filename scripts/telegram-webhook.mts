@@ -11,7 +11,7 @@
  */
 process.loadEnvFile?.('.env.local');
 
-const { setWebhook, setMyCommands, getWebhookInfo } = await import(
+const { setWebhook, setMyCommands, setMyName, getWebhookInfo } = await import(
   '../src/infrastructure/messaging/telegram'
 );
 const { DICTIONARY } = await import('../src/lib/i18n');
@@ -69,6 +69,13 @@ if (!statusOnly) {
   if (defaults.ok && english.ok) {
     console.log('Commands registered: /saldo /hoy /mes /ayuda  (es + en)');
   }
+
+  // One name for every language: it is a brand, not a translation. The
+  // profile photo is not set here: setMyProfilePhoto uploads a new photo on
+  // every call, and this script runs after every local bot session.
+  const named = await setMyName(DICTIONARY.es.app_name);
+  if (named.ok) console.log(`Display name: ${DICTIONARY.es.app_name}`);
+  else console.error('setMyName failed:', named.error);
 }
 
 const info = await getWebhookInfo();

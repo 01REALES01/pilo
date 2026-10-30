@@ -107,7 +107,7 @@ export async function sendAppNotification({
  */
 export async function sendWelcomeNotification(): Promise<boolean> {
   return sendAppNotification({
-    title: 'Reasonny',
+    title: 'Pilo',
     body: '🔔 ¡Notificaciones activadas! Te avisaremos al instante con cada gasto guardado.',
     tag: 'reasonny-welcome',
     url: '/dashboard',

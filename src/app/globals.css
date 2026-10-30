@@ -4998,7 +4998,7 @@ textarea:focus-visible {
   z-index: 1;
 }
 
-/* Dark theme filter for OpenStreetMap tiles to match Reasonny luxury dark mode */
+/* Dark theme filter for OpenStreetMap tiles to match Pilo luxury dark mode */
 .tx-map-dark-tiles {
   filter: invert(100%) hue-rotate(190deg) brightness(75%) contrast(120%) saturate(50%);
 }
@@ -5021,7 +5021,7 @@ textarea:focus-visible {
   }
 }
 
-/* Custom animated pin matching Reasonny gold brand */
+/* Custom animated pin matching Pilo gold brand */
 .tx-leaflet-pin-wrapper {
   background: transparent !important;
   border: none !important;
@@ -7454,20 +7454,16 @@ textarea:focus-visible {
 .perm-brand-mark {
   width: 54px;
   height: 54px;
-  border-radius: 18px;
+  border-radius: 12px;
   margin: 0 auto 14px;
-  background: linear-gradient(145deg, #a82552 0%, #6e1735 100%);
-  border: 1.5px solid rgba(228, 204, 166, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--landing-champagne-gold);
-  box-shadow: 0 10px 24px -4px rgba(168, 37, 82, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+  box-shadow: 0 10px 24px -4px rgba(168, 37, 82, 0.55);
 }
 
-.perm-brand-svg {
-  width: 26px;
-  height: 26px;
+.perm-brand-img {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .perm-title {

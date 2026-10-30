@@ -2,9 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Reasonny — Reglas del proyecto
+## Pilo — Reglas del proyecto
 
 App de finanzas personales con ingesta asistida por IA. Autor: Jean Paul Reales.
+
+**Se llamaba Reasonny hasta el 30-oct-2026.** Lo que ve el usuario dice Pilo. Lo interno sigue diciendo `reasonny` **a propósito**: el repo, los proyectos de Vercel y Neon, el dominio `reasonny.vercel.app` (los Atajos de los iPhone lo tienen escrito), el `@usuario` del bot y las claves guardadas en los teléfonos. No se "corrigen": la lista y el porqué están en `docs/PILO.md` §8.3.
 
 **Documentos:** `docs/PROJECT_SPEC.md` (arquitectura) · `docs/IMPLEMENTATION_PLAN.md` (bloques y orden) · `docs/METRICS.md` (mediciones) · `docs/AUDIT.md` (histórico) · `docs/PILO.md` (nueva marca y mascota, guía del rebranding).
 Si el spec y el plan se contradicen, **gana el plan** y el spec se corrige.

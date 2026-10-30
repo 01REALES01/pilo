@@ -7,8 +7,8 @@ import type { MetadataRoute } from 'next';
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Reasonny — Finanzas Personales con IA',
-    short_name: 'Reasonny',
+    name: 'Pilo — Finanzas Personales con IA',
+    short_name: 'Pilo',
     description: 'App de finanzas personales con ingesta asistida por IA.',
     /**
      * The app, not the sales page.

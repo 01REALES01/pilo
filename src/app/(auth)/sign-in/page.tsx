@@ -7,7 +7,7 @@ import { SignInForm } from './sign-in-form';
 
 // P8: Nothing behind or adjacent to authentication belongs in an index.
 export const metadata: Metadata = {
-  title: 'Reasonny — Razón y dinero, en el mismo lugar',
+  title: 'Pilo — Razón y dinero, en el mismo lugar',
   robots: { index: false, follow: false },
 };
 

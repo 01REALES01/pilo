@@ -12,7 +12,7 @@ export const DEFAULT_LOCALE: Locale = 'es';
 export const DICTIONARY = {
   es: {
     // Navigation & Common
-    app_name: 'Reasonny',
+    app_name: 'Pilo',
     save: 'Guardar',
     saving: 'Guardando…',
     cancel: 'Cancelar',
@@ -141,7 +141,7 @@ export const DICTIONARY = {
 
     // Bienvenida
     ob_welcome_title: 'Razón y dinero, en el mismo lugar.',
-    ob_welcome_text: 'Reasonny registra lo que gastas con casi cero esfuerzo y te dice lo que importa, sin que tengas que buscarlo.',
+    ob_welcome_text: 'Pilo registra lo que gastas con casi cero esfuerzo y te dice lo que importa, sin que tengas que buscarlo.',
     ob_start: 'Empezar',
     ob_skip: 'Saltar la bienvenida',
     ob_skip_step: 'Ahora no',
@@ -155,7 +155,7 @@ export const DICTIONARY = {
     ob_how_2_text: 'A medida que clasificas, el mes se explica a sí mismo.',
     ob_how_3_title: 'Tus datos son tuyos',
     ob_how_3_text: 'Aislados por usuario, exportables cuando quieras. Moneda base:',
-    ob_finish: 'Entrar a Reasonny',
+    ob_finish: 'Entrar a Pilo',
     nav_home: 'Inicio',
     nav_new: 'Nuevo',
     nav_month: 'Mes y distribución',
@@ -165,7 +165,7 @@ export const DICTIONARY = {
     capture_callout_text: 'Conecta los SMS de tu banco con Atajos de iOS y tus gastos se guardan solos.',
     capture_callout_aria: 'Vincular la captura automática de SMS con Atajos',
     quick_add_test_ok:
-      '✓ Conectado: tu iPhone llega a Reasonny. Esta prueba no trae un SMS, así que no se guarda ningún gasto; el próximo mensaje de tu banco sí.',
+      '✓ Conectado: tu iPhone llega a Pilo. Esta prueba no trae un SMS, así que no se guarda ningún gasto; el próximo mensaje de tu banco sí.',
     dashboard_export_csv: 'CSV',
     dashboard_export_csv_title: 'Exportar todas las transacciones a CSV',
     dashboard_recent_title: 'Últimos movimientos',
@@ -193,17 +193,18 @@ export const DICTIONARY = {
     record_expense: 'Registrar gasto',
     record_income: 'Registrar ingreso',
     view_on_home: 'Ver en inicio',
-    artwork_alt: 'Escultura brutalista de Reasonny',
+    artwork_alt: 'Escultura brutalista',
     field_email: 'Correo electrónico',
     field_code: 'Código de un solo uso',
 
-    // Sign-in — the immersive entry. Carries the Reasonny narrative (reason +
-    // money) over the autoplaying claw/card video.
+    // Sign-in — the immersive entry. Carries the reason + money line over the
+    // autoplaying claw/card video. The line was born from the old name
+    // (Reasonny) and outlived it; a new one is an open question in PILO.md.
     auth_hero_line_1: 'Razón y dinero,',
     auth_hero_line_2: 'en el mismo lugar.',
     auth_hero_subtitle:
       'Registra tus gastos con casi cero esfuerzo. El sistema interpreta, clasifica y te dice lo que importa.',
-    auth_enter: 'Entrar a Reasonny',
+    auth_enter: 'Entrar a Pilo',
     auth_email_title: 'Tu Correo',
     auth_email_subtitle: 'Te enviaremos un código seguro de un solo uso.',
     auth_email_placeholder: 'tu@correo.com',
@@ -230,7 +231,7 @@ export const DICTIONARY = {
     calendar_open: 'Ver en el calendario',
     consent_title: 'Antes de seguir, tu autorización',
     consent_text:
-      'Reasonny guarda tus movimientos, tu correo y, si la activas, tu ubicación, y los procesa con proveedores fuera de Colombia. La política explica qué guardamos, para qué y cómo borrarlo.',
+      'Pilo guarda tus movimientos, tu correo y, si la activas, tu ubicación, y los procesa con proveedores fuera de Colombia. La política explica qué guardamos, para qué y cómo borrarlo.',
     consent_link: 'Leer la política completa',
     consent_checkbox:
       'Tengo 18 años o más y autorizo el tratamiento de mis datos personales según esta política, incluida su transferencia fuera de Colombia.',
@@ -257,11 +258,11 @@ export const DICTIONARY = {
       'Desde ahora puedes anotar aquí lo que pagues en efectivo. Escríbeme el monto y el comercio, así: 12000 juan valdez\n\nY cuando quieras saber cómo vas: /saldo · /hoy · /mes',
     bot_already_linked: 'Este chat ya estaba conectado a tu cuenta. Todo en orden.',
     bot_link_expired:
-      '⌛ Ese enlace ya caducó. Vuelve a Reasonny, entra en Perfil → Telegram y toca Conectar otra vez. Los enlaces duran 15 minutos a propósito.',
-    bot_link_invalid: 'No pude leer ese enlace. Genéralo de nuevo desde Reasonny, en Perfil → Telegram.',
-    bot_link_no_profile: 'No encuentro esa cuenta. Entra a Reasonny una vez y vuelve a intentarlo.',
+      '⌛ Ese enlace ya caducó. Vuelve a Pilo, entra en Perfil → Telegram y toca Conectar otra vez. Los enlaces duran 15 minutos a propósito.',
+    bot_link_invalid: 'No pude leer ese enlace. Genéralo de nuevo desde Pilo, en Perfil → Telegram.',
+    bot_link_no_profile: 'No encuentro esa cuenta. Entra a Pilo una vez y vuelve a intentarlo.',
     bot_not_linked:
-      'Hola. Este chat todavía no está conectado a ninguna cuenta de Reasonny. Abre la app, entra en Perfil → Telegram y toca Conectar.',
+      'Hola. Este chat todavía no está conectado a ninguna cuenta de Pilo. Abre la app, entra en Perfil → Telegram y toca Conectar.',
     bot_unknown_command: 'No conozco ese comando.',
 
     // Captura por texto y teclado de categorías.
@@ -327,7 +328,7 @@ export const DICTIONARY = {
   },
   en: {
     // Navigation & Common
-    app_name: 'Reasonny',
+    app_name: 'Pilo',
     save: 'Save',
     saving: 'Saving…',
     cancel: 'Cancel',
@@ -456,7 +457,7 @@ export const DICTIONARY = {
 
     // Onboarding
     ob_welcome_title: 'Reason and money, in one place.',
-    ob_welcome_text: 'Reasonny records what you spend with almost no effort and tells you what matters, without you going to look for it.',
+    ob_welcome_text: 'Pilo records what you spend with almost no effort and tells you what matters, without you going to look for it.',
     ob_start: 'Get started',
     ob_skip: 'Skip the intro',
     ob_skip_step: 'Not now',
@@ -470,7 +471,7 @@ export const DICTIONARY = {
     ob_how_2_text: 'As you file things, the month starts explaining itself.',
     ob_how_3_title: 'Your data is yours',
     ob_how_3_text: 'Isolated per user, exportable whenever. Base currency:',
-    ob_finish: 'Enter Reasonny',
+    ob_finish: 'Enter Pilo',
     nav_home: 'Home',
     nav_new: 'New',
     nav_month: 'Month and breakdown',
@@ -480,7 +481,7 @@ export const DICTIONARY = {
     capture_callout_text: 'Connect your bank texts to iOS Shortcuts and your spending records itself.',
     capture_callout_aria: 'Link automatic SMS capture with Shortcuts',
     quick_add_test_ok:
-      '✓ Connected: your iPhone reaches Reasonny. This test carries no text message, so no spend is saved; the next one from your bank will be.',
+      '✓ Connected: your iPhone reaches Pilo. This test carries no text message, so no spend is saved; the next one from your bank will be.',
     dashboard_export_csv: 'CSV',
     dashboard_export_csv_title: 'Export every transaction to CSV',
     dashboard_recent_title: 'Recent activity',
@@ -508,7 +509,7 @@ export const DICTIONARY = {
     record_expense: 'Record expense',
     record_income: 'Record income',
     view_on_home: 'View on home',
-    artwork_alt: 'Reasonny brutalist sculpture',
+    artwork_alt: 'Brutalist sculpture',
     field_email: 'Email address',
     field_code: 'One-time code',
 
@@ -517,7 +518,7 @@ export const DICTIONARY = {
     auth_hero_line_2: 'in one place.',
     auth_hero_subtitle:
       'Log your spending with almost zero effort. The system reads it, files it, and tells you what matters.',
-    auth_enter: 'Enter Reasonny',
+    auth_enter: 'Enter Pilo',
     auth_email_title: 'Your Email',
     auth_email_subtitle: "We'll send you a secure one-time code.",
     auth_email_placeholder: 'you@email.com',
@@ -544,7 +545,7 @@ export const DICTIONARY = {
     calendar_open: 'See it in the calendar',
     consent_title: 'Before you continue, your authorisation',
     consent_text:
-      'Reasonny keeps your transactions, your email and, if you turn it on, your location, and processes them with providers outside Colombia. The policy explains what we keep, why, and how to delete it.',
+      'Pilo keeps your transactions, your email and, if you turn it on, your location, and processes them with providers outside Colombia. The policy explains what we keep, why, and how to delete it.',
     consent_link: 'Read the full policy',
     consent_checkbox:
       'I am 18 or older and I authorise the processing of my personal data under this policy, including its transfer outside Colombia.',
@@ -571,11 +572,11 @@ export const DICTIONARY = {
       'From now on you can jot down whatever you pay in cash right here. Send me the amount and the merchant, like this: 12000 juan valdez\n\nAnd whenever you want to know how you are doing: /saldo · /hoy · /mes',
     bot_already_linked: 'This chat was already connected to your account. All good.',
     bot_link_expired:
-      '⌛ That link has expired. Go back to Reasonny, open Profile → Telegram and tap Connect again. Links last 15 minutes on purpose.',
-    bot_link_invalid: 'I could not read that link. Generate a new one in Reasonny, under Profile → Telegram.',
-    bot_link_no_profile: 'I cannot find that account. Open Reasonny once and try again.',
+      '⌛ That link has expired. Go back to Pilo, open Profile → Telegram and tap Connect again. Links last 15 minutes on purpose.',
+    bot_link_invalid: 'I could not read that link. Generate a new one in Pilo, under Profile → Telegram.',
+    bot_link_no_profile: 'I cannot find that account. Open Pilo once and try again.',
     bot_not_linked:
-      'Hi. This chat is not connected to any Reasonny account yet. Open the app, go to Profile → Telegram and tap Connect.',
+      'Hi. This chat is not connected to any Pilo account yet. Open the app, go to Profile → Telegram and tap Connect.',
     bot_unknown_command: 'I do not know that command.',
 
     // Text capture and the category keyboard.

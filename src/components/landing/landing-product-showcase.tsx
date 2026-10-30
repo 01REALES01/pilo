@@ -111,7 +111,7 @@ const FAQS: readonly Faq[] = [
     a: 'Cuando quieras y sin pedir permiso: un CSV con todo tu historial, once columnas, listo para Excel o para otra app. Está en tu perfil.',
   },
   {
-    q: '¿Reasonny me va a decir en qué invertir?',
+    q: '¿Pilo me va a decir en qué invertir?',
     a: 'No. Te muestra tu propio comportamiento —en qué se te va el mes, qué se está acelerando— y ahí para. Asesoría financiera es otra cosa, con otra regulación, y no es lo que esto es.',
   },
 ];
@@ -127,7 +127,7 @@ const MANUAL_STEPS: readonly string[] = [
   'A los pocos días lo dejas, y el mes ya no cuadra',
 ];
 
-const REASONNY_STEPS: readonly string[] = [
+const PILO_STEPS: readonly string[] = [
   'Pagas normal, con tu tarjeta o con Apple Pay',
   'Un atajo en tu iPhone lo registra en segundo plano',
   'El motor de reglas reconoce tus comercios de siempre',
@@ -200,16 +200,16 @@ export function LandingProductShowcase(): React.ReactElement {
     <section
       id="product-showcase"
       className="landing-showcase-section--app"
-      aria-label="Cómo funciona Reasonny"
+      aria-label="Cómo funciona Pilo"
     >
-      {/* ── 1. Hero de Sección (El Problema Real vs. Reasonny) ────────────── */}
+      {/* ── 1. Hero de Sección (El Problema Real vs. Pilo) ────────────── */}
       <div className="landing-app-hero reveal-on-scroll">
         <h2 className="landing-app-headline">
           Registrar gastos a mano <br />
           <span className="landing-headline-gold">casi siempre se abandona.</span>
         </h2>
         <p className="landing-app-subhead">
-          Las apps tradicionales te exigen abrir una pantalla decenas de veces al mes para anotar cada café. A los pocos días da pereza y el balance no cuadra. Reasonny fue diseñado para que registrar tus gastos cueste lo más cerca de <strong className="landing-headline-gold">cero esfuerzo posible</strong>.
+          Las apps tradicionales te exigen abrir una pantalla decenas de veces al mes para anotar cada café. A los pocos días da pereza y el balance no cuadra. Pilo fue diseñado para que registrar tus gastos cueste lo más cerca de <strong className="landing-headline-gold">cero esfuerzo posible</strong>.
         </p>
       </div>
 
@@ -233,10 +233,10 @@ export function LandingProductShowcase(): React.ReactElement {
 
         <div className="landing-shift-card landing-shift-card--new">
           <div className="landing-shift-head">
-            <h3 className="landing-shift-title">Con Reasonny: lo mismo, sin que hagas nada</h3>
+            <h3 className="landing-shift-title">Con Pilo: lo mismo, sin que hagas nada</h3>
           </div>
           <ol className="landing-shift-steps">
-            {REASONNY_STEPS.map((step, i) => (
+            {PILO_STEPS.map((step, i) => (
               <li key={step} className="landing-shift-step">
                 <span className="landing-shift-num landing-shift-num--new" aria-hidden="true">{i + 1}</span>
                 <span>{step}</span>
@@ -274,7 +274,7 @@ export function LandingProductShowcase(): React.ReactElement {
           </h3>
 
           <p className="landing-app-phone-subhead">
-            Con la estética de un reloj de lujo y la precisión de un libro contable. Pulsa el botón para simular una compra y ver cómo Reasonny reacciona en tiempo real.
+            Con la estética de un reloj de lujo y la precisión de un libro contable. Pulsa el botón para simular una compra y ver cómo Pilo reacciona en tiempo real.
           </p>
 
           <div className="landing-app-phone-stats-row">

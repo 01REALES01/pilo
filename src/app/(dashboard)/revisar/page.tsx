@@ -11,7 +11,7 @@ import { ReviewQueue } from './review-queue';
 
 // P8: Authenticated app is strictly noindex
 export const metadata: Metadata = {
-  title: 'Por revisar — Reasonny',
+  title: 'Por revisar — Pilo',
   robots: { index: false, follow: false },
 };
 

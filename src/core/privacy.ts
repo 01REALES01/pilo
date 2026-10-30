@@ -25,6 +25,8 @@ export const POLICY_VERSION = '2026-10-06';
  * ticked the box from being asked again one screen later. The row in
  * `consents` is the proof.
  */
+// Keeps the old name (Reasonny) on purpose: renaming it would wipe what is
+// already saved on users' phones. docs/PILO.md §8.3.
 export const CONSENT_INTENT_COOKIE = 'reasonny_consent_intent';
 
 /** An hour covers the slowest code-by-email round trip without lingering. */

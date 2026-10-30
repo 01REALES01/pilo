@@ -12,7 +12,7 @@ import type { DayGroup } from '@/core/services/analytics.service';
 import type { CategorySpendingBreakdown } from '@/core/repositories/transaction.repository';
 
 export const metadata: Metadata = {
-  title: 'Preview Mes — Reasonny',
+  title: 'Preview Mes — Pilo',
   robots: { index: false, follow: false },
 };
 

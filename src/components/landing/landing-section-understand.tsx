@@ -74,7 +74,7 @@ export function LandingSectionUnderstand(): React.ReactElement {
         </p>
 
         <p className="landing-reveal-subhead">
-          Reasonny aprende el comportamiento de tu capital antes de que el mes cierre.
+          Pilo aprende el comportamiento de tu capital antes de que el mes cierre.
           Una interfaz pensada para darte dirección, no culpa.
         </p>
       </div>

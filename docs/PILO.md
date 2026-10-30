@@ -1,6 +1,6 @@
 # Pilo — marca y mascota
 
-> **Estado (30-oct-2026).** El nombre **Pilo** y la mascota **Pilo, el tití cabeciblanco**, están **elegidos y aprobados** por el autor, con el diseño final de la ronda 7 (§3). El cambio de nombre en el código **no está hecho**: la app sigue llamándose Reasonny en producción. Este documento es la guía del **rebranding total**: qué se decidió, por qué, qué se descartó, cómo se regenera el arte y la lista completa de lo que falta (§8).
+> **Estado (30-oct-2026).** El nombre **Pilo** y la mascota **Pilo, el tití cabeciblanco**, están **elegidos y aprobados** por el autor, con el diseño final de la ronda 7 (§3). El mismo día el autor decidió **no esperar la búsqueda en la SIC** y hacer el cambio en el código con los iconos generados: rama `chore/rebrand-pilo` (§8.3). Hasta que esa rama salga a producción, la app sigue llamándose Reasonny para los usuarios. Este documento es la guía del **rebranding total**: qué se decidió, por qué, qué se descartó, cómo se regenera el arte y la lista completa de lo que falta (§8).
 >
 > El arte vive en [`docs/brand/pilo/`](brand/pilo/). La fuente de verdad del personaje es la hoja de referencia [`pilo-referencia.png`](brand/pilo/pilo-referencia.png) más la ficha [`illo/character.md`](brand/pilo/illo/character.md). Cualquier imagen nueva se genera **a partir de esa referencia**, nunca desde cero (§3.5).
 
@@ -114,7 +114,8 @@ La ficha completa, en el formato que illo necesita, está en [`illo/character.md
 | :--- | :--- | :--- |
 | [`pilo-icono.png`](brand/pilo/pilo-icono.png) | **Icono aprobado**, 1254 × 1254, chip simple | Maestro del icono hasta que exista el SVG (§8.2) |
 | [`pilo-icono-chip.png`](brand/pilo/pilo-icono-chip.png) | Variante con chip detallado | Alternativa. A 32 px el chip se vuelve ruido |
-| [`pilo-referencia.png`](brand/pilo/pilo-referencia.png) | **Hoja de referencia**: busto con leve giro | Se pasa como `--ref` en **toda** imagen nueva. Sirve también de avatar del bot |
+| [`pilo-referencia.png`](brand/pilo/pilo-referencia.png) | **Hoja de referencia**: busto con leve giro | Se pasa como `--ref` en **toda** imagen nueva |
+| [`pilo-avatar-bot.jpg`](brand/pilo/pilo-avatar-bot.jpg) | La hoja de referencia en 640 × 640, JPG | Foto de perfil del bot. Telegram solo acepta JPG y la recorta en círculo |
 | [`pilo-cuerpo-a.png`](brand/pilo/pilo-cuerpo-a.png), [`pilo-cuerpo-b.png`](brand/pilo/pilo-cuerpo-b.png) | Cuerpo entero, sentado, de frente | Landing y bienvenida. Es la vista más débil (§3.1) |
 | [`illo/character.md`](brand/pilo/illo/character.md) | La ficha cerrada del personaje, en inglés | La lee illo; es la definición del personaje |
 | [`illo/prompt-*.txt`](brand/pilo/illo/) | Los textos exactos con que se generó cada imagen | Para repetir o ajustar una imagen |
@@ -293,23 +294,23 @@ En orden. Cada bloque depende del anterior.
 
 ### 8.1 Antes de tocar nada (bloqueantes)
 
-- [ ] **Buscar «Pilo» en el SIPI de la SIC**, clases 9, 36 y 42. Si está tomado, se vuelve a §2.3. **Todo lo demás espera esto.**
+- [ ] **Buscar «Pilo» en el SIPI de la SIC**, clases 9, 36 y 42. Si está tomado, se vuelve a §2.3. Iba a bloquear todo lo demás; **el 30-oct-2026 el autor decidió no esperarla** (registrado en `IMPLEMENTATION_PLAN.md` §4.5). Sigue pendiente, y si sale mal hay que renombrar otra vez.
 - [ ] Decidir el dominio (`pilo.app` por compra, `holapilo.app` o un `.co`).
 - [ ] Renombrar el repo de GitHub **antes** de crear el repo público del agente L2 (`reasonny-agent`). GitHub redirige el nombre viejo.
 
 ### 8.2 El arte que falta
 
-Se genera con illo y la hoja de referencia (§3.5), salvo lo que dice «vector».
+Se genera con illo y la hoja de referencia (§3.5), salvo lo que dice «vector». El 30-oct-2026 el autor decidió salir **con los PNG generados** y dejar el vector para después: los iconos de la app se recortaron de `pilo-icono.png` (§8.3).
 
 | Pieza | Para qué | Notas |
 | :--- | :--- | :--- |
 | **Icono en vector** (SVG) | Maestro definitivo del icono | Se calca `pilo-icono.png` en celdas cerradas, con los colores exactos de §4.2. Suma autoría humana (§3.6) |
-| Icono *maskable* | Android recorta el icono en círculo | La zona segura es el círculo central del 80 %. El icono actual llega casi al borde: hace falta una versión con margen |
+| ~~Icono *maskable*~~ | Android recorta el icono en círculo | **Hecho** el 30-oct-2026: el icono al 68 % sobre su mismo fondo vino, todo dentro de la zona segura del 80 % |
 | Favicon 16 y 32 px | Pestaña del navegador | Solo el copete y la cara, sin tarjeta (§5.1, regla 6) |
 | Marca de una tinta | Sellos, fondos de un color, impresión | Silueta del copete y la cara |
 | Logotipo | Pilo junto a la palabra «Pilo» | Con la tipografía de la app (`DESIGN_SYSTEM.md`) |
 | Las seis expresiones (§5.2) | Bienvenida, estados vacíos, bot | Busto, con `--ref` |
-| Avatar del bot | Foto de perfil en Telegram y WhatsApp | El busto de referencia ya sirve |
+| ~~Avatar del bot~~ | Foto de perfil en Telegram y WhatsApp | **Hecho**: `pilo-avatar-bot.jpg`. Falta subirlo (§8.4) |
 | Imagen Open Graph (1200 × 630) | Vista previa al compartir enlaces | Pilo + nombre sobre fondo ciruela |
 | *Opcional:* copete del icono | Visto desde arriba, el copete se parece a crema batida | Que arranque hacia arriba desde la frente antes de caer. El autor aprobó el icono tal como está |
 
@@ -321,12 +322,13 @@ El 30-oct-2026 había **120 apariciones de «Reasonny» en 46 archivos de `src/`
 | :--- | :--- | :--- |
 | Nombre visible | `app_name` en `src/lib/i18n.ts` (es y en) | — |
 | Landing | `src/app/page.tsx` (título, descripción, Open Graph, JSON-LD) y los componentes de `src/components/landing/` | — |
-| Iconos | `public/icon.png`, `public/apple-icon.png` (180 × 180), `public/icons/icon-192.png`, `icon-512.png`, `icon-512-maskable.png` e `icon.svg` | Se referencian desde `src/app/manifest.ts`, `src/app/layout.tsx` y `src/lib/notifications.ts` (icono de las notificaciones). Generarlos desde el SVG de §8.2. Revisar DevTools → Application → Manifest sin errores rojos (`CLAUDE.md`, PWA) |
+| Iconos | `public/icon.png`, `public/apple-icon.png` (180 × 180), `public/icons/icon-192.png`, `icon-512.png`, `icon-512-maskable.png` e `icon.svg` | Se referencian desde `src/app/manifest.ts`, `src/app/layout.tsx` y `src/lib/notifications.ts` (icono de las notificaciones). **Hecho** desde el PNG, sin metadatos. `icon.svg` era la «R» vieja y se borró: no vuelve hasta el vector. El `?v=` de `layout.tsx` subió a 4 y la caché del service worker a `pilo-v5`, para que los navegadores suelten el icono viejo. Falta revisar DevTools → Application → Manifest sin errores rojos (`CLAUDE.md`, PWA) |
+| Logo de la landing y del aviso de permisos | `landing-top-bar.tsx`, `landing-grand-finale-footer.tsx`, `app-permissions-prompt.tsx` | **Hecho**: la «R» dibujada en SVG se cambió por el icono de la app |
 | Política de privacidad | `src/content/privacy-policy.ts` | Si cambia el texto de la política, se versiona y se avisa a los usuarios (Ley 1581) |
 | Nombre del archivo exportado | `src/app/api/v1/export/route.ts` (`reasonny-export-…`) | Lo ve el usuario: se cambia |
-| Bot de Telegram | BotFather: **nombre visible** y **foto de perfil** | El `@usuario` se queda. Cambiarlo es crear otro bot y volver a vincular los chats |
+| Bot de Telegram | **Nombre visible**: `pnpm telegram:webhook` ahora lo fija desde `app_name` (`setMyName`). **Foto de perfil**: `setMyProfilePhoto` (Bot API 10.3) o BotFather, una sola vez, porque cada llamada sube una foto nueva | El `@usuario` se queda. Cambiarlo es crear otro bot y volver a vincular los chats |
 | Dominio | Vercel | **`reasonny.vercel.app` se queda para siempre como alias**: los Atajos de los 3 iPhone lo tienen escrito, y `NEXT_PUBLIC_APP_URL` no está definida en producción |
-| Documentación | `CLAUDE.md` (título y nombre), `DESIGN_SYSTEM.md` §2.1 y §2.4 (marca real, ver §4.1) y una sección de mascota con las reglas de §5 | — |
+| Documentación | `CLAUDE.md` (título y nombre), `README.md`, `DESIGN_SYSTEM.md` §2.1 y §2.4 (marca real, ver §4.1) y una sección de mascota con las reglas de §5 (§6.9) | **Hecho**. Los documentos históricos (`AUDIT.md`, `LANDING_AUDIT.md`, `PRUEBA_USO_REAL.md`) conservan el nombre viejo: cuentan lo que pasó |
 
 **No se renombran** las claves internas. Cambiarlas borraría el estado guardado en los teléfonos de los usuarios (bienvenida vista, permisos ya pedidos, progreso de la configuración):
 
@@ -340,14 +342,23 @@ El 30-oct-2026 había **120 apariciones de «Reasonny» en 46 archivos de `src/`
 
 Tampoco hace falta tocar el nombre del paquete en `package.json`, el proyecto de Vercel ni el de Neon: son internos.
 
+**Lo que se dejó como estaba en el cambio del 30-oct-2026, y por qué:**
+
+- **La política de privacidad cambió el nombre, no el fondo.** El responsable sigue siendo el mismo, igual que los datos, los fines y los proveedores. Según la regla de `src/content/privacy-policy.ts`, eso es redacción y no pide un `POLICY_VERSION` nuevo: nadie tiene que volver a autorizar. Igual se avisa a los usuarios del cambio de nombre (§8.4).
+- **La frase «Razón y dinero, en el mismo lugar»** (entrada y bienvenida) nació del nombre viejo. Se queda hasta que haya una nueva (§8.5).
+- **El dominio de respaldo `reasonny.app`** en `layout.tsx`, `robots.ts` y `sitemap.ts` sigue igual hasta decidir el dominio (§8.1).
+
 ### 8.4 Salida
 
 - [ ] Deploy con `vercel --prod` y **reasignar el alias** `reasonny.vercel.app` a mano (`CLAUDE.md`, Cuentas).
+- [ ] `pnpm telegram:webhook` para que el bot pase a llamarse Pilo, y subir `pilo-avatar-bot.jpg` como foto del bot.
+- [ ] Revisar el nombre en lo que se configura fuera del código y cambiarlo donde diga Reasonny: la pantalla de consentimiento de Google (Google Cloud → Branding) y el nombre de la app en los correos del código de un solo uso (Neon Auth).
 - [ ] Comprobar en un iPhone real que el icono nuevo aparece al reinstalar la PWA. iOS guarda el icono viejo hasta que se quita y se vuelve a añadir a la pantalla de inicio: hay que decírselo a los usuarios.
 - [ ] Avisar a los 3 usuarios del cambio de nombre, y de la política si cambió (§8.3).
 
 ### 8.5 Preguntas abiertas
 
+- ¿Qué frase reemplaza a «Razón y dinero, en el mismo lugar»?
 - ¿La voz costeña llega a la interfaz o se queda en el bot?
 - ¿Pilo es el avatar del bot desde el primer día del cambio de nombre?
 - ¿Se cuenta en público la historia del tití barranquillero? Si sí, con la especie bien dicha (§3.2).

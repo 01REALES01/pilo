@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState, useTransition } from 'react';
 
@@ -10,6 +11,8 @@ import {
   sendWelcomeNotification,
 } from '@/lib/notifications';
 
+// Keeps the old name (Reasonny) on purpose: renaming it would wipe what is
+// already saved on users' phones. docs/PILO.md §8.3.
 const PERMISSIONS_STORAGE_KEY = 'reasonny_permissions_prompted_v1';
 
 export function AppPermissionsPrompt(): React.ReactElement | null {
@@ -84,23 +87,10 @@ export function AppPermissionsPrompt(): React.ReactElement | null {
         {/* Brand visual header */}
         <div className="perm-header">
           <div className="perm-brand-mark" aria-hidden="true">
-            <svg
-              className="perm-brand-svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M6 4C6 3.45 6.45 3 7 3H8.5C9.05 3 9.5 3.45 9.5 4V20C9.5 20.55 9.05 21 8.5 21H7C6.45 21 6 20.55 6 20V4Z" />
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M9.5 3H14.2C17.2 3 19.5 5.1 19.5 8C19.5 10.9 17.2 13 14.2 13H9.5V3ZM12 5.5H14C15.4 5.5 16.8 6.5 16.8 8C16.8 9.5 15.4 10.5 14 10.5H12V5.5Z"
-              />
-              <path d="M12.8 11.8L17.8 19.8C18.1 20.3 18.8 20.4 19.3 20.1C19.7 19.8 19.9 19.1 19.6 18.6L14.8 11.2C14.1 11.3 13.4 11.5 12.8 11.8Z" />
-            </svg>
+            <Image className="perm-brand-img" src="/icons/icon-192.png" alt="" width={54} height={54} />
           </div>
           <h2 id="perm-dialog-title" className="perm-title">
-            Activa tu experiencia Reasonny
+            Activa tu experiencia Pilo
           </h2>
           <p className="perm-subtitle">
             Notificaciones en tiempo real y ubicación inteligente para registrar tus

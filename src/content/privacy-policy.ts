@@ -38,10 +38,10 @@ export const PRIVACY_POLICY: Readonly<Record<Locale, PolicyDocument>> = {
   es: {
     title: 'Política de tratamiento de datos personales',
     description:
-      'Qué datos recoge Reasonny, para qué, quién los procesa y cómo ejercer tus derechos de habeas data.',
+      'Qué datos recoge Pilo, para qué, quién los procesa y cómo ejercer tus derechos de habeas data.',
     effective: `Versión ${POLICY_VERSION}. Vigente desde el 6 de octubre de 2026.`,
     intro:
-      'Reasonny es una app para llevar tus finanzas personales. Esta política explica qué datos tuyos guarda, para qué los usa, quién los procesa y cómo puedes consultarlos, corregirlos o borrarlos, conforme a la Ley 1581 de 2012 y el Decreto 1377 de 2013.',
+      'Pilo es una app para llevar tus finanzas personales. Esta política explica qué datos tuyos guarda, para qué los usa, quién los procesa y cómo puedes consultarlos, corregirlos o borrarlos, conforme a la Ley 1581 de 2012 y el Decreto 1377 de 2013.',
     sections: [
       {
         id: 'responsable',
@@ -77,7 +77,7 @@ export const PRIVACY_POLICY: Readonly<Record<Locale, PolicyDocument>> = {
         id: 'sensibles',
         heading: '4. Datos sensibles y menores de edad',
         paragraphs: [
-          'Reasonny no te pide datos sensibles. Algunas categorías de gasto (por ejemplo, "Salud") podrían revelar algo sobre ti; usarlas es opcional.',
+          'Pilo no te pide datos sensibles. Algunas categorías de gasto (por ejemplo, "Salud") podrían revelar algo sobre ti; usarlas es opcional.',
           'La app es solo para mayores de 18 años. Si sabemos que una cuenta pertenece a un menor, la borramos.',
         ],
       },
@@ -85,7 +85,7 @@ export const PRIVACY_POLICY: Readonly<Record<Locale, PolicyDocument>> = {
         id: 'encargados',
         heading: '5. Quién procesa tus datos por nosotros',
         paragraphs: [
-          'Para funcionar, Reasonny usa estos proveedores, que tratan los datos por cuenta nuestra y solo para prestar su servicio:',
+          'Para funcionar, Pilo usa estos proveedores, que tratan los datos por cuenta nuestra y solo para prestar su servicio:',
         ],
         items: [
           'Neon (Estados Unidos): la base de datos y el inicio de sesión.',
@@ -149,10 +149,10 @@ export const PRIVACY_POLICY: Readonly<Record<Locale, PolicyDocument>> = {
   en: {
     title: 'Personal data processing policy',
     description:
-      'What data Reasonny collects, why, who processes it, and how to exercise your data protection rights.',
+      'What data Pilo collects, why, who processes it, and how to exercise your data protection rights.',
     effective: `Version ${POLICY_VERSION}. In effect since October 6, 2026.`,
     intro:
-      'Reasonny is an app for keeping track of your personal finances. This policy explains which of your data it keeps, what it uses it for, who processes it, and how you can view, correct or delete it, under Colombian Law 1581 of 2012 and Decree 1377 of 2013.',
+      'Pilo is an app for keeping track of your personal finances. This policy explains which of your data it keeps, what it uses it for, who processes it, and how you can view, correct or delete it, under Colombian Law 1581 of 2012 and Decree 1377 of 2013.',
     sections: [
       {
         id: 'responsable',
@@ -188,7 +188,7 @@ export const PRIVACY_POLICY: Readonly<Record<Locale, PolicyDocument>> = {
         id: 'sensibles',
         heading: '4. Sensitive data and minors',
         paragraphs: [
-          'Reasonny does not ask you for sensitive data. Some spending categories (for example, "Health") could reveal something about you; using them is optional.',
+          'Pilo does not ask you for sensitive data. Some spending categories (for example, "Health") could reveal something about you; using them is optional.',
           'The app is for people aged 18 and over only. If we learn an account belongs to a minor, we delete it.',
         ],
       },
@@ -196,7 +196,7 @@ export const PRIVACY_POLICY: Readonly<Record<Locale, PolicyDocument>> = {
         id: 'encargados',
         heading: '5. Who processes your data on our behalf',
         paragraphs: [
-          'To work, Reasonny uses these providers, which process data on our behalf and only to provide their service:',
+          'To work, Pilo uses these providers, which process data on our behalf and only to provide their service:',
         ],
         items: [
           'Neon (United States): the database and sign-in.',

@@ -14,7 +14,7 @@ import { QuickAddForm } from './quick-add-form';
 
 // P8: Authenticated screens carry noindex
 export const metadata: Metadata = {
-  title: 'Nuevo Registro — Reasonny',
+  title: 'Nuevo Registro — Pilo',
   robots: { index: false, follow: false },
 };
 

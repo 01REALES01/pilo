@@ -1,4 +1,4 @@
-# RealMoney — Sistema de Diseño
+# Pilo — Sistema de Diseño
 
 **Versión:** 1.0.0 · 24 de agosto de 2026
 **Estado:** Fijado. Los tokens son la fuente de verdad; ningún componente inventa valores.
@@ -45,11 +45,16 @@ Ambas referencias, sin conocerse, coinciden en cinco cosas. Eso no es casualidad
 
 ## 2. Color
 
-### 2.1 Por qué violeta y no naranja
+### 2.1 Por qué vino y champaña, y no naranja
 
 La referencia A es preciosa, pero su naranja es un problema estructural: en una app de dinero el **naranja y el rojo están reservados** para advertencia y pérdida. Un acento de marca naranja colisiona con la paleta semántica — cuando todo es naranja, un aviso deja de avisar.
 
-El violeta no significa nada en finanzas, y eso es exactamente lo que se quiere de un color de marca: que no compita con el significado del dato.
+La versión 1.0 de este documento eligió **violeta** por la misma razón: no significa nada en finanzas. El 07-sep-2026 el autor lo cambió por **vino y champaña** (commit `0243057`), y el documento quedó desactualizado hasta el rebranding a Pilo (30-oct-2026). Las dos reglas que hacen funcionar al vino:
+
+- **El vino va en rellenos con texto claro encima, nunca como texto sobre fondo oscuro.** Blanco sobre `#9b2c45` da 7,4:1. Un vino más claro, usado como texto, da 3,8:1 (por debajo del 4,5:1) y queda a distancia 9,7 del rojo de «crítico»: se lee como un error.
+- **La champaña es el acento sobre oscuro**: enlaces, navegación activa. Da 12,8:1 sobre `#09090b` y queda a distancia 28,5 del rojo de «crítico».
+
+Son también los colores de la mascota (§6.9): la cola es `--brand-500`, el fondo del icono `--brand-600` y la tarjeta `--brand-400`. Medición y método en `docs/PILO.md` §4.1.
 
 El degradado cálido de la referencia A **sí sobrevive**, pero acotado a un único sitio: la tarjeta de saldo principal (§7.1). Un objeto héroe, no un sistema.
 
@@ -78,11 +83,14 @@ El degradado cálido de la referencia A **sí sobrevive**, pero acotado a un ún
 ### 2.4 Marca
 
 ```css
---brand-500: #8172F2;  /* acento por defecto, botones primarios */
---brand-600: #6D5AE0;  /* hover, estados presionados */
---brand-400: #9D91F6;  /* enlaces sobre superficie oscura */
---brand-tint: rgba(129,114,242,0.14);  /* fondos seleccionados, píldoras */
+--brand-500: #9b2c45;  /* vino: botones primarios, foco, navegación activa */
+--brand-600: #781d32;  /* vino profundo: hover, estados presionados */
+--brand-400: #e4cca6;  /* champaña: enlaces y acentos sobre superficie oscura */
+--brand-tint: rgba(155, 44, 69, 0.16);  /* fondos seleccionados, píldoras */
+--app-ground: #380a1c;  /* fondo ciruela de la app */
 ```
+
+`--cat-1` sigue siendo violeta (§2.6): es una categoría validada contra daltonismo, no la marca.
 
 ### 2.5 Semántica — reservada
 
@@ -398,6 +406,18 @@ $500.200                 <- --text-display, regla del decimal
 - Activo: icono y etiqueta en `--brand-400`.
 - Fondo `--surface-raised` con `backdrop-filter: blur(20px)` — permitido aquí porque es fija y no scrollea.
 - Respeta `env(safe-area-inset-bottom)`.
+
+### 6.9 Pilo, la mascota
+
+El tití cabeciblanco en estilo de pin de esmalte. Diseño, archivos y cómo generar poses nuevas: `docs/PILO.md`. Lo que obliga a cualquier pantalla:
+
+- **Fuera de las pantallas de datos.** Vive en el icono, la landing, la bienvenida, los estados vacíos, los errores y el bot. En `/mes`, en la lista y en las gráficas mandan los números. Es lo que §1 quiso decir con que los personajes «no aportan aquí»: no aportan *encima de los datos*.
+- **Reacciona a lo que haces, nunca a cuánto gastas** (P1). No hay cara triste y no opina de tu plata (P4). No insiste (P2).
+- **Sin boca.** Las expresiones son marcas en los ojos más la pose (`docs/PILO.md` §5.2). Ninguna se dibuja a mano en un componente: salen de la ficha del personaje.
+- **Se lee en chico, con límite.** El icono se lee a 60 px y aguanta a 32 px. A 16 px hace falta una versión aparte (`docs/PILO.md` §8.2).
+- **Sus colores son tokens.** Los tres que no tienen token todavía (blanco cálido, máscara, contorno) pasan a `--pilo-*` en `globals.css` el día que Pilo se dibuje en código. La regla de ningún literal de color en componentes aplica también a la mascota.
+- **Animado, solo con lo de §5.** `transform` y `opacity`, y sin bucles fuera de los esqueletos (§5.5): respirar o parpadear en bucle está prohibido en la app.
+- **Toda celebración se puede apagar.**
 
 ---
 

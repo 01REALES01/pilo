@@ -9,7 +9,7 @@ import { OnboardingFlow } from './onboarding-flow';
 
 // P8: Authenticated app is strictly noindex
 export const metadata: Metadata = {
-  title: 'Bienvenida — Reasonny',
+  title: 'Bienvenida — Pilo',
   robots: { index: false, follow: false },
 };
 

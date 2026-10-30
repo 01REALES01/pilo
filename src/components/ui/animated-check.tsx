@@ -10,7 +10,7 @@ interface AnimatedCheckProps {
  * Animated Drawing Checkmark (Chulito Verde).
  *
  * Draws a crisp checkmark vector using native SVG path animation with
- * Reasonny's --ease-out curve (cubic-bezier(0.23, 1, 0.32, 1)).
+ * Pilo's --ease-out curve (cubic-bezier(0.23, 1, 0.32, 1)).
  * Zero JavaScript runtime overhead, composited cleanly, and strictly
  * complies with the transform/opacity architecture rule.
  */

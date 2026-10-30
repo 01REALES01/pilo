@@ -36,18 +36,14 @@ export function LandingGrandFinaleFooter(): React.ReactElement {
       <div className="landing-finale-stage">
         <div className="landing-finale-glass-card">
           <div className="landing-finale-emblem-wrap">
-            <svg
+            <Image
               className="landing-finale-emblem"
-              viewBox="0 0 24 24"
-              fill="var(--landing-champagne-gold)"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path d="M6 4C6 3.45 6.45 3 7 3H8.5C9.05 3 9.5 3.45 9.5 4V20C9.5 20.55 9.05 21 8.5 21H7C6.45 21 6 20.55 6 20V4Z" />
-              <path fillRule="evenodd" clipRule="evenodd" d="M9.5 3H14.2C17.2 3 19.5 5.1 19.5 8C19.5 10.9 17.2 13 14.2 13H9.5V3ZM12 5.5H14C15.4 5.5 16.8 6.5 16.8 8C16.8 9.5 15.4 10.5 14 10.5H12V5.5Z" />
-              <path d="M12.8 11.8L17.8 19.8C18.1 20.3 18.8 20.4 19.3 20.1C19.7 19.8 19.9 19.1 19.6 18.6L14.8 11.2C14.1 11.3 13.4 11.5 12.8 11.8Z" />
-            </svg>
-            <span className="landing-finale-emblem-text">REASONNY</span>
+              src="/icons/icon-192.png"
+              alt=""
+              width={40}
+              height={40}
+            />
+            <span className="landing-finale-emblem-text">Pilo</span>
           </div>
 
           <h2 className="landing-finale-title">
@@ -98,7 +94,7 @@ export function LandingGrandFinaleFooter(): React.ReactElement {
 
         <div className="landing-finale-bottom-bar">
           <div className="landing-finale-copy">
-            <span>© {new Date().getFullYear()} Reasonny. Todos los derechos reservados.</span>
+            <span>© {new Date().getFullYear()} Pilo. Todos los derechos reservados.</span>
             <span className="landing-finale-copy-divider">·</span>
             <span>Hecho por Jean Paul Reales.</span>
           </div>

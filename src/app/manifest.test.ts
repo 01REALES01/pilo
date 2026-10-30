@@ -6,8 +6,8 @@ describe('Web App Manifest (PWA — B8)', () => {
   it('returns valid manifest compliant with PWA standalone specifications', () => {
     const config = manifest();
 
-    expect(config.name).toBe('Reasonny — Finanzas Personales con IA');
-    expect(config.short_name).toBe('Reasonny');
+    expect(config.name).toBe('Pilo — Finanzas Personales con IA');
+    expect(config.short_name).toBe('Pilo');
     expect(config.display).toBe('standalone');
     expect(config.background_color).toBe('#09090b');
     expect(config.theme_color).toBe('#09090b');

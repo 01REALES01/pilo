@@ -9,7 +9,7 @@ import { t } from '@/lib/i18n';
  *
  * WHY IT IS ON THE HOME SCREEN AT ALL
  * -----------------------------------
- * Linking the Shortcut is the one step that turns Reasonny from a form into
+ * Linking the Shortcut is the one step that turns Pilo from a form into
  * something that records spending by itself. Leaving it only in the profile
  * menu means a new user finds it if they already know it exists - which is
  * the one thing a new user does not know.

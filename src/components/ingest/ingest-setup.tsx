@@ -62,6 +62,8 @@ interface Step {
   readonly cta: string;
 }
 
+// Keeps the old name (Reasonny) on purpose: renaming it would wipe what is
+// already saved on users' phones. docs/PILO.md §8.3.
 const STORAGE_KEY = 'reasonny.ingest.progress';
 const LOCALE_KEY = 'reasonny.ingest.locale';
 const EXIT_MS = 200;
@@ -132,7 +134,7 @@ const COPY: Readonly<Record<Ui, ScreenCopy>> = {
     completeTitle: 'Configuración lista',
     completeSubtitle: 'Tus gastos ahora se guardarán solos con ubicación y todo.',
     completeNote:
-      'P.D.: Cuando hagas tu próxima compra con tu tarjeta, abre Reasonny para ver la magia en vivo.',
+      'P.D.: Cuando hagas tu próxima compra con tu tarjeta, abre Pilo para ver la magia en vivo.',
     finishCta: 'Finalizar',
     languageLabel: 'Idioma de los pasos',
   },
@@ -178,7 +180,7 @@ const COPY: Readonly<Record<Ui, ScreenCopy>> = {
     completeTitle: 'Setup Complete',
     completeSubtitle: 'Your expenses will now record on their own, complete with location.',
     completeNote:
-      'P.S.: Next time you pay with your card, open Reasonny to see the magic happen live.',
+      'P.S.: Next time you pay with your card, open Pilo to see the magic happen live.',
     finishCta: 'Finish',
     languageLabel: 'Language of the steps',
   },
@@ -302,7 +304,7 @@ export function buildSteps(locale: Ui): Step[] {
             <>
               Type it in <strong>Search Actions</strong>, at the bottom, and tap it to add it.
               <IngestCallout icon="Sparkles">
-                This lets Reasonny place each payment on the map.
+                This lets Pilo place each payment on the map.
               </IngestCallout>
             </>
           ),
@@ -488,7 +490,7 @@ export function buildSteps(locale: Ui): Step[] {
           <>
             Escríbela en <strong>Buscar acciones</strong>, abajo, y tócala para añadirla.
             <IngestCallout icon="Sparkles">
-              Así Reasonny puede ubicar cada pago en el mapa.
+              Así Pilo puede ubicar cada pago en el mapa.
             </IngestCallout>
           </>
         ),

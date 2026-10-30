@@ -14,7 +14,7 @@ const policy = PRIVACY_POLICY[DEFAULT_LOCALE];
  * landing.
  */
 export const metadata: Metadata = {
-  title: `${policy.title} — Reasonny`,
+  title: `${policy.title} — Pilo`,
   description: policy.description,
   alternates: {
     canonical: '/privacidad',

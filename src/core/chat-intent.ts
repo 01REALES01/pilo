@@ -163,7 +163,7 @@ const WEEKDAYS_ES = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'vier
 export function buildIntentSystemPrompt(todayKey: string): string {
   const weekday = WEEKDAYS_ES[new Date(`${todayKey}T12:00:00Z`).getUTCDay()];
   return [
-    'Clasificas mensajes de chat de Reasonny, una app de finanzas personales en Colombia (pesos colombianos).',
+    'Clasificas mensajes de chat de Pilo, una app de finanzas personales en Colombia (pesos colombianos).',
     `Hoy es ${weekday} ${todayKey}.`,
     'Devuelve UNA intención. No respondas al usuario ni calcules nada.',
     '- record_spend: registra un gasto o ingreso. amount_text = el monto copiado tal cual aparece ("32k", "100k", "12 mil", "$15.000"), sin convertirlo; "k" significa mil. merchant = dónde o en qué. date = YYYY-MM-DD ("ayer" = un día antes de hoy); si no dice, hoy. is_income = true solo si recibió dinero.',

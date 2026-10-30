@@ -15,7 +15,7 @@ interface TransactionInteractiveMapProps {
  *
  * Dynamically imported to ensure 0 KB of Leaflet is loaded on dashboard or
  * quick-add pages. Uses CartoDB Dark Matter tiles with Retina (@2x) support
- * to seamlessly match Reasonny's dark luxury aesthetic.
+ * to seamlessly match Pilo's dark luxury aesthetic.
  */
 export function TransactionInteractiveMap({
   point,

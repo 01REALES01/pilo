@@ -144,15 +144,13 @@
   transform: scale(0.98);
 }
 
-.landing-brand-diamond {
-  width: 20px;
-  height: 20px;
+/* The app icon, so the corner radius follows the iOS icon proportion
+   (about 22% of the side) instead of a generic pill. */
+.landing-brand-mark {
+  width: 28px;
+  height: 28px;
   flex-shrink: 0;
-  color: var(--landing-champagne-gold);
-}
-
-.landing-top-bar--light .landing-brand-diamond {
-  color: var(--landing-light-gold);
+  border-radius: 7px;
 }
 
 .landing-brand-text {
@@ -1307,7 +1305,7 @@
 }
 
 /* ==========================================================================
-   Real Reasonny Wallet / Health Telemetry Card
+   Real Pilo Wallet / Health Telemetry Card
    ========================================================================== */
 .landing-wallet-card-stage {
   max-width: 840px;
@@ -3659,9 +3657,9 @@
 }
 
 .landing-finale-emblem {
-  width: 28px;
-  height: 28px;
-  color: var(--landing-champagne-gold);
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
 }
 
 .landing-finale-emblem-text {
@@ -3984,8 +3982,8 @@ h1.landing-word-center {
 }
 
 /* ==========================================================================
-   Reasonny Authentic App Showcase (Luxury Velvet, Imperial Wine & Champagne Gold)
-   100% aligned with Reasonny's authentic Design System (DESIGN_SYSTEM.md & globals.css)
+   Pilo Authentic App Showcase (Luxury Velvet, Imperial Wine & Champagne Gold)
+   100% aligned with Pilo's authentic Design System (DESIGN_SYSTEM.md & globals.css)
    ========================================================================== */
 
 .landing-showcase-section--app {
@@ -4736,7 +4734,7 @@ h1.landing-word-center {
    ========================================================================== */
 
 
-/* Luxury Pill CTA Button (Reasonny Wine & Champagne) */
+/* Luxury Pill CTA Button (Pilo Wine & Champagne) */
 .landing-luxury-cta-btn {
   display: inline-flex;
   align-items: center;
@@ -4894,7 +4892,7 @@ h1.landing-word-center {
 }
 
 /* ==========================================================================
-   Reasonny App Velvet Banner with Interactive iPhone Mockup
+   Pilo App Velvet Banner with Interactive iPhone Mockup
    ========================================================================== */
 .landing-app-phone-banner {
   max-width: 1180px;
@@ -4974,7 +4972,7 @@ h1.landing-word-center {
   font-weight: 600;
 }
 
-/* Phone Mockup Showing Real Reasonny App Screen */
+/* Phone Mockup Showing Real Pilo App Screen */
 .landing-phone-stage-wrapper {
   display: flex;
   align-items: center;
@@ -5165,7 +5163,7 @@ h1.landing-word-center {
 
 
 /* ═══════════════════════════════════════════════════════════════════════
-   El contraste: lo de antes vs. Reasonny
+   El contraste: lo de antes vs. Pilo
 
    Sin tarjetas. Dos columnas de texto desnudo separadas por UN filo de
    1px: el ojo ya agrupa por proximidad y alineación, así que encerrar
@@ -7479,7 +7477,7 @@ h1.landing-word-center {
 
    La columna «Hasta hoy» ya dice que esos ocho pasos desaparecen. Aquí
    además ocurre: conforme entra en pantalla, cada paso se tacha y se
-   apaga, y el de Reasonny enfrente se enciende. El argumento deja de
+   apaga, y el de Pilo enfrente se enciende. El argumento deja de
    leerse y pasa a verse.
 
    Cada fila lleva su propio `view()`, así que se tachan EN ORDEN sin que

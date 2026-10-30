@@ -7,7 +7,7 @@ import { getWeekDayKeys, type DashboardData, type DayGroup, type WeekSpending } 
 import { OnboardingFlow } from '../bienvenida/onboarding-flow';
 
 export const metadata: Metadata = {
-  title: 'Preview App — Reasonny',
+  title: 'Preview App — Pilo',
   robots: { index: false, follow: false },
 };
 

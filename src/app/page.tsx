@@ -12,28 +12,28 @@ import { LandingSectionUnderstand } from '@/components/landing/landing-section-u
 import { LandingTopBar } from '@/components/landing/landing-top-bar';
 
 const DESCRIPTION =
-  'Pagas como siempre y Reasonny anota el gasto, lo clasifica y te dice cómo vas. ' +
+  'Pagas como siempre y Pilo anota el gasto, lo clasifica y te dice cómo vas. ' +
   'Sin abrir ninguna pantalla y sin escribir montos. Gratis, sin tarjeta.';
 
 export const metadata: Metadata = {
-  title: 'Reasonny — Tus gastos se registran solos',
+  title: 'Pilo — Tus gastos se registran solos',
   description: DESCRIPTION,
   alternates: {
     canonical: '/',
     languages: { 'es-CO': '/', 'x-default': '/' },
   },
   openGraph: {
-    title: 'Reasonny — Tus gastos se registran solos',
+    title: 'Pilo — Tus gastos se registran solos',
     description: DESCRIPTION,
     url: '/',
-    siteName: 'Reasonny',
+    siteName: 'Pilo',
     locale: 'es_CO',
     type: 'website',
-    images: [{ url: '/images/og.jpg', width: 1200, height: 630, alt: 'Reasonny' }],
+    images: [{ url: '/images/og.jpg', width: 1200, height: 630, alt: 'Pilo' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Reasonny — Tus gastos se registran solos',
+    title: 'Pilo — Tus gastos se registran solos',
     description: DESCRIPTION,
     images: ['/images/og.jpg'],
   },
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'Reasonny',
+  name: 'Pilo',
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Web, iOS, Android',
   description: DESCRIPTION,

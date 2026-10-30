@@ -21,7 +21,7 @@ export function LandingSectionObserve(): React.ReactElement {
 
         <div className="landing-kinetic-caption">
           <p>
-            Reasonny observa ese ritmo: agrupa tus gastos por periodo y te muestra
+            Pilo observa ese ritmo: agrupa tus gastos por periodo y te muestra
             cuándo se aceleran, antes de que el mes cierre.
           </p>
         </div>

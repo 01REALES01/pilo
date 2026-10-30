@@ -23,19 +23,19 @@ export const metadata: Metadata = {
   // Resolves canonical/OG/Twitter URLs. Without it Next warns and falls back to
   // localhost. The deployed host wins via NEXT_PUBLIC_APP_URL.
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'https://reasonny.app'),
-  title: 'Reasonny',
+  title: 'Pilo',
   description: 'Finanzas personales con ingesta asistida por IA.',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'Reasonny',
+    title: 'Pilo',
   },
+  // The ?v= query is what makes browsers drop the old icon; bump it on every
+  // icon change. No SVG entry until Pilo is redrawn in vector (PILO.md §8.2):
+  // a browser that supports SVG favicons prefers it over the PNG.
   icons: {
-    icon: [
-      { url: '/icon.png?v=3', sizes: '192x192', type: 'image/png' },
-      { url: '/icons/icon.svg?v=3', type: 'image/svg+xml' },
-    ],
-    apple: '/apple-icon.png?v=3',
+    icon: [{ url: '/icon.png?v=4', sizes: '192x192', type: 'image/png' }],
+    apple: '/apple-icon.png?v=4',
   },
 };
 

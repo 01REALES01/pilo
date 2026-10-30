@@ -9,7 +9,7 @@ import { Money } from '@/components/ui/money';
  *
  * Cada tarjeta enseña el recorrido real en vez de un logo: arriba lo que te
  * llega (el SMS de tu banco, o tu propio mensaje en Telegram) y abajo lo que
- * queda en Reasonny. Las tres respuestas a «¿funciona con mi banco?» pesan lo
+ * queda en Pilo. Las tres respuestas a «¿funciona con mi banco?» pesan lo
  * mismo, incluida la que dice que no entra sola: es la pregunta que más se
  * hace y no puede leerse como letra pequeña.
  *

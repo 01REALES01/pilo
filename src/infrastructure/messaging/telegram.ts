@@ -320,6 +320,24 @@ export async function setMyCommands(
   });
 }
 
+/**
+ * Sets the bot's display name, the one shown in the chat header.
+ *
+ * Set from the same script as the commands so the name comes from the i18n
+ * catalog (`app_name`) and a rename is one deploy, not a trip to BotFather.
+ * The @username is a different thing and cannot change without a new bot.
+ * Telegram rate-limits this method, so it is not called on every update.
+ */
+export async function setMyName(
+  name: string,
+  languageCode?: string,
+): Promise<TelegramResult<boolean>> {
+  return call<boolean>('setMyName', {
+    name,
+    ...(languageCode ? { language_code: languageCode } : {}),
+  });
+}
+
 export async function deleteWebhook(): Promise<TelegramResult<boolean>> {
   return call<boolean>('deleteWebhook', { drop_pending_updates: false });
 }

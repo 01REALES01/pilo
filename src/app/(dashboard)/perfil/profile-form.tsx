@@ -59,7 +59,7 @@ export function ProfileForm({
     setNotifPermission(status);
     if (status === 'granted') {
       await sendAppNotification({
-        title: 'Reasonny',
+        title: 'Pilo',
         body: '🔔 ¡Notificaciones activadas con éxito!',
       });
       setNotifNote('¡Notificaciones activadas con éxito!');
@@ -293,7 +293,7 @@ export function ProfileForm({
             </span>
           </span>
           <span className="entry-hint">
-            Reasonny te avisa en tiempo real cada vez que se guarda un gasto o cuando una compra necesita ser categorizada.
+            Pilo te avisa en tiempo real cada vez que se guarda un gasto o cuando una compra necesita ser categorizada.
           </span>
           <div className="location-home-actions">
             {notifPermission !== 'granted' && notifPermission !== 'unsupported' && (

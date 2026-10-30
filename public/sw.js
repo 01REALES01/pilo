@@ -1,12 +1,12 @@
 /**
- * Reasonny Service Worker (PWA).
+ * Pilo Service Worker (PWA).
  *
  * Implements high-performance caching for static assets, fonts, and icons,
  * with network-first resilience for authenticated financial data, plus
  * native notification handling for autonomous PWA alerts.
  */
 
-const CACHE_NAME = 'reasonny-v4';
+const CACHE_NAME = 'pilo-v5';
 const STATIC_ASSETS = [
   '/manifest.webmanifest',
   '/icons/icon-192.png',

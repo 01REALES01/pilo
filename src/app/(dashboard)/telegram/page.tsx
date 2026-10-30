@@ -11,7 +11,7 @@ import { getCurrentUser } from '@/lib/session';
 
 // P8: authenticated screens are strictly noindex.
 export const metadata: Metadata = {
-  title: 'Telegram — Reasonny',
+  title: 'Telegram — Pilo',
   robots: { index: false, follow: false },
 };
 

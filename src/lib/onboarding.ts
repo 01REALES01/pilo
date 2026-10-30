@@ -19,6 +19,8 @@ import type { UserId } from '@/core/types';
  * nothing and its worst failure is showing a welcome screen once more on a
  * second device, which is not a bad outcome for a welcome screen.
  */
+// Keeps the old name (Reasonny) on purpose: renaming it would wipe what is
+// already saved on users' phones. docs/PILO.md §8.3.
 export const ONBOARDING_COOKIE = 'reasonny_welcomed';
 
 const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;

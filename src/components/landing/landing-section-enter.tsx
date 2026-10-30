@@ -35,7 +35,7 @@ export function LandingSectionEnter(): React.ReactElement {
           </h1>
 
           <p className="landing-word-subhead">
-            Pagas como siempre — tarjeta, Apple Pay, efectivo — y Reasonny los
+            Pagas como siempre — tarjeta, Apple Pay, efectivo — y Pilo los
             anota, los clasifica y te dice cómo vas. Sin abrir ninguna pantalla,
             sin escribir un solo monto.
           </p>
