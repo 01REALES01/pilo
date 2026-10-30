@@ -3,6 +3,7 @@ import React from 'react';
 
 import { CategoryIcon } from '@/components/ui/category-icon';
 import { Money } from '@/components/ui/money';
+import { tl } from '@/lib/i18n-landing';
 
 /**
  * Los bancos: tres tarjetas y un titular centrado.
@@ -50,8 +51,8 @@ const FLOWS: readonly Flow[] = [
   {
     key: 'bancolombia',
     title: 'Bancolombia',
-    text: 'Los SMS de compras y de pagos con Apple Pay. Entran solos, clasificados, sin que abras nada.',
-    chip: '0 toques',
+    text: tl('landing_banks_bancolombia_text'),
+    chip: tl('landing_banks_chip_auto'),
     sender: 'Bancolombia',
     avatar: 'BC',
     incoming: (
@@ -61,15 +62,15 @@ const FLOWS: readonly Flow[] = [
       </>
     ),
     merchant: 'Cafe Generico',
-    category: 'Cafetería',
+    category: tl('landing_banks_cat_cafe'),
     icon: 'Coffee',
     amountMinor: 1850000n,
   },
   {
     key: 'bogota',
     title: 'Banco de Bogotá',
-    text: 'Las alertas SMS de débito y de crédito. Mismo Atajo, mismo resultado: el gasto aparece registrado.',
-    chip: '0 toques',
+    text: tl('landing_banks_bogota_text'),
+    chip: tl('landing_banks_chip_auto'),
     sender: 'Banco de Bogotá',
     avatar: 'BB',
     incoming: (
@@ -79,20 +80,20 @@ const FLOWS: readonly Flow[] = [
       </>
     ),
     merchant: 'Restaurante Generico',
-    category: 'Restaurante',
+    category: tl('landing_banks_cat_restaurant'),
     icon: 'Utensils',
     amountMinor: 4250000n,
   },
   {
     key: 'manual',
-    title: '¿Nu o Nequi?',
-    text: 'No mandan SMS por compras y iOS no deja leer sus notificaciones. Entran por Telegram, con una línea.',
-    chip: '1 mensaje',
-    sender: 'Tú, en Telegram',
+    title: tl('landing_banks_manual_title'),
+    text: tl('landing_banks_manual_text'),
+    chip: tl('landing_banks_chip_manual'),
+    sender: tl('landing_banks_manual_sender'),
     avatar: <PaperPlane />,
-    incoming: '12000 almuerzo',
-    merchant: 'Almuerzo',
-    category: 'Restaurante',
+    incoming: tl('landing_banks_manual_message'),
+    merchant: tl('landing_banks_manual_merchant'),
+    category: tl('landing_banks_cat_restaurant'),
     icon: 'Utensils',
     amountMinor: 1200000n,
     manual: true,
@@ -106,7 +107,7 @@ function FlowArt({ flow }: { readonly flow: Flow }): React.ReactElement {
         <div className="landing-banks-msg-head">
           <span className="landing-banks-avatar">{flow.avatar}</span>
           <span className="landing-banks-sender">{flow.sender}</span>
-          <span className="landing-banks-kind">{flow.manual ? 'mensaje' : 'SMS'}</span>
+          <span className="landing-banks-kind">{flow.manual ? tl('landing_banks_kind_message') : tl('landing_banks_kind_sms')}</span>
         </div>
         <p className="landing-banks-msg-body">{flow.incoming}</p>
       </div>
@@ -138,11 +139,10 @@ export function LandingBanksSection(): React.ReactElement {
     <div id="features-card" className="landing-banks reveal-on-scroll">
       <div className="landing-banks-head">
         <h3 className="landing-banks-title">
-          Captura automática con tus <span className="landing-headline-gold">bancos que envían SMS.</span>
+          {tl('landing_banks_title_lead')} <span className="landing-headline-gold">{tl('landing_banks_title_accent')}</span>
         </h3>
         <p className="landing-banks-sub">
-          Si tu banco te avisa por SMS cada compra, el Atajo de iOS lo procesa en segundo plano. Sin
-          contraseñas bancarias ni intermediarios.
+          {tl('landing_banks_subtitle')}
         </p>
       </div>
 
@@ -170,16 +170,15 @@ export function LandingBanksSection(): React.ReactElement {
       <div className="landing-banks-foot">
         <p className="landing-banks-pending">
           <span className="landing-banks-pending-dot" aria-hidden="true" />
-          Davivienda, Scotiabank Colpatria y Falabella: en camino.
+          {tl('landing_banks_pending')}
         </p>
         <p className="landing-banks-note">
-          Tus credenciales nunca salen de tu teléfono: el Atajo corre en tu iPhone y solo envía el monto y el
-          comercio del SMS.
+          {tl('landing_banks_note')}
         </p>
         {/* El dorado del héroe: sobre fondo oscuro, el vino del botón editorial
             se perdía (estaba pensado para la banda clara que ya no existe). */}
         <Link href="/sign-in" className="landing-gold-cta-btn">
-          <span>Crear cuenta con tu correo</span>
+          <span>{tl('landing_cta_sign_up_email')}</span>
           <span aria-hidden="true"> →</span>
         </Link>
       </div>

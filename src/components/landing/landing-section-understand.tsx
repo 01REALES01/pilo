@@ -2,16 +2,11 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-const STATEMENT_WORDS = [
-  'El',
-  'dinero',
-  'no',
-  'es',
-  'estático.',
-  'Tu',
-  'claridad',
-  'tampoco.',
-];
+import { tl } from '@/lib/i18n-landing';
+
+// One key for the whole sentence, split here: word order and word count
+// change between languages, so a key per word could not be translated.
+const STATEMENT_WORDS = tl('landing_understand_statement').split(' ');
 
 /**
  * Chapter 03 — "Understand".
@@ -59,7 +54,7 @@ export function LandingSectionUnderstand(): React.ReactElement {
       id="chapter-understand"
       ref={sectionRef}
       className={`landing-chapter landing-chapter--understand ${armed ? 'is-armed' : ''} ${revealed ? 'is-revealed' : ''}`}
-      aria-label="03 Understand"
+      aria-label={tl('landing_understand_section_label')}
     >
       <div className="landing-reveal-stage">
         <p className="landing-reveal-statement">
@@ -74,8 +69,7 @@ export function LandingSectionUnderstand(): React.ReactElement {
         </p>
 
         <p className="landing-reveal-subhead">
-          Pilo aprende tus comercios: la segunda vez, ya no pregunta.
-          Una interfaz pensada para darte dirección, no culpa.
+          {tl('landing_understand_subtitle')}
         </p>
       </div>
     </section>

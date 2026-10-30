@@ -10,30 +10,30 @@ import { LandingSectionObserve } from '@/components/landing/landing-section-obse
 import { LandingSectionTrust } from '@/components/landing/landing-section-trust';
 import { LandingSectionUnderstand } from '@/components/landing/landing-section-understand';
 import { LandingTopBar } from '@/components/landing/landing-top-bar';
+import { tl } from '@/lib/i18n-landing';
 
-const DESCRIPTION =
-  'Pagas como siempre y Pilo anota el gasto, lo clasifica y te dice cómo vas. ' +
-  'Sin abrir ninguna pantalla y sin escribir montos. Gratis, sin tarjeta.';
+const DESCRIPTION = tl('landing_meta_description');
+const TITLE = tl('landing_meta_title');
 
 export const metadata: Metadata = {
-  title: 'Pilo — Tus gastos se registran solos',
+  title: TITLE,
   description: DESCRIPTION,
   alternates: {
     canonical: '/',
     languages: { 'es-CO': '/', 'x-default': '/' },
   },
   openGraph: {
-    title: 'Pilo — Tus gastos se registran solos',
+    title: TITLE,
     description: DESCRIPTION,
     url: '/',
     siteName: 'Pilo',
     locale: 'es_CO',
     type: 'website',
-    images: [{ url: '/images/og.jpg', width: 1200, height: 630, alt: 'Pilo' }],
+    images: [{ url: '/images/og.jpg', width: 1200, height: 630, alt: tl('landing_meta_og_image_alt') }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Pilo — Tus gastos se registran solos',
+    title: TITLE,
     description: DESCRIPTION,
     images: ['/images/og.jpg'],
   },

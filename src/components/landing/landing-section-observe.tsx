@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { tl } from '@/lib/i18n-landing';
+
 /**
  * Chapter 02 — "Observe".
  *
@@ -11,18 +13,17 @@ import React from 'react';
  */
 export function LandingSectionObserve(): React.ReactElement {
   return (
-    <section id="chapter-observe" className="landing-chapter landing-chapter--observe" aria-label="02 Observe">
+    <section id="chapter-observe" className="landing-chapter landing-chapter--observe" aria-label={tl('landing_observe_section_label')}>
       <div className="landing-kinetic-stage">
         <div className="landing-kinetic-hero-row">
           <h2 className="landing-kinetic-headline">
-            Tu dinero tiene un <span className="landing-thesis-gold-highlight">ritmo propio.</span>
+            {tl('landing_observe_title_lead')} <span className="landing-thesis-gold-highlight">{tl('landing_observe_title_accent')}</span>
           </h2>
         </div>
 
         <div className="landing-kinetic-caption">
           <p>
-            Pilo observa ese ritmo: agrupa tus gastos por periodo y te muestra
-            cuándo se aceleran, antes de que el mes cierre.
+            {tl('landing_observe_caption')}
           </p>
         </div>
       </div>

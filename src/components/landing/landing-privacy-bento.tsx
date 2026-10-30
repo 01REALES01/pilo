@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { CategoryIcon } from '@/components/ui/category-icon';
+import { tl } from '@/lib/i18n-landing';
 
 /**
  * La privacidad, en bento.
@@ -26,9 +27,9 @@ const WAVE =
   'S 156 10, 166 12 S 180 38, 190 30 S 206 6, 216 8 S 232 32, 244 26 S 266 14, 278 20 S 292 34, 300 44';
 
 const HIDDEN_FROM: ReadonlyArray<{ readonly who: string; readonly you?: boolean }> = [
-  { who: 'Tú', you: true },
-  { who: 'Anunciantes' },
-  { who: 'Terceros' },
+  { who: tl('landing_vault_who_you'), you: true },
+  { who: tl('landing_vault_who_advertisers') },
+  { who: tl('landing_vault_who_third_parties') },
 ];
 
 export function LandingPrivacyBento(): React.ReactElement {
@@ -36,9 +37,9 @@ export function LandingPrivacyBento(): React.ReactElement {
     <div id="features-security" className="landing-vault reveal-on-scroll">
       <div className="landing-vault-head">
         <h3 className="landing-vault-title">
-          Tu privacidad no es una opción <span className="landing-headline-gold">de configuración.</span>
+          {tl('landing_vault_title_lead')} <span className="landing-headline-gold">{tl('landing_vault_title_accent')}</span>
         </h3>
-        <p className="landing-vault-sub">Es la arquitectura del sistema. Esto es lo que eso significa, en concreto.</p>
+        <p className="landing-vault-sub">{tl('landing_vault_subtitle')}</p>
       </div>
 
       <div className="landing-vault-grid">
@@ -50,8 +51,8 @@ export function LandingPrivacyBento(): React.ReactElement {
             </svg>
             <span className="landing-vault-zero-figure">0</span>
           </div>
-          <p className="landing-vault-zero-label">datos vendidos</p>
-          <p className="landing-vault-text landing-vault-text--center">Ni publicidad, ni perfiles, ni terceros.</p>
+          <p className="landing-vault-zero-label">{tl('landing_vault_zero_label')}</p>
+          <p className="landing-vault-text landing-vault-text--center">{tl('landing_vault_zero_text')}</p>
         </div>
 
         {/* La lectura corta el SMS, no tu banco. */}
@@ -72,9 +73,9 @@ export function LandingPrivacyBento(): React.ReactElement {
               <line x1="44" y1="100" x2="156" y2="100" className="landing-vault-scanline" />
             </svg>
           </div>
-          <h4 className="landing-vault-card-title">Sin la clave de tu banco</h4>
+          <h4 className="landing-vault-card-title">{tl('landing_vault_bank_key_title')}</h4>
           <p className="landing-vault-text landing-vault-text--center">
-            No existe ese campo. El Atajo lee el SMS en tu iPhone y solo nos manda el monto y el comercio.
+            {tl('landing_vault_bank_key_text')}
           </p>
         </div>
 
@@ -86,9 +87,9 @@ export function LandingPrivacyBento(): React.ReactElement {
                 <span className="landing-vault-download-icon" aria-hidden="true">
                   <CategoryIcon name="Download" size={12} />
                 </span>
-                historial.csv
+                {tl('landing_vault_export_file')}
               </span>
-              <span className="landing-vault-download-meta">11 columnas</span>
+              <span className="landing-vault-download-meta">{tl('landing_vault_export_meta')}</span>
             </div>
             <svg viewBox="0 0 300 70" className="landing-vault-svg landing-vault-wave" preserveAspectRatio="none" aria-hidden="true">
               <defs>
@@ -101,9 +102,9 @@ export function LandingPrivacyBento(): React.ReactElement {
               <path d={WAVE} className="landing-vault-wave-line" vectorEffect="non-scaling-stroke" />
             </svg>
           </div>
-          <h4 className="landing-vault-card-title">Tus datos se van contigo</h4>
+          <h4 className="landing-vault-card-title">{tl('landing_vault_export_title')}</h4>
           <p className="landing-vault-text landing-vault-text--center">
-            Todo tu historial en CSV, cuando quieras y sin pedir permiso.
+            {tl('landing_vault_export_text')}
           </p>
         </div>
 
@@ -114,10 +115,9 @@ export function LandingPrivacyBento(): React.ReactElement {
               <CategoryIcon name="ShieldCheck" size={20} />
             </span>
             <div>
-              <h4 className="landing-vault-card-title">Aislada por usuario</h4>
+              <h4 className="landing-vault-card-title">{tl('landing_vault_isolation_title')}</h4>
               <p className="landing-vault-text">
-                Cada consulta a la base lleva tu usuario como primer dato, y un test rompe el build si alguien se lo salta.
-                Encima, seguridad por fila en la propia base.
+                {tl('landing_vault_isolation_text')}
               </p>
             </div>
           </div>
@@ -129,7 +129,7 @@ export function LandingPrivacyBento(): React.ReactElement {
             </span>
             {['you', 'other', 'you', 'other', 'other', 'you'].map((row, i) => (
               <span key={i} className={`landing-vault-row landing-vault-row--${row}`}>
-                <span className="landing-vault-row-key">{row === 'you' ? 'tú' : '•••'}</span>
+                <span className="landing-vault-row-key">{row === 'you' ? tl('landing_vault_isolation_row_you') : '•••'}</span>
                 <span className="landing-vault-row-bar" style={{ width: `${38 + ((i * 23) % 40)}%` }} />
               </span>
             ))}
@@ -143,20 +143,20 @@ export function LandingPrivacyBento(): React.ReactElement {
               <CategoryIcon name="EyeOff" size={20} />
             </span>
             <div>
-              <h4 className="landing-vault-card-title">Solo tú los ves</h4>
+              <h4 className="landing-vault-card-title">{tl('landing_vault_who_title')}</h4>
               <p className="landing-vault-text">
-                Tus movimientos no se comparten ni se venden. Viajan cifrados y se guardan cifrados.
+                {tl('landing_vault_who_text')}
               </p>
             </div>
           </div>
-          <ul className="landing-vault-who" aria-label="Quién ve tus movimientos">
+          <ul className="landing-vault-who" aria-label={tl('landing_vault_who_label')}>
             {HIDDEN_FROM.map((w) => (
               <li key={w.who} className={`landing-vault-who-row${w.you ? ' landing-vault-who-row--you' : ''}`}>
                 <span className="landing-vault-who-tag">{w.who}</span>
                 <span className="landing-vault-who-icon">
                   <CategoryIcon name={w.you ? 'Eye' : 'EyeOff'} size={15} />
                 </span>
-                <span className="sr-only">{w.you ? 'los ve' : 'no los ve'}</span>
+                <span className="sr-only">{w.you ? tl('landing_vault_who_sees') : tl('landing_vault_who_not_sees')}</span>
               </li>
             ))}
           </ul>

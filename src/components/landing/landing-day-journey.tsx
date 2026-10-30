@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { CategoryIcon } from '@/components/ui/category-icon';
 import { Money } from '@/components/ui/money';
+import { tl } from '@/lib/i18n-landing';
 
 /**
  * «Un martes cualquiera»: un día real recorriendo el sistema, de lado.
@@ -25,7 +26,12 @@ import { Money } from '@/components/ui/money';
  *  - el extracto NO está construido y lo dice.
  */
 
-const CATEGORY_CHOICES = ['Restaurante', 'Café', 'Mercado', 'Transporte'] as const;
+const CATEGORY_CHOICES = [
+  tl('landing_journey_cat_restaurant'),
+  tl('landing_journey_cat_cafe'),
+  tl('landing_journey_cat_market'),
+  tl('landing_journey_cat_transport'),
+] as const;
 
 /* Los ocho pasos de la comparación «Hasta hoy», tres gastos: el cierre los
    compara con lo que costó el martes con Pilo. */
@@ -431,11 +437,11 @@ function UserBubble({ children }: { readonly children: React.ReactNode }): React
 
 function iconFor(category: string): string {
   switch (category) {
-    case 'Café':
+    case tl('landing_journey_cat_cafe'):
       return 'Coffee';
-    case 'Mercado':
+    case tl('landing_journey_cat_market'):
       return 'ShoppingCart';
-    case 'Transporte':
+    case tl('landing_journey_cat_transport'):
       return 'Car';
     default:
       return 'Utensils';
@@ -451,14 +457,14 @@ function RulesArt({ choice }: { readonly choice: string }): React.ReactElement {
     { merchant: 'Uber', icon: 'Car' },
   ];
   return (
-    <ul className="landing-journey-rules" aria-label="Reglas aprendidas">
+    <ul className="landing-journey-rules" aria-label={tl('landing_journey_rules_label')}>
       {rows.map((r) => (
         <li key={r.merchant} className={`landing-journey-rule${r.fresh ? ' landing-journey-rule--fresh' : ''}`}>
           <span className="landing-journey-rule-tag">{r.merchant}</span>
           <span className="landing-journey-rule-icon">
             <CategoryIcon name={r.icon} size={15} />
           </span>
-          {r.fresh ? <span className="landing-journey-rule-new">nueva</span> : null}
+          {r.fresh ? <span className="landing-journey-rule-new">{tl('landing_journey_rules_new')}</span> : null}
         </li>
       ))}
     </ul>
@@ -479,7 +485,7 @@ function TodayArt(): React.ReactElement {
     <div className="landing-journey-today">
       <div className="landing-journey-today-head">
         <span className="landing-journey-today-cmd">
-          <CategoryIcon name="Clock" size={12} /> Hoy · 3 movimientos
+          <CategoryIcon name="Clock" size={12} /> {tl('landing_journey_today_head')}
         </span>
         <span className="landing-journey-today-figure">
           <Money amountMinor={BigInt(DAY_TOTAL_PESOS) * 100n} currency="COP" />
@@ -517,7 +523,7 @@ function StatementArt(): React.ReactElement {
           <span className="landing-journey-sheet-mark" />
         </span>
       ))}
-      <span className="landing-journey-sheet-tag">Retiro en cajero · recuperada</span>
+      <span className="landing-journey-sheet-tag">{tl('landing_journey_statement_tag')}</span>
     </div>
   );
 }
@@ -529,7 +535,7 @@ export function LandingDayJourney(): React.ReactElement {
 
   // La categoría que eliges a las 13:05 es la que aparece aprendida a las
   // 13:06: el ejemplo se comporta como el bot.
-  const [choice, setChoice] = useState<string>('Restaurante');
+  const [choice, setChoice] = useState<string>(tl('landing_journey_cat_restaurant'));
 
   return (
     <>
@@ -539,16 +545,16 @@ export function LandingDayJourney(): React.ReactElement {
             <div className="landing-journey-intro">
               <div className="landing-journey-intro-top">
                 <h3 className="landing-journey-intro-title">
-                  Un martes cualquiera, <span className="landing-headline-gold">de principio a fin.</span>
+                  {tl('landing_journey_intro_title_lead')} <span className="landing-headline-gold">{tl('landing_journey_intro_title_accent')}</span>
                 </h3>
               </div>
               <div className="landing-journey-intro-node" aria-hidden="true">
                 <span className="landing-journey-intro-hint">
-                  Sigue bajando <span className="landing-journey-intro-arrow">→</span>
+                  {tl('landing_journey_intro_hint')} <span className="landing-journey-intro-arrow">→</span>
                 </span>
               </div>
               <p className="landing-journey-intro-text">
-                Tres gastos, una pregunta y una consulta. Junto a cada hora, lo que te costó.
+                {tl('landing_journey_intro_text')}
               </p>
             </div>
 
@@ -560,12 +566,12 @@ export function LandingDayJourney(): React.ReactElement {
                 id="features-zero-touch"
                 side="up"
                 hour="9:41"
-                cost="0 toques"
-                title="Pagas el café con Apple Pay y sigues caminando."
+                cost={tl('landing_journey_coffee_cost')}
+                title={tl('landing_journey_coffee_title')}
                 text={
                   <>
-                    El Atajo lee la alerta del banco y lo guarda <strong>antes</strong> de clasificarlo: perder
-                    un gasto es peor que tenerlo sin etiqueta.
+                    {tl('landing_journey_coffee_text_lead')} <strong>{tl('landing_journey_coffee_text_strong')}</strong>{' '}
+                    {tl('landing_journey_coffee_text_tail')}
                   </>
                 }
                 artifact={
@@ -582,7 +588,7 @@ export function LandingDayJourney(): React.ReactElement {
                       </div>
                       <span className="landing-journey-ok">
                         <CategoryIcon name="Check" size={12} />
-                        Cafetería, por una regla que ya conocía
+                        {tl('landing_journey_coffee_receipt_ok')}
                       </span>
                     </div>
                   </div>
@@ -593,13 +599,12 @@ export function LandingDayJourney(): React.ReactElement {
                 id="features-telegram"
                 side="down"
                 hour="13:05"
-                cost="te pregunta"
-                title="Un sitio nuevo: no adivina, te pregunta por Telegram."
+                cost={tl('landing_journey_ask_cost')}
+                title={tl('landing_journey_ask_title')}
                 artifact={
                   <BotBubble>
                     <p className="landing-journey-bubble-text">
-                      <strong><Money amountMinor={4250000n} currency="COP" /></strong> en La Puerta Falsa. ¿En qué
-                      categoría va?
+                      <strong><Money amountMinor={4250000n} currency="COP" /></strong> {tl('landing_journey_ask_bubble')}
                     </p>
                     <div className="landing-journey-keys">
                       {CATEGORY_CHOICES.map((cat) => (
@@ -621,27 +626,27 @@ export function LandingDayJourney(): React.ReactElement {
               <Moment
                 side="up"
                 hour="13:06"
-                cost="2 toques"
-                title={<>Tocas «{choice}» y queda como regla.</>}
-                text="La próxima compra ahí entra sola, por el Atajo o por el chat."
+                cost={tl('landing_journey_rule_cost')}
+                title={<>{tl('landing_journey_rule_title_lead')}{choice}{tl('landing_journey_rule_title_tail')}</>}
+                text={tl('landing_journey_rule_text')}
                 artifact={<RulesArt choice={choice} />}
               />
 
               <Moment
                 side="down"
                 hour="19:30"
-                cost="1 mensaje"
-                title="Pagas el taxi en efectivo y escribes «12000 taxi»."
-                text="Ni el efectivo, ni Nequi, ni los QR mandan alerta: una línea de chat los cubre."
+                cost={tl('landing_journey_taxi_cost')}
+                title={tl('landing_journey_taxi_title')}
+                text={tl('landing_journey_taxi_text')}
                 artifact={
                   <div className="landing-journey-chat">
-                    <UserBubble>12000 taxi</UserBubble>
+                    <UserBubble>{tl('landing_journey_taxi_message')}</UserBubble>
                     <BotBubble>
                       <p className="landing-journey-bubble-text">
                         <span className="landing-journey-ok">
-                          <CategoryIcon name="Check" size={12} /> Guardado · Transporte
+                          <CategoryIcon name="Check" size={12} /> {tl('landing_journey_taxi_saved')}
                         </span>
-                        <Money amountMinor={1200000n} currency="COP" /> · ya conocía «taxi»
+                        <Money amountMinor={1200000n} currency="COP" /> {tl('landing_journey_taxi_known')}
                       </p>
                     </BotBubble>
                   </div>
@@ -651,22 +656,22 @@ export function LandingDayJourney(): React.ReactElement {
               <Moment
                 side="up"
                 hour="22:10"
-                cost="1 consulta"
-                title="Antes de dormir, escribes /hoy."
-                text="Las mismas cifras que la app, sumadas en tu zona horaria."
+                cost={tl('landing_journey_today_cost')}
+                title={tl('landing_journey_today_title')}
+                text={tl('landing_journey_today_text')}
                 artifact={<TodayArt />}
               />
 
               <Moment
                 id="features-vision"
                 side="down"
-                hour="Fin de mes"
-                cost="En camino"
+                hour={tl('landing_journey_statement_hour')}
+                cost={tl('landing_journey_statement_cost')}
                 soon
-                title="El extracto recupera lo que se escapó."
+                title={tl('landing_journey_statement_title')}
                 text={
                   <>
-                    <strong>Todavía no está construido</strong>: hoy ese hueco lo cubre el chat.
+                    <strong>{tl('landing_journey_statement_not_built')}</strong>{tl('landing_journey_statement_rest')}
                   </>
                 }
                 artifact={<StatementArt />}
@@ -675,28 +680,28 @@ export function LandingDayJourney(): React.ReactElement {
               <li className="landing-journey-moment landing-journey-moment--up landing-journey-moment--end">
                 <div className="landing-journey-body">
                   <div className="landing-journey-copy">
-                  <p className="landing-journey-end-title">El martes, completo.</p>
+                  <p className="landing-journey-end-title">{tl('landing_journey_end_title')}</p>
                   <dl className="landing-journey-tally">
                     <div className="landing-journey-tally-item">
-                      <dt>gastos</dt>
+                      <dt>{tl('landing_journey_end_expenses')}</dt>
                       <dd>{EXPENSES_IN_THE_DAY}</dd>
                     </div>
                     <div className="landing-journey-tally-item">
-                      <dt>toques</dt>
+                      <dt>{tl('landing_journey_end_taps')}</dt>
                       <dd>2</dd>
                     </div>
                     <div className="landing-journey-tally-item">
-                      <dt>mensaje</dt>
+                      <dt>{tl('landing_journey_end_message')}</dt>
                       <dd>1</dd>
                     </div>
                     <div className="landing-journey-tally-item">
-                      <dt>formularios</dt>
+                      <dt>{tl('landing_journey_end_forms')}</dt>
                       <dd>0</dd>
                     </div>
                   </dl>
                   <p className="landing-journey-end-note">
-                    A mano habrían sido {EXPENSES_IN_THE_DAY * MANUAL_STEPS_PER_EXPENSE} pasos: los{' '}
-                    {MANUAL_STEPS_PER_EXPENSE} de arriba, una vez por gasto.
+                    {tl('landing_journey_end_note_lead')} {EXPENSES_IN_THE_DAY * MANUAL_STEPS_PER_EXPENSE}{' '}
+                    {tl('landing_journey_end_note_mid')} {MANUAL_STEPS_PER_EXPENSE} {tl('landing_journey_end_note_tail')}
                   </p>
                   </div>
                 </div>

@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import React from 'react';
 
+import { tl } from '@/lib/i18n-landing';
+
 /**
  * El héroe.
  *
@@ -19,43 +21,39 @@ import React from 'react';
  */
 export function LandingSectionEnter(): React.ReactElement {
   return (
-    <section id="chapter-enter" className="landing-chapter" aria-label="01 Enter">
+    <section id="chapter-enter" className="landing-chapter" aria-label={tl('landing_hero_section_label')}>
       <div className="landing-hero-stage">
         {/* Palabras de display flanqueando el teléfono del vídeo. Decorativas:
             el <h1> de abajo lleva la frase real para SEO y lectores. */}
         <div className="landing-hand-flank-row" aria-hidden="true">
-          <span className="landing-word-giant landing-word-left">YOUR</span>
+          <span className="landing-word-giant landing-word-left">{tl('landing_hero_flank_left')}</span>
           <div className="landing-phone-spacer" />
-          <span className="landing-word-giant landing-word-right">MONEY</span>
+          <span className="landing-word-giant landing-word-right">{tl('landing_hero_flank_right')}</span>
         </div>
 
         <div className="landing-hero-bottom">
           <h1 className="landing-word-center">
-            Tus gastos se registran solos.
+            {tl('landing_hero_title')}
           </h1>
 
           <p className="landing-word-subhead">
-            Pagas como siempre — tarjeta, Apple Pay, efectivo — y Pilo los
-            anota, los clasifica y te dice cómo vas. Sin abrir ninguna pantalla,
-            sin escribir un solo monto.
+            {tl('landing_hero_subtitle')}
           </p>
 
           <Link href="/sign-in" className="landing-gold-cta-btn">
-            <span>Crear cuenta con tu correo</span>
+            <span>{tl('landing_cta_sign_up_email')}</span>
             <span aria-hidden="true"> →</span>
           </Link>
 
           {/* Lo que hace falta saber antes de pulsar, no después. */}
           <ul className="landing-hero-facts">
-            <li className="landing-hero-fact">Gratis, sin tarjeta</li>
-            <li className="landing-hero-fact">Un código al correo · un minuto</li>
-            <li className="landing-hero-fact">Nunca pedimos tu clave del banco</li>
+            <li className="landing-hero-fact">{tl('landing_hero_fact_free')}</li>
+            <li className="landing-hero-fact">{tl('landing_hero_fact_code')}</li>
+            <li className="landing-hero-fact">{tl('landing_hero_fact_no_bank_key')}</li>
           </ul>
 
           <p className="landing-hero-caveat">
-            La captura automática de compras con tarjeta necesita un iPhone. El
-            efectivo, las transferencias y los QR entran por Telegram o a mano,
-            desde cualquier teléfono.
+            {tl('landing_hero_caveat')}
           </p>
         </div>
       </div>

@@ -8,6 +8,7 @@ import { LandingDayJourney } from '@/components/landing/landing-day-journey';
 import { LandingPrivacyBento } from '@/components/landing/landing-privacy-bento';
 import { CategoryIcon } from '@/components/ui/category-icon';
 import { Money } from '@/components/ui/money';
+import { tl } from '@/lib/i18n-landing';
 
 interface SimulationItem {
   readonly store: string;
@@ -24,30 +25,30 @@ const SIMULATION_POOL: readonly SimulationItem[] = [
   {
     store: 'Starbucks Reserva · Chicó',
     amountMinor: 1850000n,
-    categoryName: 'Cafetería',
+    categoryName: tl('landing_phone_sim_cat_cafe'),
     categoryIcon: 'Coffee',
-    time: 'hace segundos',
+    time: tl('landing_phone_sim_time_now'),
   },
   {
     store: 'Éxito Express · Cra 11',
     amountMinor: 8630000n,
-    categoryName: 'Supermercado',
+    categoryName: tl('landing_phone_sim_cat_grocery'),
     categoryIcon: 'ShoppingCart',
-    time: 'hace segundos',
+    time: tl('landing_phone_sim_time_now'),
   },
   {
     store: 'Uber Trip · Carrera 7',
     amountMinor: 2480000n,
-    categoryName: 'Transporte',
+    categoryName: tl('landing_phone_sim_cat_transport'),
     categoryIcon: 'Car',
-    time: 'hace segundos',
+    time: tl('landing_phone_sim_time_now'),
   },
   {
     store: 'Rappi · Farmacia',
     amountMinor: 3450000n,
-    categoryName: 'Salud',
+    categoryName: tl('landing_phone_sim_cat_health'),
     categoryIcon: 'HeartPulse',
-    time: 'hace segundos',
+    time: tl('landing_phone_sim_time_now'),
   },
 ];
 
@@ -71,10 +72,10 @@ const SIMULATION_POOL: readonly SimulationItem[] = [
  * hay pasarela de pago en ninguna parte del repositorio.
  */
 const HEADLINE_FACTS = [
-  { value: '8→0', label: 'pasos por gasto', note: 'Los ocho de arriba desaparecen. No quedan dos: quedan cero' },
-  { value: '24/7', label: 'capturando', note: 'Con el teléfono bloqueado y en el bolsillo' },
-  { value: '100%', label: 'tuyo y exportable', note: 'Todo tu historial en CSV, cuando quieras, sin pedir permiso' },
-  { value: '$0', label: 'para siempre gratis', note: 'Sin tarjeta, sin publicidad, sin vender tus datos' },
+  { value: tl('landing_facts_steps_value'), label: tl('landing_facts_steps_label'), note: tl('landing_facts_steps_note') },
+  { value: tl('landing_facts_always_value'), label: tl('landing_facts_always_label'), note: tl('landing_facts_always_note') },
+  { value: tl('landing_facts_export_value'), label: tl('landing_facts_export_label'), note: tl('landing_facts_export_note') },
+  { value: tl('landing_facts_free_value'), label: tl('landing_facts_free_label'), note: tl('landing_facts_free_note') },
 ];
 
 /* Las FAQ del final.
@@ -93,52 +94,34 @@ interface Faq {
 }
 
 const FAQS: readonly Faq[] = [
-  {
-    q: '¿Necesito un iPhone?',
-    a: 'Para la captura automática de compras con tarjeta, sí: depende de un Atajo de iOS que lee la alerta de tu banco. Desde cualquier otro teléfono puedes registrar por Telegram escribiendo «12000 almuerzo», o a mano en la app, y todo lo demás funciona igual.',
-  },
-  {
-    q: '¿Tengo que darte la clave de mi banco?',
-    a: 'No, y no hay forma de dárnosla aunque quisieras: no existe ese campo. El Atajo corre en tu teléfono y solo nos manda el monto y el nombre del comercio que venían en la alerta. Nunca tocamos tu cuenta.',
-  },
-  {
-    q: '¿Gratis de verdad? ¿Dónde está la trampa?',
-    a: 'Es un proyecto personal que uso a diario, no una empresa con inversionistas que recuperar. No hay publicidad, no vendemos datos y no hay pasarela de pago en ninguna parte. Si algún día hay un plan pago, lo que ya tengas seguirá siendo tuyo y exportable.',
-  },
-  {
-    q: '¿Qué pasa con el efectivo, Nequi y los QR?',
-    a: 'Ningún SMS los anuncia, así que no entran solos. Le escribes al bot de Telegram —«12000 almuerzo»— y queda registrado y categorizado en el momento. Es el mismo gesto que mandar un mensaje.',
-  },
-  {
-    q: '¿Puedo sacar mis datos si me quiero ir?',
-    a: 'Cuando quieras y sin pedir permiso: un CSV con todo tu historial, once columnas, listo para Excel o para otra app. Está en tu perfil.',
-  },
-  {
-    q: '¿Pilo me va a decir en qué invertir?',
-    a: 'No. Te muestra tu propio comportamiento —en qué se te va el mes, qué se está acelerando— y ahí para. Asesoría financiera es otra cosa, con otra regulación, y no es lo que esto es.',
-  },
+  { q: tl('landing_faq_iphone_q'), a: tl('landing_faq_iphone_a') },
+  { q: tl('landing_faq_bank_key_q'), a: tl('landing_faq_bank_key_a') },
+  { q: tl('landing_faq_trap_q'), a: tl('landing_faq_trap_a') },
+  { q: tl('landing_faq_cash_q'), a: tl('landing_faq_cash_a') },
+  { q: tl('landing_faq_export_q'), a: tl('landing_faq_export_a') },
+  { q: tl('landing_faq_invest_q'), a: tl('landing_faq_invest_a') },
 ];
 
 const MANUAL_STEPS: readonly string[] = [
-  'Terminas de pagar y vuelves a sacar el celular',
-  'Desbloqueas y buscas la app entre las demás',
-  'Esperas a que cargue y pulsas «+»',
-  'Escribes el monto a mano, dígito por dígito',
-  'Eliges la cuenta o la tarjeta con que pagaste',
-  'Buscas la categoría en una lista larga',
-  'Guardas, y repites decenas de veces al mes',
-  'A los pocos días lo dejas, y el mes ya no cuadra',
+  tl('landing_shift_manual_step_1'),
+  tl('landing_shift_manual_step_2'),
+  tl('landing_shift_manual_step_3'),
+  tl('landing_shift_manual_step_4'),
+  tl('landing_shift_manual_step_5'),
+  tl('landing_shift_manual_step_6'),
+  tl('landing_shift_manual_step_7'),
+  tl('landing_shift_manual_step_8'),
 ];
 
 const PILO_STEPS: readonly string[] = [
-  'Pagas normal, con tu tarjeta o con Apple Pay',
-  'Un atajo en tu iPhone lo registra en segundo plano',
-  'El motor de reglas reconoce tus comercios de siempre',
-  'Solo te pregunta la categoría cuando de verdad duda',
-  'Respondes con dos toques en Telegram',
-  'El efectivo y los QR entran por un mensaje de Telegram',
-  'Escribes /hoy o /mes y ves cómo vas',
-  'Nunca abriste un formulario, y el mes cuadra',
+  tl('landing_shift_pilo_step_1'),
+  tl('landing_shift_pilo_step_2'),
+  tl('landing_shift_pilo_step_3'),
+  tl('landing_shift_pilo_step_4'),
+  tl('landing_shift_pilo_step_5'),
+  tl('landing_shift_pilo_step_6'),
+  tl('landing_shift_pilo_step_7'),
+  tl('landing_shift_pilo_step_8'),
 ];
 
 interface InsightExample {
@@ -147,24 +130,15 @@ interface InsightExample {
 }
 
 const INSIGHT_EXAMPLES: readonly InsightExample[] = [
-  {
-    quote: '«Tus pedidos de comida a domicilio de noche vienen subiendo estas últimas semanas.»',
-    desc: 'Detectará cuándo un hábito se acelera, mientras todavía queda mes por delante.',
-  },
-  {
-    quote: '«Hay cobros que se repiten todos los meses y quizá ya no estés usando.»',
-    desc: 'Identificará cargos recurrentes que se camuflan bajo nombres poco claros en el extracto.',
-  },
-  {
-    quote: '«A este ritmo, terminas el mes por encima de lo que gastaste el anterior.»',
-    desc: 'Proyectará hacia dónde va tu comportamiento y te lo dirá mientras aún puedes ajustarlo.',
-  },
+  { quote: tl('landing_insight_habit_quote'), desc: tl('landing_insight_habit_desc') },
+  { quote: tl('landing_insight_recurring_quote'), desc: tl('landing_insight_recurring_desc') },
+  { quote: tl('landing_insight_projection_quote'), desc: tl('landing_insight_projection_desc') },
 ];
 
 export function LandingProductShowcase(): React.ReactElement {
   const [simulatedBalanceMinor, setSimulatedBalanceMinor] = useState<bigint>(348000000n);
   const [simulationStep, setSimulationStep] = useState<number>(0);
-  const [phoneToast, setPhoneToast] = useState<string>('Toca el botón para registrar un pago en vivo');
+  const [phoneToast, setPhoneToast] = useState<string>(tl('landing_phone_toast_idle'));
 
   useEffect(() => {
     if (typeof window === 'undefined' || !('IntersectionObserver' in window)) return;
@@ -194,7 +168,7 @@ export function LandingProductShowcase(): React.ReactElement {
     const currentTx = SIMULATION_POOL[nextStep]!;
     setSimulationStep(nextStep);
     setSimulatedBalanceMinor((prev) => (prev > currentTx.amountMinor ? prev - currentTx.amountMinor : 348000000n));
-    setPhoneToast(`Pago detectado y registrado: ${currentTx.store}`);
+    setPhoneToast(`${tl('landing_phone_toast_detected')} ${currentTx.store}`);
   }
 
   const activeSimulation = SIMULATION_POOL[simulationStep]!;
@@ -203,16 +177,16 @@ export function LandingProductShowcase(): React.ReactElement {
     <section
       id="product-showcase"
       className="landing-showcase-section--app"
-      aria-label="Cómo funciona Pilo"
+      aria-label={tl('landing_showcase_section_label')}
     >
       {/* ── 1. Hero de Sección (El Problema Real vs. Pilo) ────────────── */}
       <div className="landing-app-hero reveal-on-scroll">
         <h2 className="landing-app-headline">
-          Registrar gastos a mano <br />
-          <span className="landing-headline-gold">casi siempre se abandona.</span>
+          {tl('landing_showcase_title_lead')} <br />
+          <span className="landing-headline-gold">{tl('landing_showcase_title_accent')}</span>
         </h2>
         <p className="landing-app-subhead">
-          Las apps tradicionales te exigen abrir una pantalla decenas de veces al mes para anotar cada café. A los pocos días da pereza y el balance no cuadra. Pilo fue diseñado para que registrar tus gastos cueste lo más cerca de <strong className="landing-headline-gold">cero esfuerzo posible</strong>.
+          {tl('landing_showcase_subtitle_lead')} <strong className="landing-headline-gold">{tl('landing_showcase_subtitle_strong')}</strong>{tl('landing_showcase_subtitle_tail')}
         </p>
       </div>
 
@@ -222,7 +196,7 @@ export function LandingProductShowcase(): React.ReactElement {
       <div className="landing-shift-grid reveal-on-scroll">
         <div className="landing-shift-card landing-shift-card--old">
           <div className="landing-shift-head">
-            <h3 className="landing-shift-title">Hasta hoy: anotar cada compra a mano</h3>
+            <h3 className="landing-shift-title">{tl('landing_shift_manual_title')}</h3>
           </div>
           <ol className="landing-shift-steps">
             {MANUAL_STEPS.map((step, i) => (
@@ -236,7 +210,7 @@ export function LandingProductShowcase(): React.ReactElement {
 
         <div className="landing-shift-card landing-shift-card--new">
           <div className="landing-shift-head">
-            <h3 className="landing-shift-title">Con Pilo: lo mismo, sin que hagas nada</h3>
+            <h3 className="landing-shift-title">{tl('landing_shift_pilo_title')}</h3>
           </div>
           <ol className="landing-shift-steps">
             {PILO_STEPS.map((step, i) => (
@@ -273,30 +247,30 @@ export function LandingProductShowcase(): React.ReactElement {
         <div className="landing-app-phone-copy-col">
 
           <h3 className="landing-app-phone-headline">
-            Diseñada para vivir en reposo.
+            {tl('landing_phone_title')}
           </h3>
 
           <p className="landing-app-phone-subhead">
-            Con la estética de un reloj de lujo y la precisión de un libro contable. Pulsa el botón para simular una compra y ver cómo Pilo reacciona en tiempo real.
+            {tl('landing_phone_subtitle')}
           </p>
 
           <div className="landing-app-phone-stats-row">
             <div className="landing-app-phone-stat-item">
               <span className="landing-app-phone-stat-val">0</span>
-              <span className="landing-app-phone-stat-label">Pantallas que abrir</span>
+              <span className="landing-app-phone-stat-label">{tl('landing_phone_stat_screens')}</span>
             </div>
             <div className="landing-app-phone-stat-item">
               <span className="landing-app-phone-stat-val">0</span>
-              <span className="landing-app-phone-stat-label">Formularios manuales</span>
+              <span className="landing-app-phone-stat-label">{tl('landing_phone_stat_forms')}</span>
             </div>
             <div className="landing-app-phone-stat-item">
-              <span className="landing-app-phone-stat-val">Cifrado</span>
-              <span className="landing-app-phone-stat-label">En reposo y en tránsito</span>
+              <span className="landing-app-phone-stat-val">{tl('landing_phone_stat_encrypted_value')}</span>
+              <span className="landing-app-phone-stat-label">{tl('landing_phone_stat_encrypted_label')}</span>
             </div>
           </div>
 
           <Link href="/sign-in" className="landing-luxury-cta-btn">
-            <span>Crear cuenta con tu correo</span>
+            <span>{tl('landing_cta_sign_up_email')}</span>
             <span className="landing-luxury-cta-arrow" aria-hidden="true">
               <CategoryIcon name="ChevronRight" size={15} />
             </span>
@@ -312,7 +286,7 @@ export function LandingProductShowcase(): React.ReactElement {
               {/* Balance Hero Card Real de la App */}
               <div className="landing-phone-app-hero">
                 <div className="landing-phone-app-greeting">
-                  <span>Hola, Camila</span>
+                  <span>{tl('landing_phone_greeting')}</span>
                   <div className="landing-phone-app-avatar">C</div>
                 </div>
                 <div className="landing-phone-app-balance">
@@ -321,7 +295,7 @@ export function LandingProductShowcase(): React.ReactElement {
                 <div className="landing-phone-app-pacing">
                   {/* The label and the per-day average the real balance card
                       shows (balance-hero.tsx): no rating, no projection. */}
-                  Ritmo de gasto · <Money amountMinor={DEMO_DAILY_PACE_MINOR} currency="COP" /> / día
+                  {tl('landing_phone_pace_label')} <Money amountMinor={DEMO_DAILY_PACE_MINOR} currency="COP" /> {tl('landing_phone_pace_unit')}
                 </div>
               </div>
 
@@ -336,7 +310,7 @@ export function LandingProductShowcase(): React.ReactElement {
                       <span className="landing-phone-mini-name">{activeSimulation.store}</span>
                       <span className="landing-phone-mini-meta">
                         <span>{activeSimulation.time}</span>
-                        <span className="landing-phone-auto-badge">Auto</span>
+                        <span className="landing-phone-auto-badge">{tl('landing_phone_auto_badge')}</span>
                       </span>
                     </div>
                   </div>
@@ -353,8 +327,8 @@ export function LandingProductShowcase(): React.ReactElement {
                     <div className="landing-phone-mini-info">
                       <span className="landing-phone-mini-name">Carulla Express</span>
                       <span className="landing-phone-mini-meta">
-                        <span>hace 2h</span>
-                        <span className="landing-phone-auto-badge">Auto</span>
+                        <span>{tl('landing_phone_ledger_time_ago')}</span>
+                        <span className="landing-phone-auto-badge">{tl('landing_phone_auto_badge')}</span>
                       </span>
                     </div>
                   </div>
@@ -371,7 +345,7 @@ export function LandingProductShowcase(): React.ReactElement {
                 className="landing-phone-sim-btn--app"
               >
                 <CategoryIcon name="Zap" size={14} />
-                <span>Simular compra con Apple Pay</span>
+                <span>{tl('landing_phone_sim_button')}</span>
               </button>
 
               <div className="landing-phone-toast">
@@ -388,7 +362,7 @@ export function LandingProductShowcase(): React.ReactElement {
       <div id="features-faq" className="landing-faq reveal-on-scroll">
         <div className="landing-faq-intro">
           <h3 className="landing-faq-headline">
-            Lo que preguntarías <span className="landing-headline-gold">si me tuvieras enfrente.</span>
+            {tl('landing_faq_title_lead')} <span className="landing-headline-gold">{tl('landing_faq_title_accent')}</span>
           </h3>
         </div>
 
@@ -411,10 +385,10 @@ export function LandingProductShowcase(): React.ReactElement {
       <div className="landing-insight-block reveal-on-scroll">
         <div className="landing-insight-header">
           <h3 className="landing-insight-headline">
-            Capturar es la mitad. <span className="landing-headline-gold">La otra es entender.</span>
+            {tl('landing_insight_title_lead')} <span className="landing-headline-gold">{tl('landing_insight_title_accent')}</span>
           </h3>
           <p className="landing-insight-subhead">
-            Todavía no está construido. Son ejemplos del tipo de observación que el sistema podrá generar a partir de tus propios datos. No son cifras reales ni promesas de resultado: son la forma que tendría lo que te diría.
+            {tl('landing_insight_subtitle')}
           </p>
         </div>
 
