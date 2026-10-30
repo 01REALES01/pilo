@@ -274,6 +274,8 @@ La v1 afirmaba que RLS garantizaba aislamiento a nivel de motor. Falso con esta 
 | A1 | **Captura en Android** | **Diferida a propósito.** Todos los usuarios tienen iPhone; primero se prueba el flujo completo ahí y después se amplía el rango |
 | — | Fases 3, 5, 6, 7 | Sin cambios de contenido; van después |
 
+**Trabajo lateral, 30-oct-2026 — rebranding a Pilo.** El autor aprobó el nombre **Pilo** y la mascota (el tití cabeciblanco) para reemplazar «Reasonny», que no se puede escribir después de oírlo. No adelanta ninguna fase: es nombre, arte e iconos, sin tocar el núcleo, la captura ni la base. La guía completa está en `docs/PILO.md` §8. El primer paso es la búsqueda de la marca en la SIC; mientras no esté hecha, no se cambia nada en el código. El cambio va en su propia rama (`chore/rebrand-pilo`) y **no renombra las claves internas** guardadas en los teléfonos de los usuarios. El orden H1 → C1 → L1 → W1 → F2 → A1 no cambia.
+
 **Lo que NO cambia:** la Fase 2 no se descarta ni se degrada — se mueve dos lugares. La auto-categorización (4,8 %) sigue siendo la métrica central, y el OCR sigue siendo lo que más comercios le enseña al motor.
 
 **El coste de esta decisión, dicho:** la medición de 4 semanas del canal Telegram (`METRICS.md`, «Captura por canal», hasta el 21-oct-2026) queda contaminada en cuanto L1 y W1 estén en producción. Se registra el día del cambio como delta, no se reinterpreta la línea base.

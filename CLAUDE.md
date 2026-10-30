@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 App de finanzas personales con ingesta asistida por IA. Autor: Jean Paul Reales.
 
-**Documentos:** `docs/PROJECT_SPEC.md` (arquitectura) · `docs/IMPLEMENTATION_PLAN.md` (bloques y orden) · `docs/METRICS.md` (mediciones) · `docs/AUDIT.md` (histórico).
+**Documentos:** `docs/PROJECT_SPEC.md` (arquitectura) · `docs/IMPLEMENTATION_PLAN.md` (bloques y orden) · `docs/METRICS.md` (mediciones) · `docs/AUDIT.md` (histórico) · `docs/PILO.md` (nueva marca y mascota, guía del rebranding).
 Si el spec y el plan se contradicen, **gana el plan** y el spec se corrige.
 
 ---

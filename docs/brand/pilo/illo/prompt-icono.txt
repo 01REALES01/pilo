@@ -1,0 +1,11 @@
+A 1:1 square app icon, same character and the same enamel-pin rendering as the reference image.
+
+GROUND: deep wine #781d32 filling the whole frame, flat.
+
+CARD: a flat champagne bank card #e4cca6 with rounded corners fills the lower 45% of the frame, seen straight on, with one small rounded chip cell on its left — NO numbers, NO text, NO logo, NO stripes.
+
+CHARACTER: Pilo from the reference — the long smooth white crest sweeping BACK from a flat brow in one soft wave, the deep charcoal face mask, two small pale dot eyes. He peeks over the card's top edge: only the upper part of the head is visible — the crest, the top of the face mask and the two eyes, widened slightly in surprise (eyes become slightly larger round dots; still no mouth). Both small white rounded mitten hands hook over the card's top edge. Nothing else: no body below the card, no tail.
+
+LINE LANGUAGE: every shape bounded by one continuous raised dark metal outline #2a1018 of even width, each cell filled with exactly one flat glossy enamel color; no open strokes.
+
+STYLE: flat hard-enamel look, one subtle uniform sheen; no pin-back, no 3D bevel drama, no photorealistic depth. Must read at 32 px: white crest + dot eyes + card edge.
