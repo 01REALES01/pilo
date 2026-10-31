@@ -1,0 +1,20 @@
+A 1:1 square character cutout — transparent compositing asset, NOT an editorial scene. Same character and the same enamel-pin rendering as the reference image.
+
+Composition (cutout — contact continuity): ONLY the mascot. The character is large and centered, ~70% of the frame height, with the full body visible — the tucked feet fully drawn and not cropped, and a clear transparent margin below. NO environment — no horizon, no floor, no furniture, no objects nearby without contact, no text anywhere.
+
+POSE: seated, leaning back a little in surprise, both mitten hands raised to shoulder height on either side of the face (not covering the mask). Eyes: two SLIGHTLY LARGER round pale dots, still small, still no mouth. The wine tail sticks straight up behind the body.
+
+INTERACTION GEOMETRY:
+- Support contact: the body sits on its own tucked legs.
+- Inactive parts: both raised mittens touch nothing; the tail touches nothing.
+- Protected: the face mask shows only the two eye dots.
+
+CHARACTER (locked, keep exactly on the reference model): Pilo, a cotton-top tamarin with a rounded pear-shaped pale white body and a head as wide as the body. CREST: long, smooth, silky white hair that grows from a straight brow line and sweeps BACK over the skull in one soft wave, falling behind the head down to the shoulders — the crest outline is SMOOTH with a few large rounded locks, NO spikes, NO jagged points, NOT a lion mane. FACE: a deep charcoal face mask shaped like a rounded shield with a flat straight top edge (the brow) and small rounded ears on both sides; the eye marks described in POSE sit right under the flat brow; no mouth, no nose marks, no muzzle. Short white arms with rounded mitten hands (no fingers), short tucked legs. The ONLY accent-colored part is the long tail (deep wine #9b2c45 — must NOT be the body color). Preserve the reference's stubby proportions. Cuteness comes from proportion and roundness only — no accessories or face details beyond the locked spec.
+
+LINE LANGUAGE: draw EVERYTHING as ENAMEL PIN cells: every shape bounded by one continuous raised polished dark metal outline #2a1018 of even width, each cell filled with exactly one flat glossy enamel color; no open or unbounded strokes.
+
+SILHOUETTE (cutout — registration-locked): ONE locked outer contour only, the metal outline. NO second copy of the body outline, NO accent-colored halo or fringe tracing the silhouette. Wine enamel ONLY on the tail.
+
+STYLE: hard-enamel pin look — flat color cells, raised metal lines, one subtle uniform sheen across the enamel; no pin-back hardware, no backing card, no 3D bevel drama, no drop shadow, no photorealistic depth. Flat cells on the character and its contact cluster only — NOT on the background.
+
+PALETTE: outlines dark metal #2a1018. Body and crest enamel white #fbf7f2. Face mask enamel charcoal #2b1a1f. Eye marks pale #fbf7f2. Tail enamel deep wine #9b2c45.

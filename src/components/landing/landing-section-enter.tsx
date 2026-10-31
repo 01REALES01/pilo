@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 
+import { PiloPose } from '@/components/landing/pilo-pose';
 import { tl } from '@/lib/i18n-landing';
 
 /**
@@ -28,11 +29,22 @@ export function LandingSectionEnter(): React.ReactElement {
         <div className="landing-hand-flank-row" aria-hidden="true">
           <span className="landing-word-giant landing-word-left">{tl('landing_hero_flank_left')}</span>
           <div className="landing-phone-spacer" />
-          <span className="landing-word-giant landing-word-right">{tl('landing_hero_flank_right')}</span>
+          <span className="landing-word-giant landing-word-right">
+            {tl('landing_hero_flank_right')}
+            {/* Pilo beside his own words, notebook in hand: the tagline,
+                drawn. Beside the phone, not over it - the video's screen is
+                the hero's picture. Lazy, because phones hide it (no room), and
+                a hidden lazy image is never fetched. */}
+            <PiloPose pose="anota" width={112} className="landing-pilo--hero" />
+          </span>
         </div>
 
         <div className="landing-hero-bottom">
+          {/* The giant words above are aria-hidden, so the tagline they spell
+              is repeated here for readers and search, out of sight: on screen
+              it would be the same three words twice. */}
           <h1 className="landing-word-center">
+            <span className="sr-only">{tl('landing_hero_tagline')} </span>
             {tl('landing_hero_title')}
           </h1>
 

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 
+import { PiloPose } from '@/components/landing/pilo-pose';
 import { CategoryIcon } from '@/components/ui/category-icon';
 import { Money } from '@/components/ui/money';
 import { tl } from '@/lib/i18n-landing';
@@ -138,6 +139,7 @@ export function LandingBanksSection(): React.ReactElement {
   return (
     <div id="features-card" className="landing-banks reveal-on-scroll">
       <div className="landing-banks-head">
+        <PiloPose pose="sorprendido" width={112} className="landing-pilo--banks" />
         <h3 className="landing-banks-title">
           {tl('landing_banks_title_lead')} <span className="landing-headline-gold">{tl('landing_banks_title_accent')}</span>
         </h3>

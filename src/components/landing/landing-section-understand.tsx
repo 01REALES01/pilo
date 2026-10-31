@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
+import { PiloPose } from '@/components/landing/pilo-pose';
 import { tl } from '@/lib/i18n-landing';
 
 // One key for the whole sentence, split here: word order and word count
@@ -57,6 +58,8 @@ export function LandingSectionUnderstand(): React.ReactElement {
       aria-label={tl('landing_understand_section_label')}
     >
       <div className="landing-reveal-stage">
+        <PiloPose pose="pensando" width={128} className="landing-pilo--understand" />
+
         <p className="landing-reveal-statement">
           {STATEMENT_WORDS.map((word, i) => (
             <React.Fragment key={`${word}-${i}`}>

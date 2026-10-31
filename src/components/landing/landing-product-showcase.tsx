@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { LandingBanksSection } from '@/components/landing/landing-banks-section';
 import { LandingDayJourney } from '@/components/landing/landing-day-journey';
 import { LandingPrivacyBento } from '@/components/landing/landing-privacy-bento';
+import { PiloPose } from '@/components/landing/pilo-pose';
 import { CategoryIcon } from '@/components/ui/category-icon';
 import { Money } from '@/components/ui/money';
 import { tl } from '@/lib/i18n-landing';
@@ -361,9 +362,13 @@ export function LandingProductShowcase(): React.ReactElement {
 
       <div id="features-faq" className="landing-faq reveal-on-scroll">
         <div className="landing-faq-intro">
+          <PiloPose pose="feliz" width={112} className="landing-pilo--faq" />
           <h3 className="landing-faq-headline">
             {tl('landing_faq_title_lead')} <span className="landing-headline-gold">{tl('landing_faq_title_accent')}</span>
           </h3>
+          {/* The answers are the author's, signed: one person making it is one
+              of the five differences (docs/PILO_COPY.md §2.2, §3.2). */}
+          <p className="landing-faq-byline">{tl('landing_faq_byline')}</p>
         </div>
 
         <div className="landing-faq-list">

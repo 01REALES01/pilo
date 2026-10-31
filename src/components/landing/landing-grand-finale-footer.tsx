@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
+import { PiloPose } from '@/components/landing/pilo-pose';
 import { t } from '@/lib/i18n';
 import { tl } from '@/lib/i18n-landing';
 
@@ -36,14 +37,8 @@ export function LandingGrandFinaleFooter(): React.ReactElement {
 
       <div className="landing-finale-stage">
         <div className="landing-finale-glass-card">
-          <div className="landing-finale-emblem-wrap">
-            <Image
-              className="landing-finale-emblem"
-              src="/icons/icon-192.png"
-              alt=""
-              width={40}
-              height={40}
-            />
+          <div className="landing-finale-emblem-wrap landing-finale-emblem-wrap--pilo">
+            <PiloPose pose="celebra" width={120} className="landing-pilo--finale" />
             <span className="landing-finale-emblem-text">Pilo</span>
           </div>
 

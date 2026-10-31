@@ -3656,12 +3656,6 @@
   margin-bottom: var(--space-4);
 }
 
-.landing-finale-emblem {
-  width: 40px;
-  height: 40px;
-  border-radius: 9px;
-}
-
 .landing-finale-emblem-text {
   font-family: var(--font-sans-loaded), -apple-system, sans-serif;
   font-size: 1.1rem;
@@ -7554,6 +7548,91 @@ h1.landing-word-center {
     to {
       color: #f2dcc4;
       text-shadow: 0 0 14px rgba(240, 122, 172, 0.7);
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Pilo, drawn (docs/PILO_COPY.md §5.16)
+
+   Six poses, one per section, always beside copy and never on top of a
+   figure. The width comes from the <Image> attributes; CSS only places it.
+
+   The entrance runs on the scroll timeline, like the strike-through above:
+   on the compositor, transform and opacity only, and with the final state as
+   the default, so a browser without view() timelines (or a reader who asked
+   for less motion) simply sees Pilo already there.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.landing-pilo {
+  /* No height: auto here. The <Image> width and height already carry the
+     ratio, and overriding one of them makes next/image flag a half-pixel
+     rounding as a distorted image. */
+  display: block;
+  max-width: 100%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.landing-word-right { position: relative; }
+.landing-pilo--hero {
+  position: absolute;
+  left: 100%;
+  bottom: 0.06em;
+  margin-left: 0.14em;
+  /* In em, so it grows and shrinks with the giant words it stands beside. */
+  width: 1.3em;
+  height: auto;
+}
+.landing-pilo--understand { margin: 0 0 18px; }
+.landing-pilo--banks { margin: 0 auto 14px; }
+.landing-pilo--journey { margin: 0 0 10px; }
+.landing-pilo--faq { margin: 0 0 16px; }
+
+/* The closing card's emblem: Pilo cheering above the wordmark, where the
+   40 px app icon used to sit beside it. */
+.landing-finale-emblem-wrap--pilo {
+  flex-direction: column;
+  gap: 4px;
+}
+
+.landing-faq-byline {
+  margin: 14px 0 0;
+  font-size: 0.95rem;
+  color: var(--landing-champagne-gold);
+}
+
+/* "TÚ PAGAS / PILO ANOTA" is twice as long as "YOUR / MONEY" was. One line
+   per side would not fit beside the phone, so each word takes its own line:
+   min-content makes the box as wide as the longest word, which is five
+   letters, the same as "MONEY". */
+.landing-word-giant {
+  white-space: normal;
+  width: min-content;
+}
+
+@media (max-width: 768px) {
+  .landing-pilo--hero { display: none; }
+  .landing-word-giant { white-space: normal; }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .landing-pilo {
+      animation: landing-pilo-in linear both;
+      animation-timeline: view();
+      animation-range: entry 10% entry 70%;
+    }
+  }
+
+  @keyframes landing-pilo-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px) scale(0.94);
+    }
+    to {
+      opacity: 1;
+      transform: none;
     }
   }
 }

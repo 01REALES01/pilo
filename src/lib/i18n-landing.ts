@@ -21,9 +21,9 @@ import { DEFAULT_LOCALE, type Locale } from './i18n';
 
 export const LANDING_ES = {
   // Metadata and JSON-LD (app/page.tsx)
-  landing_meta_title: 'Pilo — Tus gastos se registran solos',
+  landing_meta_title: 'Pilo — Pagas. Pilo anota.',
   landing_meta_description:
-    'Pagas como siempre y Pilo anota el gasto, lo clasifica y te dice cómo vas. Sin abrir ninguna pantalla y sin escribir montos. Gratis, sin tarjeta.',
+    'Pagas como siempre y Pilo anota el gasto, le pone categoría y te dice cómo vas, sin regaños. Gratis, sin tarjeta.',
   landing_meta_og_image_alt: 'Pilo',
 
   // Calls to action, shared by every section
@@ -48,45 +48,46 @@ export const LANDING_ES = {
   landing_nav_trust_no_ads: 'Sin publicidad',
 
   // 01 — Hero
-  landing_hero_section_label: '01 Enter',
-  landing_hero_flank_left: 'YOUR',
-  landing_hero_flank_right: 'MONEY',
-  landing_hero_title: 'Tus gastos se registran solos.',
+  landing_hero_section_label: '01 Entra',
+  landing_hero_flank_left: 'Tú pagas',
+  landing_hero_flank_right: 'Pilo anota',
+  landing_hero_tagline: 'Pagas. Pilo anota.',
+  landing_hero_title: 'Sin regaños, sin formularios.',
   landing_hero_subtitle:
-    'Pagas como siempre — tarjeta, Apple Pay, efectivo — y Pilo los anota, los clasifica y te dice cómo vas. Sin abrir ninguna pantalla, sin escribir un solo monto.',
+    'Pagas como siempre, con tarjeta o con Apple Pay, y Pilo anota el gasto, le pone categoría y te dice cómo vas, sin que abras la app. El efectivo entra con una línea de chat.',
   landing_hero_fact_free: 'Gratis, sin tarjeta',
   landing_hero_fact_code: 'Un código al correo · un minuto',
   landing_hero_fact_no_bank_key: 'Nunca pedimos tu clave del banco',
   landing_hero_caveat:
-    'La captura automática de compras con tarjeta necesita un iPhone. El efectivo, las transferencias y los QR entran por Telegram o a mano, desde cualquier teléfono.',
+    'Que las compras con tarjeta se anoten solas necesita un iPhone. El efectivo, las transferencias y los QR entran por Telegram o a mano, desde cualquier teléfono.',
 
   // 02 — Observe
-  landing_observe_section_label: '02 Observe',
-  landing_observe_title_lead: 'Tu dinero tiene un',
-  landing_observe_title_accent: 'ritmo propio.',
+  landing_observe_section_label: '02 Observa',
+  landing_observe_title_lead: 'Tu mes,',
+  landing_observe_title_accent: 'de un vistazo.',
   landing_observe_caption:
-    'Pilo observa ese ritmo: agrupa tus gastos por periodo y te muestra cuándo se aceleran, antes de que el mes cierre.',
+    'Pilo junta tus gastos por categoría y por día, para que veas en qué se te va el mes sin armar una hoja de cálculo.',
 
   // 03 — Understand. The statement is split on spaces for the word reveal.
-  landing_understand_section_label: '03 Understand',
-  landing_understand_statement: 'El dinero no es estático. Tu claridad tampoco.',
+  landing_understand_section_label: '03 Entiende',
+  landing_understand_statement: 'Pilo no te regaña. Te dice cómo vas.',
   landing_understand_subtitle:
-    'Pilo aprende tus comercios: la segunda vez, ya no pregunta. Una interfaz pensada para darte dirección, no culpa.',
+    'Aprende tus comercios: la segunda vez, ya no pregunta. Dirección, no culpa.',
 
   // 04 — Trust
-  landing_trust_section_label: '04 Trust',
-  landing_trust_title_lead: 'Comprende exactamente',
-  landing_trust_title_accent: 'dónde estás.',
+  landing_trust_section_label: '04 Confía',
+  landing_trust_title_lead: 'Cuánto llevas este mes,',
+  landing_trust_title_accent: 'sin buscarlo.',
   landing_trust_subtitle:
-    'Sin pantallas saturadas de números. Solo cuánto llevas este mes, sin tener que buscarlo.',
+    'Sin pantallas llenas de números. Escribes /mes en Telegram o abres la app, y ahí está.',
 
   // Showcase — section hero
   landing_showcase_section_label: 'Cómo funciona Pilo',
-  landing_showcase_title_lead: 'Registrar gastos a mano',
-  landing_showcase_title_accent: 'casi siempre se abandona.',
+  landing_showcase_title_lead: 'Anotar cada gasto a mano',
+  landing_showcase_title_accent: 'dura poco.',
   landing_showcase_subtitle_lead:
-    'Las apps tradicionales te exigen abrir una pantalla decenas de veces al mes para anotar cada café. A los pocos días da pereza y el balance no cuadra. Pilo fue diseñado para que registrar tus gastos cueste lo más cerca de',
-  landing_showcase_subtitle_strong: 'cero esfuerzo posible',
+    'Las apps de siempre te piden abrir una pantalla decenas de veces al mes para anotar cada café. A los pocos días da pereza y el mes no cuadra. Pilo está hecho para que anotar te cueste',
+  landing_showcase_subtitle_strong: 'casi nada',
   landing_showcase_subtitle_tail: '.',
 
   // Showcase — the two-column contrast. Both lists must keep the same length.
@@ -99,10 +100,10 @@ export const LANDING_ES = {
   landing_shift_manual_step_6: 'Buscas la categoría en una lista larga',
   landing_shift_manual_step_7: 'Guardas, y repites decenas de veces al mes',
   landing_shift_manual_step_8: 'A los pocos días lo dejas, y el mes ya no cuadra',
-  landing_shift_pilo_title: 'Con Pilo: lo mismo, sin que hagas nada',
+  landing_shift_pilo_title: 'Con Pilo: casi todo se anota solo',
   landing_shift_pilo_step_1: 'Pagas normal, con tu tarjeta o con Apple Pay',
-  landing_shift_pilo_step_2: 'Un atajo en tu iPhone lo registra en segundo plano',
-  landing_shift_pilo_step_3: 'El motor de reglas reconoce tus comercios de siempre',
+  landing_shift_pilo_step_2: 'Un Atajo en tu iPhone lo anota en segundo plano',
+  landing_shift_pilo_step_3: 'Pilo reconoce tus comercios de siempre',
   landing_shift_pilo_step_4: 'Solo te pregunta la categoría cuando de verdad duda',
   landing_shift_pilo_step_5: 'Respondes con dos toques en Telegram',
   landing_shift_pilo_step_6: 'El efectivo y los QR entran por un mensaje de Telegram',
@@ -114,19 +115,19 @@ export const LANDING_ES = {
   landing_facts_steps_label: 'pasos por gasto',
   landing_facts_steps_note: 'Los ocho de arriba desaparecen. No quedan dos: quedan cero',
   landing_facts_always_value: '24/7',
-  landing_facts_always_label: 'capturando',
+  landing_facts_always_label: 'anotando',
   landing_facts_always_note: 'Con el teléfono bloqueado y en el bolsillo',
   landing_facts_export_value: '100%',
   landing_facts_export_label: 'tuyo y exportable',
   landing_facts_export_note: 'Todo tu historial en CSV, cuando quieras, sin pedir permiso',
-  landing_facts_free_value: '$0',
-  landing_facts_free_label: 'para siempre gratis',
-  landing_facts_free_note: 'Sin tarjeta, sin publicidad, sin vender tus datos',
+  landing_facts_free_value: 'Gratis',
+  landing_facts_free_label: 'sin tarjeta',
+  landing_facts_free_note: 'Sin publicidad y sin vender tus datos',
 
   // Showcase — the phone banner and its live mockup
-  landing_phone_title: 'Diseñada para vivir en reposo.',
+  landing_phone_title: 'Pulsa y mira qué pasa cuando pagas.',
   landing_phone_subtitle:
-    'Con la estética de un reloj de lujo y la precisión de un libro contable. Pulsa el botón para simular una compra y ver cómo Pilo reacciona en tiempo real.',
+    'Simula una compra con Apple Pay: Pilo la anota y el saldo cambia, sin que toques nada más.',
   landing_phone_stat_screens: 'Pantallas que abrir',
   landing_phone_stat_forms: 'Formularios manuales',
   landing_phone_stat_encrypted_value: 'Cifrado',
@@ -142,16 +143,17 @@ export const LANDING_ES = {
   landing_phone_sim_cat_transport: 'Transporte',
   landing_phone_sim_cat_health: 'Salud',
   landing_phone_sim_button: 'Simular compra con Apple Pay',
-  landing_phone_toast_idle: 'Toca el botón para registrar un pago en vivo',
+  landing_phone_toast_idle: 'Toca el botón para simular un pago',
   // Followed by the merchant name, after a space.
-  landing_phone_toast_detected: 'Pago detectado y registrado:',
+  landing_phone_toast_detected: 'Anotado:',
 
   // Showcase — FAQ
   landing_faq_title_lead: 'Lo que preguntarías',
   landing_faq_title_accent: 'si me tuvieras enfrente.',
+  landing_faq_byline: 'Responde Jean Paul, que hace Pilo.',
   landing_faq_iphone_q: '¿Necesito un iPhone?',
   landing_faq_iphone_a:
-    'Para la captura automática de compras con tarjeta, sí: depende de un Atajo de iOS que lee la alerta de tu banco. Desde cualquier otro teléfono puedes registrar por Telegram escribiendo «12000 almuerzo», o a mano en la app, y todo lo demás funciona igual.',
+    'Para que las compras con tarjeta se anoten solas, sí: depende de un Atajo de iOS que lee la alerta de tu banco. Desde cualquier otro teléfono puedes anotar por Telegram escribiendo «12000 almuerzo», o a mano en la app, y todo lo demás funciona igual.',
   landing_faq_bank_key_q: '¿Tengo que darte la clave de mi banco?',
   landing_faq_bank_key_a:
     'No, y no hay forma de dárnosla aunque quisieras: no existe ese campo. El Atajo corre en tu teléfono y solo nos manda el monto y el nombre del comercio que venían en la alerta. Nunca tocamos tu cuenta.',
@@ -160,17 +162,17 @@ export const LANDING_ES = {
     'Es un proyecto personal que uso a diario, no una empresa con inversionistas que recuperar. No hay publicidad, no vendemos datos y no hay pasarela de pago en ninguna parte. Si algún día hay un plan pago, lo que ya tengas seguirá siendo tuyo y exportable.',
   landing_faq_cash_q: '¿Qué pasa con el efectivo, Nequi y los QR?',
   landing_faq_cash_a:
-    'Ningún SMS los anuncia, así que no entran solos. Le escribes al bot de Telegram —«12000 almuerzo»— y queda registrado y categorizado en el momento. Es el mismo gesto que mandar un mensaje.',
+    'Ningún SMS los anuncia, así que no entran solos. Le escribes al bot de Telegram —«12000 almuerzo»— y queda anotado, con su categoría, en el momento. Es el mismo gesto que mandar un mensaje.',
   landing_faq_export_q: '¿Puedo sacar mis datos si me quiero ir?',
   landing_faq_export_a:
     'Cuando quieras y sin pedir permiso: un CSV con todo tu historial, once columnas, listo para Excel o para otra app. Está en tu perfil.',
   landing_faq_invest_q: '¿Pilo me va a decir en qué invertir?',
   landing_faq_invest_a:
-    'No. Te muestra tu propio comportamiento —en qué se te va el mes, qué se está acelerando— y ahí para. Asesoría financiera es otra cosa, con otra regulación, y no es lo que esto es.',
+    'No. Te muestra en qué se te va el mes, y ahí para. Asesoría financiera es otra cosa, con otra regulación, y no es lo que esto es.',
 
   // Showcase — insight examples (not built; the subtitle says so)
-  landing_insight_title_lead: 'Capturar es la mitad.',
-  landing_insight_title_accent: 'La otra es entender.',
+  landing_insight_title_lead: 'Anotar es la mitad.',
+  landing_insight_title_accent: 'La otra, entender.',
   landing_insight_subtitle:
     'Todavía no está construido. Son ejemplos del tipo de observación que el sistema podrá generar a partir de tus propios datos. No son cifras reales ni promesas de resultado: son la forma que tendría lo que te diría.',
   landing_insight_habit_quote:
@@ -205,7 +207,7 @@ export const LANDING_ES = {
   landing_journey_coffee_text_lead: 'El Atajo lee la alerta del banco y lo guarda',
   landing_journey_coffee_text_strong: 'antes',
   landing_journey_coffee_text_tail:
-    'de clasificarlo: perder un gasto es peor que tenerlo sin etiqueta.',
+    'de ponerle categoría: perder un gasto es peor que tenerlo sin etiqueta.',
   landing_journey_coffee_receipt_ok: 'Cafetería, por una regla que ya conocía',
 
   // Day journey — 13:05, the question. The bubble follows the amount.
@@ -256,14 +258,14 @@ export const LANDING_ES = {
   landing_journey_end_note_tail: 'de arriba, una vez por gasto.',
 
   // Banks
-  landing_banks_title_lead: 'Captura automática con tus',
-  landing_banks_title_accent: 'bancos que envían SMS.',
+  landing_banks_title_lead: 'Se anota solo con los bancos',
+  landing_banks_title_accent: 'que te avisan por SMS.',
   landing_banks_subtitle:
-    'Si tu banco te avisa por SMS cada compra, el Atajo de iOS lo procesa en segundo plano. Sin contraseñas bancarias ni intermediarios.',
+    'Si tu banco te avisa cada compra por SMS, el Atajo de iOS la anota en segundo plano. Sin la clave de tu banco y sin intermediarios.',
   landing_banks_bancolombia_text:
-    'Los SMS de compras y de pagos con Apple Pay. Entran solos, clasificados, sin que abras nada.',
+    'Los SMS de compras y de pagos con Apple Pay. Entran solos, con su categoría, sin que abras nada.',
   landing_banks_bogota_text:
-    'Las alertas SMS de débito y de crédito. Mismo Atajo, mismo resultado: el gasto aparece registrado.',
+    'Las alertas SMS de débito y de crédito. Mismo Atajo, mismo resultado: el gasto aparece anotado.',
   landing_banks_manual_title: '¿Nu o Nequi?',
   landing_banks_manual_text:
     'No mandan SMS por compras y iOS no deja leer sus notificaciones. Entran por Telegram, con una línea.',
@@ -281,10 +283,9 @@ export const LANDING_ES = {
     'Tus credenciales nunca salen de tu teléfono: el Atajo corre en tu iPhone y solo envía el monto y el comercio del SMS.',
 
   // Privacy bento
-  landing_vault_title_lead: 'Tu privacidad no es una opción',
-  landing_vault_title_accent: 'de configuración.',
-  landing_vault_subtitle:
-    'Es la arquitectura del sistema. Esto es lo que eso significa, en concreto.',
+  landing_vault_title_lead: 'Tu privacidad no es',
+  landing_vault_title_accent: 'un ajuste más.',
+  landing_vault_subtitle: 'Viene en cómo está hecho Pilo. Esto es lo que significa, en concreto.',
   landing_vault_zero_label: 'datos vendidos',
   landing_vault_zero_text: 'Ni publicidad, ni perfiles, ni terceros.',
   landing_vault_bank_key_title: 'Sin la clave de tu banco',
@@ -310,13 +311,12 @@ export const LANDING_ES = {
 
   // Footer
   landing_footer_label: 'Cierre y pie de página',
-  landing_footer_title_lead: 'Que registrar un gasto',
-  landing_footer_title_accent: 'deje de ser una tarea.',
-  landing_footer_subtitle:
-    'Empieza a registrar tus gastos con casi cero esfuerzo y deja que el sistema te diga lo que importa, sin que tengas que buscarlo.',
+  landing_footer_title_lead: 'Pagas.',
+  landing_footer_title_accent: 'Pilo anota.',
+  landing_footer_subtitle: 'Sin regaños, sin formularios. Gratis y sin tarjeta.',
   landing_footer_how_heading: 'Cómo funciona',
-  landing_footer_how_zero_touch: 'Registro sin esfuerzo',
-  landing_footer_how_telegram: 'Notificaciones en Telegram',
+  landing_footer_how_zero_touch: 'Se anota solo',
+  landing_footer_how_telegram: 'El bot de Telegram',
   landing_footer_how_faq: 'Preguntas frecuentes',
   landing_footer_privacy_heading: 'Privacidad',
   landing_footer_privacy_isolation: 'Aislamiento por usuario',
@@ -332,9 +332,9 @@ export const LANDING_ES = {
 
 export const LANDING_EN = {
   // Metadata and JSON-LD (app/page.tsx)
-  landing_meta_title: 'Pilo — Your expenses log themselves',
+  landing_meta_title: 'Pilo — You pay. Pilo keeps track.',
   landing_meta_description:
-    'Pay the way you always do and Pilo logs the expense, sorts it and tells you how you are doing. No screens to open, no amounts to type. Free, no card required.',
+    'You pay as usual and Pilo writes the expense down, files it under a category and tells you how you are doing, without the lecture. Free, no card.',
   landing_meta_og_image_alt: 'Pilo',
 
   // Calls to action, shared by every section
@@ -360,11 +360,12 @@ export const LANDING_EN = {
 
   // 01 — Hero
   landing_hero_section_label: '01 Enter',
-  landing_hero_flank_left: 'YOUR',
-  landing_hero_flank_right: 'MONEY',
-  landing_hero_title: 'Your expenses log themselves.',
+  landing_hero_flank_left: 'You pay',
+  landing_hero_flank_right: 'Pilo tracks',
+  landing_hero_tagline: 'You pay. Pilo keeps track.',
+  landing_hero_title: 'No lectures, no forms.',
   landing_hero_subtitle:
-    'Pay the way you always do — card, Apple Pay, cash — and Pilo writes them down, sorts them and tells you how you are doing. Without opening a single screen, without typing a single amount.',
+    'Pay as usual, by card or Apple Pay, and Pilo writes the expense down, files it and tells you how you are doing, without you opening the app. Cash goes in with one chat line.',
   landing_hero_fact_free: 'Free, no card required',
   landing_hero_fact_code: 'A code to your email · one minute',
   landing_hero_fact_no_bank_key: 'We never ask for your bank password',
@@ -373,31 +374,31 @@ export const LANDING_EN = {
 
   // 02 — Observe
   landing_observe_section_label: '02 Observe',
-  landing_observe_title_lead: 'Your money has a',
-  landing_observe_title_accent: 'rhythm of its own.',
+  landing_observe_title_lead: 'Your month,',
+  landing_observe_title_accent: 'at a glance.',
   landing_observe_caption:
-    'Pilo watches that rhythm: it groups your expenses by period and shows you when they speed up, before the month closes.',
+    'Pilo groups your spending by category and by day, so you can see where the month goes without building a spreadsheet.',
 
   // 03 — Understand. The statement is split on spaces for the word reveal.
   landing_understand_section_label: '03 Understand',
-  landing_understand_statement: 'Money is not static. Neither is your clarity.',
+  landing_understand_statement: 'Pilo doesn\'t lecture. He tells you how it\'s going.',
   landing_understand_subtitle:
-    'Pilo learns your merchants: the second time, it no longer asks. An interface designed to give you direction, not guilt.',
+    'He learns your shops: the second time, he doesn\'t ask. Direction, not guilt.',
 
   // 04 — Trust
   landing_trust_section_label: '04 Trust',
-  landing_trust_title_lead: 'Understand exactly',
-  landing_trust_title_accent: 'where you stand.',
+  landing_trust_title_lead: 'What you\'ve spent this month,',
+  landing_trust_title_accent: 'without digging.',
   landing_trust_subtitle:
-    'No screens crammed with numbers. Just how much you have spent this month, without having to look for it.',
+    'No screens full of numbers. Type /mes in Telegram or open the app, and there it is.',
 
   // Showcase — section hero
   landing_showcase_section_label: 'How Pilo works',
-  landing_showcase_title_lead: 'Logging expenses by hand',
-  landing_showcase_title_accent: 'almost always gets abandoned.',
+  landing_showcase_title_lead: 'Writing down every expense by hand',
+  landing_showcase_title_accent: 'doesn\'t last.',
   landing_showcase_subtitle_lead:
-    'Traditional apps make you open a screen dozens of times a month to write down every coffee. After a few days it gets tedious and the balance stops adding up. Pilo was designed so that logging your expenses takes as close to',
-  landing_showcase_subtitle_strong: 'zero effort as possible',
+    'Most apps ask you to open a screen dozens of times a month to log every coffee. After a few days it gets old and the month stops adding up. Pilo is built so keeping track costs you',
+  landing_showcase_subtitle_strong: 'almost nothing',
   landing_showcase_subtitle_tail: '.',
 
   // Showcase — the two-column contrast. Both lists must keep the same length.
@@ -410,10 +411,10 @@ export const LANDING_EN = {
   landing_shift_manual_step_6: 'You look for the category in a long list',
   landing_shift_manual_step_7: 'You save, and repeat it dozens of times a month',
   landing_shift_manual_step_8: 'A few days later you give up, and the month no longer adds up',
-  landing_shift_pilo_title: 'With Pilo: the same, without you doing anything',
+  landing_shift_pilo_title: 'With Pilo: most of it logs itself',
   landing_shift_pilo_step_1: 'You pay as usual, with your card or Apple Pay',
   landing_shift_pilo_step_2: 'A Shortcut on your iPhone logs it in the background',
-  landing_shift_pilo_step_3: 'The rules engine recognizes your usual merchants',
+  landing_shift_pilo_step_3: 'Pilo recognises your usual shops',
   landing_shift_pilo_step_4: 'It only asks for the category when it is truly unsure',
   landing_shift_pilo_step_5: 'You answer with two taps in Telegram',
   landing_shift_pilo_step_6: 'Cash and QR payments come in through a Telegram message',
@@ -430,14 +431,14 @@ export const LANDING_EN = {
   landing_facts_export_value: '100%',
   landing_facts_export_label: 'yours and exportable',
   landing_facts_export_note: 'Your whole history in CSV, whenever you want, without asking permission',
-  landing_facts_free_value: '$0',
-  landing_facts_free_label: 'free forever',
-  landing_facts_free_note: 'No card, no ads, no selling your data',
+  landing_facts_free_value: 'Free',
+  landing_facts_free_label: 'no card',
+  landing_facts_free_note: 'No ads, and your data is never sold',
 
   // Showcase — the phone banner and its live mockup
-  landing_phone_title: 'Designed to stay at rest.',
+  landing_phone_title: 'Tap and watch what happens when you pay.',
   landing_phone_subtitle:
-    'The looks of a luxury watch and the precision of an accounting ledger. Tap the button to simulate a purchase and watch Pilo react in real time.',
+    'Simulate an Apple Pay purchase: Pilo logs it and the balance updates, with nothing else to tap.',
   landing_phone_stat_screens: 'Screens to open',
   landing_phone_stat_forms: 'Manual forms',
   landing_phone_stat_encrypted_value: 'Encrypted',
@@ -453,13 +454,14 @@ export const LANDING_EN = {
   landing_phone_sim_cat_transport: 'Transport',
   landing_phone_sim_cat_health: 'Health',
   landing_phone_sim_button: 'Simulate an Apple Pay purchase',
-  landing_phone_toast_idle: 'Tap the button to log a payment live',
+  landing_phone_toast_idle: 'Tap the button to simulate a payment',
   // Followed by the merchant name, after a space.
-  landing_phone_toast_detected: 'Payment detected and logged:',
+  landing_phone_toast_detected: 'Logged:',
 
   // Showcase — FAQ
   landing_faq_title_lead: 'What you would ask',
   landing_faq_title_accent: 'if I were sitting across from you.',
+  landing_faq_byline: 'Answered by Jean Paul, who makes Pilo.',
   landing_faq_iphone_q: 'Do I need an iPhone?',
   landing_faq_iphone_a:
     "For automatic capture of card purchases, yes: it relies on an iOS Shortcut that reads your bank's alert. From any other phone you can log through Telegram by typing “12000 lunch”, or by hand in the app, and everything else works the same.",
@@ -477,10 +479,10 @@ export const LANDING_EN = {
     'Whenever you want and without asking permission: a CSV with your whole history, eleven columns, ready for Excel or another app. It is in your profile.',
   landing_faq_invest_q: 'Is Pilo going to tell me what to invest in?',
   landing_faq_invest_a:
-    'No. It shows you your own behavior — where your month goes, what is speeding up — and stops there. Financial advice is something else, with its own regulation, and that is not what this is.',
+    'No. It shows you where your month goes, and stops there. Financial advice is something else, with its own regulation, and it is not what this is.',
 
   // Showcase — insight examples (not built; the subtitle says so)
-  landing_insight_title_lead: 'Capturing is half of it.',
+  landing_insight_title_lead: 'Logging is half of it.',
   landing_insight_title_accent: 'The other half is understanding.',
   landing_insight_subtitle:
     'It is not built yet. These are examples of the kind of observation the system will be able to make from your own data. They are not real figures or promised results: they are the shape of what it would tell you.',
@@ -568,10 +570,10 @@ export const LANDING_EN = {
   landing_journey_end_note_tail: 'above, once per expense.',
 
   // Banks
-  landing_banks_title_lead: 'Automatic capture with your',
-  landing_banks_title_accent: 'banks that send SMS.',
+  landing_banks_title_lead: 'It logs itself with banks',
+  landing_banks_title_accent: 'that text you.',
   landing_banks_subtitle:
-    'If your bank texts you about every purchase, the iOS Shortcut processes it in the background. No bank passwords, no middlemen.',
+    'If your bank texts you about every purchase, the iOS Shortcut logs it in the background. No bank password, no middlemen.',
   landing_banks_bancolombia_text:
     'Purchase and Apple Pay payment SMS. They come in on their own, categorized, without you opening anything.',
   landing_banks_bogota_text:
@@ -593,9 +595,9 @@ export const LANDING_EN = {
     'Your credentials never leave your phone: the Shortcut runs on your iPhone and only sends the amount and the merchant from the SMS.',
 
   // Privacy bento
-  landing_vault_title_lead: 'Your privacy is not an option',
-  landing_vault_title_accent: 'in your settings.',
-  landing_vault_subtitle: 'It is how the system is built. Here is what that means, concretely.',
+  landing_vault_title_lead: 'Your privacy isn\'t',
+  landing_vault_title_accent: 'just a setting.',
+  landing_vault_subtitle: 'It\'s built into how Pilo works. Here is what that means, concretely.',
   landing_vault_zero_label: 'data sold',
   landing_vault_zero_text: 'No ads, no profiles, no third parties.',
   landing_vault_bank_key_title: 'No bank password',
@@ -621,13 +623,12 @@ export const LANDING_EN = {
 
   // Footer
   landing_footer_label: 'Closing and footer',
-  landing_footer_title_lead: 'Make logging an expense',
-  landing_footer_title_accent: 'stop being a chore.',
-  landing_footer_subtitle:
-    'Start logging your expenses with almost zero effort and let the system tell you what matters, without you having to look for it.',
+  landing_footer_title_lead: 'You pay.',
+  landing_footer_title_accent: 'Pilo keeps track.',
+  landing_footer_subtitle: 'No lectures, no forms. Free, no card.',
   landing_footer_how_heading: 'How it works',
-  landing_footer_how_zero_touch: 'Effortless logging',
-  landing_footer_how_telegram: 'Telegram notifications',
+  landing_footer_how_zero_touch: 'Logs itself',
+  landing_footer_how_telegram: 'The Telegram bot',
   landing_footer_how_faq: 'Frequently asked questions',
   landing_footer_privacy_heading: 'Privacy',
   landing_footer_privacy_isolation: 'Per-user isolation',

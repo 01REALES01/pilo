@@ -119,6 +119,8 @@ La ficha completa, en el formato que illo necesita, está en [`illo/character.md
 | [`pilo-cuerpo-a.png`](brand/pilo/pilo-cuerpo-a.png), [`pilo-cuerpo-b.png`](brand/pilo/pilo-cuerpo-b.png) | Cuerpo entero, sentado, de frente | Landing y bienvenida. Es la vista más débil (§3.1) |
 | [`illo/character.md`](brand/pilo/illo/character.md) | La ficha cerrada del personaje, en inglés | La lee illo; es la definición del personaje |
 | [`illo/prompt-*.txt`](brand/pilo/illo/) | Los textos exactos con que se generó cada imagen | Para repetir o ajustar una imagen |
+| [`poses/`](brand/pilo/poses/) | **Las seis poses** del 31-oct-2026, recortes con fondo transparente, 1254 × 1254: anota, feliz, sorprendido, pensando, dormido y celebra | Maestros. Lo que sirve la landing son las copias en WebP de `public/images/pilo/`, recortadas a 480 px por el lado largo (~25-30 KB cada una) |
+| [`illo/poses/`](brand/pilo/illo/poses/) | El prompt exacto de cada pose | Se generaron con `--cutout` y la hoja de referencia como `--ref`, dos por pose, y se eligió una |
 
 Los prompts guardados son **los que se usaron**, tal cual. Por eso `prompt-cuerpo.txt` y `prompt-busto.txt` todavía piden un hocico que el modelo no dibujó. La ficha `character.md` ya no lo pide y añade las orejas que sí salieron.
 
@@ -207,7 +209,7 @@ Salen de los principios del proyecto (`IMPLEMENTATION_PLAN.md` §3):
 
 ### 5.2 Expresiones y momentos
 
-Pilo no tiene boca, así que las expresiones son **marcas en los ojos** más la pose. Las marcas están cerradas en la ficha (`character.md`) para que el modelo las repita igual. **Ninguna está generada todavía** (§8.2).
+Pilo no tiene boca, así que las expresiones son **marcas en los ojos** más la pose. Las marcas están cerradas en la ficha (`character.md`) para que el modelo las repita igual. Tranquilo es la hoja de referencia; **las otras cinco están generadas** desde el 31-oct-2026, de cuerpo entero y con fondo transparente (§3.4, `poses/`), más una pose que no es una expresión: **anota**, tranquilo con una libreta en blanco. Viven en la landing (`PILO_COPY.md` §5.16). Para el bot y la bienvenida hacen falta en busto, y esas siguen pendientes.
 
 | Expresión | Ojos | Momento del producto |
 | :--- | :--- | :--- |
@@ -309,7 +311,7 @@ Se genera con illo y la hoja de referencia (§3.5), salvo lo que dice «vector»
 | Favicon 16 y 32 px | Pestaña del navegador | Solo el copete y la cara, sin tarjeta (§5.1, regla 6) |
 | Marca de una tinta | Sellos, fondos de un color, impresión | Silueta del copete y la cara |
 | Logotipo | Pilo junto a la palabra «Pilo» | Con la tipografía de la app (`DESIGN_SYSTEM.md`) |
-| Las seis expresiones (§5.2) | Bienvenida, estados vacíos, bot | Busto, con `--ref` |
+| ~~Las seis expresiones (§5.2)~~ | Bienvenida, estados vacíos, bot | **Hechas** el 31-oct-2026 de cuerpo entero, como recortes (§3.4). Para el bot hacen falta en busto: siguen pendientes |
 | ~~Avatar del bot~~ | Foto de perfil en Telegram y WhatsApp | **Hecho**: `pilo-avatar-bot.jpg`. Falta subirlo (§8.4) |
 | Imagen Open Graph (1200 × 630) | Vista previa al compartir enlaces | Pilo + nombre sobre fondo ciruela |
 | *Opcional:* copete del icono | Visto desde arriba, el copete se parece a crema batida | Que arranque hacia arriba desde la frente antes de caer. El autor aprobó el icono tal como está |

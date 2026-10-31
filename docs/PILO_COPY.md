@@ -1,6 +1,6 @@
 # Pilo — plan del cambio de copy
 
-> **Estado (30-oct-2026).** Decisiones tomadas (§7). En ejecución, en el orden de §8. El rebranding (`chore/rebrand-pilo`) cambió la palabra «Reasonny» por «Pilo» y nada más: el copy sigue siendo el de Reasonny, con otro nombre. Este documento planifica la reescritura de **todo el copy de la landing**, y después el del resto del producto, para que suene a Pilo y no a cualquier app de finanzas.
+> **Estado (31-oct-2026).** Decisiones tomadas (§7). Los tres pasos de §8 están hechos en sus ramas, sin fusionar ni subir; falta la medición de §8.2 y salir a producción. El rebranding (`chore/rebrand-pilo`) cambió la palabra «Reasonny» por «Pilo» y nada más: el copy sigue siendo el de Reasonny, con otro nombre. Este documento planifica la reescritura de **todo el copy de la landing**, y después el del resto del producto, para que suene a Pilo y no a cualquier app de finanzas.
 >
 > Se apoya en [`PILO.md`](PILO.md): la marca, la mascota y sus reglas de comportamiento (§5). Lo que aquí se decide sobre la voz pasa después a `PILO.md` §5.3.
 
@@ -288,9 +288,16 @@ Tres ramas, en este orden, para que cada diff se pueda revisar solo:
 | :--- | :--- | :--- | :--- |
 | 1 | `fix/landing-false-claims` | Los puntos 1 a 12 de §4, con el texto mínimo que los vuelve verdad | Es un bug en producción y no espera a la voz. Se puede salir ya |
 | 2 | `refactor/landing-copy-to-catalog` | Mover cada texto de la landing al catálogo de `src/lib/i18n.ts`, **sin cambiar una palabra** | Un movimiento mecánico se revisa en minutos. Mezclado con la reescritura, no se puede revisar ni una cosa ni la otra |
-| 3 | `feat/pilo-copy-landing` | La reescritura, sección por sección, en los dos idiomas | Ya con las decisiones de §7 tomadas |
+| 3 | `feat/pilo-copy-landing` | La reescritura, sección por sección, en los dos idiomas, y las poses de Pilo (§5.16) | Ya con las decisiones de §7 tomadas |
 
 Después, una rama por superficie de §6.
+
+**Lo que cambió al ejecutarlo (31-oct-2026):**
+
+- **El catálogo de la landing va aparte** (`src/lib/i18n-landing.ts`, función `tl()`), no dentro de `DICTIONARY`. `t()` busca por nombre, así que todo `DICTIONARY` viaja con cada componente de cliente que importa `i18n.ts`, y `<Money>` lo importa: los 223 textos de la landing en dos idiomas (~10 KB con gzip) habrían viajado también a cada pantalla del panel. Las garantías se mantienen: falta una clave en inglés y el tipo falla.
+- **El `h1` del héroe es «Sin regaños, sin formularios.»**, y lleva delante, oculta a la vista, la frase principal. Las palabras gigantes ya dicen «TÚ PAGAS / PILO ANOTA» pero son decorativas (`aria-hidden`); repetirlas visibles en el `h1` serían las mismas tres palabras dos veces en pantalla, y quitarlas del `h1` dejaría a los lectores de pantalla y a Google sin la frase.
+- **Las palabras gigantes van una por línea.** «TÚ PAGAS» tiene el doble de letras que «YOUR» y no cabía junto al teléfono. Partidas, el bloque mide lo que la palabra más larga: cinco letras, como «MONEY».
+- **En el héroe, Pilo va junto a «PILO ANOTA»**, no encima del teléfono del video. En móvil no hay sitio y se oculta; la imagen es diferida, así que el teléfono ni la descarga.
 
 **Antes de fusionar el paso 3**, `feat/landing-sms-to-order` tiene que estar fusionada o el plan tiene que decir qué pasa con su sección (§5.11).
 

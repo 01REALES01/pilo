@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
+import { PiloPose } from '@/components/landing/pilo-pose';
 import { CategoryIcon } from '@/components/ui/category-icon';
 import { Money } from '@/components/ui/money';
 import { tl } from '@/lib/i18n-landing';
@@ -680,6 +681,7 @@ export function LandingDayJourney(): React.ReactElement {
               <li className="landing-journey-moment landing-journey-moment--up landing-journey-moment--end">
                 <div className="landing-journey-body">
                   <div className="landing-journey-copy">
+                  <PiloPose pose="dormido" width={104} className="landing-pilo--journey" />
                   <p className="landing-journey-end-title">{tl('landing_journey_end_title')}</p>
                   <dl className="landing-journey-tally">
                     <div className="landing-journey-tally-item">
