@@ -301,6 +301,24 @@ Registro de mediciones del proyecto. Gobernado por el **principio P6** de `IMPLE
 - **Re-corrida 2026-10-12** (n=42, añadidas frases con "k": "32k", "100k", "2k", "300k"): **40/42 (95%)**, registrar gasto **17/17**, p50/p95 772/904 ms, 315/65 tokens, sin timeouts.
 - **Hallazgo lateral:** la evaluación detectó que el parser, tras aprender "k/mil/M", aceptaba frases que debía dejar al modelo ("gasté 20 lucas…" se habría guardado como $20). Corregido antes de producción. La segunda corrida destapó otro: "anoche en rappi se me fueron 45k" lo tomaba el parser con fecha de hoy; ahora toda línea que nombra un día va al modelo.
 
+## Landing (superficie pública)
+
+### [2026-10-31] Rendimiento de la landing antes y después del copy de Pilo (laboratorio)
+
+- **Qué cambió:** el texto de toda la landing (`docs/PILO_COPY.md`), las palabras gigantes del héroe (ahora dos líneas por lado) y seis imágenes de Pilo en WebP (~25-30 KB cada una, diferidas).
+- **Método:** Lighthouse 12.6.1 (el que trae `@lhci/cli`), solo rendimiento, perfil móvil por defecto (CPU y 4G lento simulados), sobre `next build` + `next start` en local. **Antes** = `ab85f5c` (el texto ya en el catálogo, sin cambiar una palabra: renderiza igual que producción). **Después** = `8e094c7`. n=3 por lado.
+- **Valor:**
+
+| | LCP (mediana, rango) | FCP | TBT | CLS | Puntaje | Bytes |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Antes | **10 698 ms** (10 695-10 751) | 1 438 ms | 0 ms | 0 | 75 | 6,44 MB |
+| Después | **10 697 ms** (10 697-11 331) | 1 437 ms | 0 ms (una corrida 28) | 0 | 75 | 6,45 MB |
+
+- **Conclusión:** **el cambio no empeora el rendimiento**, que es lo que el plan pedía medir (`PILO_COPY.md` §8.2). Tampoco lo mejora: **el LCP sigue fallando**, 10,7 s contra el objetivo de 2,5 s. Lo que cambió es el elemento LCP: antes era el `h1` del héroe y ahora es la palabra gigante «PILO ANOTA», que al partirse en dos líneas ocupa más área. Que el texto pinte a los 10,7 s cuando el primer contenido aparece a 1,4 s apunta a que algo retiene el texto del héroe, no al texto en sí. Va en su propia rama `fix/`, como se dijo el 29-oct.
+- **Sin métrica de conversión** (P6): con 3 usuarios cualquier número sería ruido. Fecha de salida del copy nuevo: pendiente (no está en producción).
+
+---
+
 ## Fase 5 — Insights
 
 ### [ pendiente ] Precisión de alertas

@@ -1,6 +1,6 @@
 # Pilo — plan del cambio de copy
 
-> **Estado (31-oct-2026).** Decisiones tomadas (§7). Los tres pasos de §8 están hechos en sus ramas, sin fusionar ni subir; falta la medición de §8.2 y salir a producción. El rebranding (`chore/rebrand-pilo`) cambió la palabra «Reasonny» por «Pilo» y nada más: el copy sigue siendo el de Reasonny, con otro nombre. Este documento planifica la reescritura de **todo el copy de la landing**, y después el del resto del producto, para que suene a Pilo y no a cualquier app de finanzas.
+> **Estado (31-oct-2026).** Decisiones tomadas (§7). Los tres pasos de §8 están hechos en sus ramas, sin fusionar ni subir, y medidos (§8.2: no empeora el rendimiento, `METRICS.md`). Falta salir a producción. El rebranding (`chore/rebrand-pilo`) cambió la palabra «Reasonny» por «Pilo» y nada más: el copy sigue siendo el de Reasonny, con otro nombre. Este documento planifica la reescritura de **todo el copy de la landing**, y después el del resto del producto, para que suene a Pilo y no a cualquier app de finanzas.
 >
 > Se apoya en [`PILO.md`](PILO.md): la marca, la mascota y sus reglas de comportamiento (§5). Lo que aquí se decide sobre la voz pasa después a `PILO.md` §5.3.
 
