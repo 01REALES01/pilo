@@ -180,6 +180,9 @@ export function LandingProductShowcase(): React.ReactElement {
       className="landing-showcase-section--app"
       aria-label={tl('landing_showcase_section_label')}
     >
+      {/* Marks the light band (between dawn and dusk) for the top bar's skin. */}
+      <div className="landing-day-zone" aria-hidden="true" />
+
       {/* ── 1. Hero de Sección (El Problema Real vs. Pilo) ────────────── */}
       <div className="landing-app-hero reveal-on-scroll">
         <h2 className="landing-app-headline">

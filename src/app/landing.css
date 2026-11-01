@@ -3894,10 +3894,6 @@ a.landing-finale-nav-item:hover {
 /* 5 — hero clears the translucent status bar (viewport-fit: cover). */
 .landing-hero-stage { padding-top: max(96px, calc(env(safe-area-inset-top) + 72px)); }
 
-/* 6 — the top bar never switches to a light skin (the showcase is dark now and
-   the component hard-codes --dark). Drop the dead cost of the alternate skin. */
-.landing-top-bar--light .landing-top-bar-inner { background: rgba(14, 7, 12, 0.68); }
-
 /* 7 — the hero <h1> now carries a real sentence, not a single word. Undo the
    uppercase + wide tracking that only made sense for "MADE CLEAR", and let it
    wrap on small screens. */
@@ -3941,8 +3937,12 @@ h1.landing-word-center {
 
 /* 9 — the scrolled state of the bar: a touch more opaque, nothing animated
    beyond what the base rule already transitions (transform/opacity). */
-.landing-top-bar--scrolled .landing-top-bar-inner {
+.landing-top-bar--dark.landing-top-bar--scrolled .landing-top-bar-inner {
   background: rgba(10, 5, 9, 0.88);
+}
+
+.landing-top-bar--light.landing-top-bar--scrolled .landing-top-bar-inner {
+  background: rgba(255, 255, 255, 0.92);
 }
 
 /* 10 — chapters 02, 03, 04 provide equal, balanced viewport pacing for cinematic video scrubbing */
@@ -4005,23 +4005,38 @@ h1.landing-word-center {
      el borde (arrancan en cero), y abajo la primera capa cierra en
      #1c0f18 —el suelo de la app—, el color exacto con el que arranca el
      pie. Cerrar en negro dejaba una franja oscura entre los dos. */
-  background-color: #241120;
+  /* El día (31-oct-2026, docs/DESIGN_SYSTEM.md §2.7). La noche del video se
+     queda arriba y en el pie; esta sección es el martes a la luz, con el
+     blanco de la referencia y los colores de Pilo en vez de azul y rosa.
+
+     Amanece en --dawn (ciruela → rosé → blanco) desde #150512, el mismo
+     color con el que cerraba antes el empalme con el video, y anochece en
+     --dusk hasta #1c0f18, el color exacto con el que arranca el pie. El
+     relleno crece lo mismo para que ningún texto oscuro caiga sobre la
+     franja oscura.
+
+     Las nubes son la «aura» de la referencia hechas con rosé, champaña y un
+     vino muy bajo. Siguen en px por la razón de antes: la sección mide
+     8.600 px en desktop y 11.000 en móvil. Sin filter: blur — un
+     radial-gradient ya es difuso y no cuesta una capa de pintura más. */
+  --dawn: clamp(220px, 24vw, 340px);
+  --dusk: clamp(240px, 26vw, 380px);
+  background-color: #fcffff;
   background-image:
-    linear-gradient(180deg, rgba(28, 15, 24, 0) calc(100% - 420px), rgba(28, 15, 24, 0.7) calc(100% - 150px), #1c0f18 100%),
-    linear-gradient(180deg, rgba(228, 204, 166, 0) 0%, rgba(228, 204, 166, 0.05) 600px, rgba(228, 204, 166, 0.025) 50%, rgba(228, 204, 166, 0.015) 100%),
-    radial-gradient(900px 480px at 50% 820px, rgba(248, 230, 208, 0.1) 0%, transparent 70%),
-    radial-gradient(1300px 900px at 10% 1300px, rgba(240, 122, 172, 0.4) 0%, rgba(205, 62, 114, 0.2) 38%, transparent 70%),
-    radial-gradient(1200px 820px at 92% 2500px, rgba(240, 122, 172, 0.36) 0%, rgba(205, 62, 114, 0.18) 40%, transparent 70%),
-    radial-gradient(1400px 900px at 6% 3800px, rgba(205, 62, 114, 0.44) 0%, rgba(168, 54, 98, 0.2) 42%, transparent 72%),
-    radial-gradient(1200px 820px at 94% 5100px, rgba(240, 122, 172, 0.38) 0%, rgba(205, 62, 114, 0.16) 42%, transparent 70%),
-    radial-gradient(1300px 880px at 12% 6400px, rgba(240, 122, 172, 0.36) 0%, rgba(205, 62, 114, 0.17) 40%, transparent 72%),
-    radial-gradient(1200px 820px at 90% 7700px, rgba(205, 62, 114, 0.4) 0%, rgba(168, 54, 98, 0.18) 42%, transparent 70%),
-    radial-gradient(1200px 820px at 10% 9000px, rgba(240, 122, 172, 0.34) 0%, transparent 70%),
-    radial-gradient(1200px 820px at 90% 10300px, rgba(205, 62, 114, 0.36) 0%, transparent 70%),
-    linear-gradient(180deg, #150512 0%, #2a1424 6%, #2c1526 35%, #29131f 70%, #211019 92%, #1c0f18 100%);
-  color: #fafafa;
-  padding-top: clamp(70px, 9vw, 130px);
-  padding-bottom: clamp(100px, 12vw, 160px);
+    linear-gradient(180deg, #150512 0, #4a1428 calc(var(--dawn) * 0.26), #c98a92 calc(var(--dawn) * 0.62), #f3dcd8 calc(var(--dawn) * 0.82), rgba(252, 255, 255, 0) var(--dawn)),
+    linear-gradient(0deg, #1c0f18 0, #3a1424 calc(var(--dusk) * 0.29), #c98a92 calc(var(--dusk) * 0.66), rgba(252, 255, 255, 0) var(--dusk)),
+    radial-gradient(1100px 760px at 8% 1250px, rgba(232, 180, 176, 0.42) 0%, transparent 70%),
+    radial-gradient(1000px 700px at 94% 2450px, rgba(228, 204, 166, 0.45) 0%, transparent 70%),
+    radial-gradient(1200px 800px at 4% 3750px, rgba(155, 44, 69, 0.1) 0%, rgba(232, 180, 176, 0.3) 35%, transparent 72%),
+    radial-gradient(1000px 700px at 96% 5050px, rgba(232, 180, 176, 0.4) 0%, transparent 70%),
+    radial-gradient(1100px 760px at 10% 6350px, rgba(228, 204, 166, 0.42) 0%, transparent 72%),
+    radial-gradient(1000px 700px at 92% 7650px, rgba(155, 44, 69, 0.09) 0%, rgba(232, 180, 176, 0.28) 38%, transparent 70%),
+    radial-gradient(1000px 700px at 8% 8950px, rgba(232, 180, 176, 0.36) 0%, transparent 70%),
+    radial-gradient(1000px 700px at 92% 10250px, rgba(228, 204, 166, 0.4) 0%, transparent 70%);
+  background-repeat: no-repeat;
+  color: #1c0a10;
+  padding-top: calc(var(--dawn) + clamp(24px, 4vw, 60px));
+  padding-bottom: calc(var(--dusk) + clamp(40px, 6vw, 80px));
   padding-left: clamp(16px, 5vw, 80px);
   padding-right: clamp(16px, 5vw, 80px);
   overflow-x: clip;
@@ -4044,19 +4059,19 @@ h1.landing-word-center {
   letter-spacing: -0.025em;
   line-height: 1.05;
   margin: 0 0 16px;
-  color: #ffffff;
+  color: #1c0a10;
   text-wrap: balance;
 }
 
 .landing-headline-gold {
-  color: #e4cca6;
+  color: #8a2440;
 }
 
 .landing-app-subhead {
   font-size: clamp(1.05rem, 1.6vw, 1.25rem);
   line-height: 1.55;
   max-width: 680px;
-  color: #a1a1aa;
+  color: #574049;
   margin: 0 auto;
   text-wrap: pretty;
 }
@@ -4081,11 +4096,13 @@ h1.landing-word-center {
      ninguno se lee centrado: el ojo compara contra el bloque de al lado,
      no contra el viewport. Una sola medida y un solo borde izquierdo. */
   --measure: 1080px;
-  --lux-rose: 240, 122, 172;    /* el foco */
-  --lux-wine: 205, 62, 114;     /* el medio tono */
-  --lux-deep: 142, 35, 71;      /* la caída */
-  --lux-cream: 248, 230, 208;   /* la luz alta */
-  --lux-gold: 228, 204, 166;    /* el filo */
+  /* De día: el foco es vino y la luz alta es blanco. El rosa neón de la
+     noche se iba al terreno de Nequi sobre fondo claro. */
+  --lux-rose: 155, 44, 69;      /* el foco */
+  --lux-wine: 120, 29, 50;      /* el medio tono */
+  --lux-deep: 120, 29, 50;      /* la caída */
+  --lux-cream: 255, 255, 255;   /* la luz alta */
+  --lux-gold: 133, 92, 38;      /* el filo */
 }
 
 .landing-bento-card-header,
@@ -4733,15 +4750,16 @@ h1.landing-word-center {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background: #781d32;
-  color: #ffffff;
+  /* Vive sobre la tarjeta vino: el relleno champaña es lo que lo separa. */
+  background: #e4cca6;
+  color: #1c0a10;
   padding: 8px 10px 8px 24px;
   border-radius: 9999px;
-  border: 1px solid rgba(228, 204, 166, 0.4);
+  border: 1px solid rgba(120, 29, 50, 0.24);
   font-size: 0.94rem;
   font-weight: 700;
   text-decoration: none;
-  box-shadow: 0 6px 20px rgba(120, 29, 50, 0.45);
+  box-shadow: 0 6px 20px rgba(120, 29, 50, 0.158);
   transition: transform 140ms ease;
   min-height: 48px;
   box-sizing: border-box;
@@ -4760,8 +4778,8 @@ h1.landing-word-center {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #e4cca6;
-  color: #150912;
+  background: #781d32;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4893,9 +4911,18 @@ h1.landing-word-center {
   margin: 0 auto clamp(60px, 8vw, 120px);
   width: 100%;
   border-radius: 36px;
-  background: linear-gradient(135deg, rgba(78, 18, 32, 0.65) 0%, rgba(28, 15, 24, 0.95) 50%, rgba(20, 9, 18, 1) 100%);
-  border: 1.5px solid rgba(228, 204, 166, 0.28);
-  box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.7), 0 0 50px rgba(120, 29, 50, 0.25);
+  /* La tarjeta de la opción C: vino con la aura rosé y champaña detrás del
+     teléfono. Es el único objeto oscuro del día, y por eso el foco. La luz
+     va a la derecha: el texto blanco vive a la izquierda, sobre el vino
+     liso (10:1), nunca sobre el rosé. */
+  background-color: #781d32;
+  background-image:
+    radial-gradient(48% 70% at 80% 18%, rgba(232, 180, 176, 0.85) 0%, transparent 68%),
+    radial-gradient(44% 64% at 94% 92%, rgba(228, 204, 166, 0.8) 0%, transparent 66%),
+    radial-gradient(60% 90% at 62% 60%, rgba(155, 44, 69, 0.9) 0%, transparent 72%),
+    linear-gradient(120deg, #5a1426 0%, #781d32 55%);
+  border: 1px solid rgba(120, 29, 50, 0.3);
+  box-shadow: 0 34px 70px -34px rgba(56, 10, 28, 0.5);
   padding: clamp(32px, 5vw, 64px);
   display: grid;
   grid-template-columns: 1.1fr 1fr;
@@ -4907,6 +4934,13 @@ h1.landing-word-center {
 
 @media (max-width: 900px) {
   .landing-app-phone-banner {
+    /* Apilada, el teléfono queda abajo: la luz baja con él, para que el
+       título blanco no caiga sobre el rosé. */
+    background-image:
+      radial-gradient(70% 34% at 82% 84%, rgba(232, 180, 176, 0.85) 0%, transparent 70%),
+      radial-gradient(60% 30% at 14% 100%, rgba(228, 204, 166, 0.8) 0%, transparent 68%),
+      radial-gradient(90% 50% at 50% 78%, rgba(155, 44, 69, 0.9) 0%, transparent 72%),
+      linear-gradient(180deg, #5a1426 0%, #781d32 45%);
     grid-template-columns: 1fr;
     padding: 32px 24px;
   }
@@ -4932,7 +4966,7 @@ h1.landing-word-center {
 .landing-app-phone-subhead {
   font-size: clamp(0.95rem, 1.3vw, 1.15rem);
   line-height: 1.6;
-  color: #a1a1aa;
+  color: rgba(255, 255, 255, 0.82);
   margin: 0;
   max-width: 500px;
 }
@@ -4942,8 +4976,8 @@ h1.landing-word-center {
   align-items: center;
   gap: 24px;
   padding: 16px 0;
-  border-top: 1px solid rgba(228, 204, 166, 0.16);
-  border-bottom: 1px solid rgba(228, 204, 166, 0.16);
+  border-top: 1px solid rgba(120, 29, 50, 0.12);
+  border-bottom: 1px solid rgba(120, 29, 50, 0.12);
   width: 100%;
   flex-wrap: wrap;
 }
@@ -4962,7 +4996,7 @@ h1.landing-word-center {
 
 .landing-app-phone-stat-label {
   font-size: 0.74rem;
-  color: #a1a1aa;
+  color: rgba(255, 255, 255, 0.75);
   font-weight: 600;
 }
 
@@ -5187,8 +5221,8 @@ h1.landing-word-center {
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(228, 204, 166, 0.16) 12%,
-    rgba(228, 204, 166, 0.16) 88%,
+    rgba(155, 44, 69, 0.072) 12%,
+    rgba(155, 44, 69, 0.072) 88%,
     transparent 100%
   );
   pointer-events: none;
@@ -5203,13 +5237,13 @@ h1.landing-word-center {
   font-weight: 700;
   letter-spacing: -0.025em;
   line-height: 1.15;
-  color: #a89aa2;
+  color: #574049;
   margin: 0;
   text-wrap: balance;
 }
 
 .landing-shift-card--new .landing-shift-title {
-  color: #fafafa;
+  color: #1c0a10;
 }
 
 .landing-shift-steps {
@@ -5227,12 +5261,12 @@ h1.landing-word-center {
   gap: 12px;
   font-size: clamp(0.9rem, 1.25vw, 1.02rem);
   line-height: 1.45;
-  color: #8b7280;
+  color: #574049;
   text-wrap: pretty;
 }
 
 .landing-shift-card--new .landing-shift-step {
-  color: #d4d4d8;
+  color: #1c0a10;
 }
 
 /* Cifras tabulares: los ocho números quedan en columna sin reglas ni cajas. */
@@ -5246,11 +5280,11 @@ h1.landing-word-center {
 }
 
 .landing-shift-num--old {
-  color: rgba(228, 204, 166, 0.3);
+  color: rgba(87, 64, 73, 0.55);
 }
 
 .landing-shift-num--new {
-  color: rgba(228, 204, 166, 0.55);
+  color: #9b2c45;
 }
 
 @media (max-width: 760px) {
@@ -5268,7 +5302,7 @@ h1.landing-word-center {
     width: auto;
     height: 1px;
     top: 50%;
-    background: linear-gradient(to right, transparent, rgba(228, 204, 166, 0.16) 20%, rgba(228, 204, 166, 0.16) 80%, transparent);
+    background: linear-gradient(to right, transparent, rgba(155, 44, 69, 0.072) 20%, rgba(155, 44, 69, 0.072) 80%, transparent);
   }
 }
 
@@ -5304,7 +5338,7 @@ h1.landing-word-center {
   font-weight: 800;
   letter-spacing: -0.022em;
   line-height: 1.1;
-  color: #ffffff;
+  color: #1c0a10;
   margin: 0 0 14px;
   text-wrap: balance;
 }
@@ -5313,7 +5347,7 @@ h1.landing-word-center {
   font-size: clamp(0.95rem, 1.5vw, 1.08rem);
   line-height: 1.55;
   margin: 0;
-  color: #a89aa2;
+  color: #574049;
   text-wrap: pretty;
 }
 
@@ -5325,7 +5359,7 @@ h1.landing-word-center {
 
 .landing-insight-card {
   padding-top: 22px;
-  border-top: 1px solid rgba(228, 204, 166, 0.16);
+  border-top: 1px solid rgba(120, 29, 50, 0.12);
 }
 
 .landing-insight-num {
@@ -5334,7 +5368,7 @@ h1.landing-word-center {
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.14em;
-  color: rgba(228, 204, 166, 0.3);
+  color: rgba(87, 64, 73, 0.55);
   margin-bottom: 18px;
 }
 
@@ -5343,7 +5377,7 @@ h1.landing-word-center {
   font-weight: 600;
   line-height: 1.42;
   letter-spacing: -0.015em;
-  color: #e4cca6;
+  color: #8a2440;
   margin: 0 0 14px;
   text-wrap: pretty;
 }
@@ -5351,7 +5385,7 @@ h1.landing-word-center {
 .landing-insight-desc {
   font-size: 0.9rem;
   line-height: 1.5;
-  color: #a89aa2;
+  color: #574049;
   margin: 0;
   text-wrap: pretty;
 }
@@ -5429,8 +5463,8 @@ h1.landing-word-center {
   max-width: var(--measure);
   margin: 0 auto clamp(72px, 11vw, 140px);
   padding: clamp(30px, 4vw, 44px) 0;
-  border-top: 1px solid rgba(228, 204, 166, 0.16);
-  border-bottom: 1px solid rgba(228, 204, 166, 0.16);
+  border-top: 1px solid rgba(120, 29, 50, 0.12);
+  border-bottom: 1px solid rgba(120, 29, 50, 0.12);
 }
 
 .landing-fact {
@@ -5450,24 +5484,24 @@ h1.landing-word-center {
      se leía casi blanco. El degradado va de la luz al ámbar como un metal,
      y el resplandor lo pone un filtro porque text-shadow no funciona con
      el texto recortado. */
-  color: #f0c56a;
-  background: linear-gradient(180deg, #fbe5ae 0%, #f0c56a 48%, #d6a041 100%);
+  color: #9a6410;
+  background: linear-gradient(180deg, #fbe5ae 0%, #d08f1e 48%, #d08f1e 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 18px rgba(240, 197, 106, 0.35));
+  filter: drop-shadow(0 0 18px rgba(176, 114, 18, 0.158));
 }
 
 .landing-fact-label {
   font-size: 0.92rem;
   font-weight: 600;
-  color: #ffffff;
+  color: #1c0a10;
 }
 
 .landing-fact-note {
   font-size: 0.8rem;
   line-height: 1.45;
-  color: #a8899b;
+  color: #75606a;
   text-wrap: pretty;
 }
 
@@ -5508,7 +5542,7 @@ h1.landing-word-center {
   font-weight: 800;
   letter-spacing: -0.022em;
   line-height: 1.1;
-  color: #ffffff;
+  color: #1c0a10;
   margin: 0;
   text-wrap: balance;
 }
@@ -5519,11 +5553,11 @@ h1.landing-word-center {
 }
 
 .landing-faq-item {
-  border-top: 1px solid rgba(228, 204, 166, 0.16);
+  border-top: 1px solid rgba(120, 29, 50, 0.12);
 }
 
 .landing-faq-item:last-child {
-  border-bottom: 1px solid rgba(228, 204, 166, 0.16);
+  border-bottom: 1px solid rgba(120, 29, 50, 0.12);
 }
 
 .landing-faq-q {
@@ -5536,7 +5570,7 @@ h1.landing-word-center {
   list-style: none;
   font-size: clamp(1rem, 1.5vw, 1.12rem);
   font-weight: 600;
-  color: #f0e4ea;
+  color: #1c0a10;
   text-wrap: pretty;
 }
 
@@ -5564,7 +5598,7 @@ h1.landing-word-center {
   width: 14px;
   height: 1.5px;
   border-radius: 2px;
-  background: #f07aac;
+  background: #9b2c45;
   transform: translateY(-50%);
 }
 
@@ -5582,7 +5616,7 @@ h1.landing-word-center {
   max-width: 62ch;
   font-size: 0.96rem;
   line-height: 1.62;
-  color: #c2b0bb;
+  color: #574049;
   text-wrap: pretty;
 }
 
@@ -5623,8 +5657,10 @@ h1.landing-word-center {
    ═══════════════════════════════════════════════════════════════════════ */
 
 .landing-journey-pin {
-  --j-rose: 240, 122, 172;
-  --j-amber: 224, 163, 46;
+  /* Sobre blanco, el hilo es vino y el ámbar baja hasta 5:1: los dos se
+     usan también como color de texto (rgb(var(--j-accent))). */
+  --j-rose: 155, 44, 69;
+  --j-amber: 154, 100, 16;
   --j-dot: 11px;
   --j-node: 28px;
   --j-indent: 22px;
@@ -5648,7 +5684,7 @@ h1.landing-word-center {
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.05;
-  color: #ffffff;
+  color: #1c0a10;
   text-wrap: balance;
 }
 
@@ -5664,12 +5700,12 @@ h1.landing-word-center {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(248, 230, 208, 0.62);
+  color: rgba(87, 64, 73, 0.87);
 }
 
 .landing-journey-intro-arrow {
   display: inline-block;
-  color: #f07aac;
+  color: #9b2c45;
 }
 
 .landing-journey-intro-text {
@@ -5677,7 +5713,7 @@ h1.landing-word-center {
   margin: 14px 0 0;
   font-size: 0.95rem;
   line-height: 1.5;
-  color: #c2b0bb;
+  color: #574049;
 }
 
 /* ── Un momento ──────────────────────────────────────────────────────── */
@@ -5792,11 +5828,11 @@ h1.landing-word-center {
   letter-spacing: -0.04em;
   line-height: 1;
   font-variant-numeric: tabular-nums;
-  color: #f2dcc4;
+  color: #1c0a10;
 }
 
 .landing-journey-moment--soon .landing-journey-hour {
-  color: #e8c27a;
+  color: #9a6410;
 }
 
 .landing-journey-cost {
@@ -5813,7 +5849,7 @@ h1.landing-word-center {
 }
 
 .landing-journey-moment:not(.landing-journey-moment--soon) .landing-journey-cost {
-  color: #f2c9dc;
+  color: #9b2c45;
 }
 
 .landing-journey-title {
@@ -5823,7 +5859,7 @@ h1.landing-word-center {
   font-weight: 600;
   letter-spacing: -0.012em;
   line-height: 1.3;
-  color: #ffffff;
+  color: #1c0a10;
   text-wrap: pretty;
 }
 
@@ -5832,12 +5868,12 @@ h1.landing-word-center {
   margin: 0;
   font-size: 0.86rem;
   line-height: 1.5;
-  color: #c2b0bb;
+  color: #574049;
   text-wrap: pretty;
 }
 
 .landing-journey-text strong {
-  color: #f2dcc4;
+  color: #1c0a10;
   font-weight: 600;
 }
 
@@ -5864,8 +5900,8 @@ h1.landing-word-center {
   gap: 12px;
   padding: 12px 14px;
   border-radius: 14px;
-  border: 1px solid rgba(248, 230, 208, 0.1);
-  background: rgba(248, 230, 208, 0.04);
+  border: 1px solid rgba(120, 29, 50, 0.08);
+  background: rgba(155, 44, 69, 0.018);
 }
 
 .landing-journey-receipt-nfc {
@@ -5875,9 +5911,9 @@ h1.landing-word-center {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 1px solid rgba(240, 122, 172, 0.35);
-  color: #f07aac;
-  box-shadow: 0 0 16px -4px rgba(240, 122, 172, 0.6);
+  border: 1px solid rgba(155, 44, 69, 0.245);
+  color: #9b2c45;
+  box-shadow: 0 0 16px -4px rgba(155, 44, 69, 0.18);
 }
 
 .landing-journey-receipt-body {
@@ -5897,13 +5933,13 @@ h1.landing-word-center {
 .landing-journey-receipt-merchant {
   font-size: 0.86rem;
   font-weight: 600;
-  color: #ffffff;
+  color: #1c0a10;
 }
 
 .landing-journey-receipt-amount {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #f2dcc4;
+  color: #1c0a10;
   white-space: nowrap;
 }
 
@@ -5918,7 +5954,7 @@ h1.landing-word-center {
   gap: 6px;
   font-size: 0.76rem;
   font-weight: 600;
-  color: #6fdca5;
+  color: #18794a;
 }
 
 .landing-journey-receipt-body .landing-journey-ok {
@@ -5943,9 +5979,9 @@ h1.landing-word-center {
   box-sizing: border-box;
   padding: 10px 13px;
   border-radius: 16px 16px 16px 4px;
-  border: 1px solid rgba(248, 230, 208, 0.08);
-  background: #25101d;
-  color: #e9dde3;
+  border: 1px solid rgba(120, 29, 50, 0.08);
+  background: #ffffff;
+  color: #9b2c45;
   font-size: 0.85rem;
 }
 
@@ -5953,9 +5989,9 @@ h1.landing-word-center {
   align-self: flex-end;
   padding: 8px 13px;
   border-radius: 16px 16px 4px 16px;
-  border-color: rgba(240, 122, 172, 0.32);
-  background: rgba(240, 122, 172, 0.2);
-  color: #ffffff;
+  border-color: rgba(155, 44, 69, 0.224);
+  background: rgba(155, 44, 69, 0.1);
+  color: #1c0a10;
   font-weight: 600;
 }
 
@@ -5977,9 +6013,9 @@ h1.landing-word-center {
   min-height: 44px;
   padding: 0 10px;
   border-radius: 10px;
-  border: 1px solid rgba(248, 230, 208, 0.12);
-  background: rgba(248, 230, 208, 0.05);
-  color: #e9dde3;
+  border: 1px solid rgba(120, 29, 50, 0.09);
+  background: rgba(155, 44, 69, 0.023);
+  color: #9b2c45;
   font: inherit;
   font-size: 0.78rem;
   font-weight: 600;
@@ -5987,18 +6023,18 @@ h1.landing-word-center {
 }
 
 .landing-journey-key:hover {
-  border-color: rgba(240, 122, 172, 0.4);
+  border-color: rgba(155, 44, 69, 0.28);
 }
 
 .landing-journey-key:focus-visible {
-  outline: 2px solid #f07aac;
+  outline: 2px solid #9b2c45;
   outline-offset: 2px;
 }
 
 .landing-journey-key--on {
-  border-color: rgba(240, 122, 172, 0.55);
-  background: rgba(240, 122, 172, 0.22);
-  color: #ffffff;
+  border-color: rgba(155, 44, 69, 0.385);
+  background: rgba(155, 44, 69, 0.11);
+  color: #1c0a10;
 }
 
 /* ── Gráficas de línea fina ──────────────────────────────────────────── */
@@ -6010,8 +6046,8 @@ h1.landing-word-center {
 
 .landing-journey-stop-rose { stop-color: #f07aac; }
 .landing-journey-stop-cream { stop-color: #f8e6d0; }
-.landing-journey-stop-rose-soft { stop-color: rgba(240, 122, 172, 0.34); }
-.landing-journey-stop-clear { stop-color: rgba(240, 122, 172, 0); }
+.landing-journey-stop-rose-soft { stop-color: rgba(155, 44, 69, 0.34); }
+.landing-journey-stop-clear { stop-color: rgba(155, 44, 69, 0); }
 
 /* 13:06 — las reglas, escalonadas, cada una colgada de su categoría. */
 .landing-journey-rules {
@@ -6038,11 +6074,11 @@ h1.landing-word-center {
 .landing-journey-rule-tag {
   padding: 7px 12px;
   border-radius: 10px;
-  border: 1px solid rgba(248, 230, 208, 0.14);
-  background: #1a0814;
+  border: 1px solid rgba(120, 29, 50, 0.105);
+  background: #ffffff;
   font-size: 0.78rem;
   font-weight: 500;
-  color: #e9dde3;
+  color: #9b2c45;
 }
 
 .landing-journey-rule-icon {
@@ -6051,9 +6087,9 @@ h1.landing-word-center {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  border: 1px solid rgba(248, 230, 208, 0.14);
-  background: #22101b;
-  color: #f2dcc4;
+  border: 1px solid rgba(120, 29, 50, 0.105);
+  background: #ffffff;
+  color: #1c0a10;
 }
 
 .landing-journey-rule--fresh {
@@ -6061,14 +6097,14 @@ h1.landing-word-center {
 }
 
 .landing-journey-rule--fresh .landing-journey-rule-tag {
-  border-color: rgba(240, 122, 172, 0.5);
-  color: #ffffff;
+  border-color: rgba(155, 44, 69, 0.35);
+  color: #1c0a10;
 }
 
 .landing-journey-rule--fresh .landing-journey-rule-icon {
-  border-color: rgba(240, 122, 172, 0.6);
-  color: #f07aac;
-  box-shadow: 0 0 18px -4px rgba(240, 122, 172, 0.7);
+  border-color: rgba(155, 44, 69, 0.42);
+  color: #9b2c45;
+  box-shadow: 0 0 18px -4px rgba(155, 44, 69, 0.21);
 }
 
 .landing-journey-rule-new {
@@ -6076,7 +6112,7 @@ h1.landing-word-center {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #f07aac;
+  color: #9b2c45;
 }
 
 /* 22:10 — la escalera del día. */
@@ -6101,14 +6137,14 @@ h1.landing-word-center {
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #a8899b;
+  color: #75606a;
 }
 
 .landing-journey-today-figure {
   font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: -0.03em;
-  color: #ffffff;
+  color: #1c0a10;
 }
 
 .landing-journey-today-chart {
@@ -6118,10 +6154,10 @@ h1.landing-word-center {
 
 .landing-journey-step {
   fill: none;
-  stroke: #f07aac;
+  stroke: #9b2c45;
   stroke-width: 2;
   stroke-linejoin: round;
-  filter: drop-shadow(0 0 5px rgba(240, 122, 172, 0.6));
+  filter: drop-shadow(0 0 5px rgba(155, 44, 69, 0.18));
 }
 
 .landing-journey-today-axis {
@@ -6130,7 +6166,7 @@ h1.landing-word-center {
   margin-top: 6px;
   font-size: 0.62rem;
   font-variant-numeric: tabular-nums;
-  color: #8f7484;
+  color: #75606a;
 }
 
 /* Fin de mes — la hoja del extracto, en ámbar porque aún no existe. */
@@ -6142,9 +6178,9 @@ h1.landing-word-center {
   box-sizing: border-box;
   padding: 16px 16px 42px;
   border-radius: 14px;
-  border: 1px solid rgba(248, 230, 208, 0.1);
-  background: linear-gradient(180deg, #1f0b17 0%, #150610 100%);
-  box-shadow: 0 20px 40px -18px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(120, 29, 50, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+  box-shadow: 0 20px 40px -18px rgba(56, 10, 28, 0.126);
 }
 
 .landing-journey-sheet-row {
@@ -6156,7 +6192,7 @@ h1.landing-word-center {
 .landing-journey-sheet-bar {
   height: 6px;
   border-radius: 3px;
-  background: rgba(248, 230, 208, 0.14);
+  background: rgba(155, 44, 69, 0.063);
 }
 
 .landing-journey-sheet-mark {
@@ -6164,16 +6200,16 @@ h1.landing-word-center {
   height: 8px;
   margin-left: auto;
   border-radius: 50%;
-  background: rgba(248, 230, 208, 0.3);
+  background: rgba(155, 44, 69, 0.08);
 }
 
 .landing-journey-sheet-row--new .landing-journey-sheet-bar {
-  background: rgba(224, 163, 46, 0.55);
+  background: rgba(208, 143, 30, 0.55);
 }
 
 .landing-journey-sheet-row--new .landing-journey-sheet-mark {
-  background: #e0a32e;
-  box-shadow: 0 0 10px rgba(224, 163, 46, 0.7);
+  background: #d08f1e;
+  box-shadow: 0 0 10px rgba(176, 114, 18, 0.315);
 }
 
 .landing-journey-sheet-scan {
@@ -6182,8 +6218,8 @@ h1.landing-word-center {
   right: -12px;
   top: 44%;
   height: 2px;
-  background: linear-gradient(to right, transparent, #e0a32e 30%, #f6d58e 50%, #e0a32e 70%, transparent);
-  box-shadow: 0 0 12px rgba(224, 163, 46, 0.8);
+  background: linear-gradient(to right, transparent, #d08f1e 30%, #f6d58e 50%, #d08f1e 70%, transparent);
+  box-shadow: 0 0 12px rgba(176, 114, 18, 0.36);
 }
 
 .landing-journey-sheet-tag {
@@ -6194,13 +6230,14 @@ h1.landing-word-center {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #e8c27a;
+  color: #9a6410;
 }
 
 /* ── El cierre ───────────────────────────────────────────────────────── */
 
 .landing-journey-moment--end {
-  --j-accent: 228, 204, 166;
+  /* Champaña oscurecida: la clara da 1,5:1 sobre blanco. */
+  --j-accent: 133, 92, 38;
 }
 
 .landing-journey-end-title {
@@ -6209,7 +6246,7 @@ h1.landing-word-center {
   font-weight: 700;
   letter-spacing: -0.025em;
   line-height: 1.08;
-  color: #ffffff;
+  color: #1c0a10;
 }
 
 .landing-journey-tally {
@@ -6230,11 +6267,11 @@ h1.landing-word-center {
   letter-spacing: -0.04em;
   line-height: 1;
   font-variant-numeric: tabular-nums;
-  color: #ffffff;
+  color: #1c0a10;
 }
 
 .landing-journey-tally-item:last-child dd {
-  color: #e4cca6;
+  color: #8a2440;
 }
 
 .landing-journey-tally-item dt {
@@ -6243,7 +6280,7 @@ h1.landing-word-center {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #a8899b;
+  color: #75606a;
 }
 
 .landing-journey-end-note {
@@ -6251,7 +6288,7 @@ h1.landing-word-center {
   margin: 0;
   font-size: 0.84rem;
   line-height: 1.45;
-  color: #c2b0bb;
+  color: #574049;
 }
 
 /* ── La pista ────────────────────────────────────────────────────────── */
@@ -6348,15 +6385,15 @@ h1.landing-word-center {
   left: calc(var(--j-dot) / 2);
   right: calc(var(--j-w) - var(--j-dot) / 2);
   height: 1px;
-  background: rgba(240, 122, 172, 0.16);
+  background: rgba(155, 44, 69, 0.08);
   pointer-events: none;
 }
 
 .landing-journey-line-fill {
   display: block;
   height: 100%;
-  background: linear-gradient(to right, rgba(240, 122, 172, 0.55), #f07aac);
-  box-shadow: 0 0 12px rgba(240, 122, 172, 0.55);
+  background: linear-gradient(to right, rgba(155, 44, 69, 0.275), #9b2c45);
+  box-shadow: 0 0 12px rgba(155, 44, 69, 0.165);
   transform-origin: left center;
   will-change: transform;
 }
@@ -6397,7 +6434,7 @@ h1.landing-word-center {
 .landing-journey-drop {
   position: absolute;
   display: block;
-  background: rgba(240, 122, 172, 0.16);
+  background: rgba(155, 44, 69, 0.08);
 }
 
 .landing-journey-run {
@@ -6417,8 +6454,8 @@ h1.landing-word-center {
 .landing-journey-run-line {
   display: block;
   height: 100%;
-  background: #f07aac;
-  box-shadow: 0 0 12px rgba(240, 122, 172, 0.55);
+  background: #9b2c45;
+  box-shadow: 0 0 12px rgba(155, 44, 69, 0.165);
   transform-origin: left center;
   transform: scaleX(0);
   will-change: transform;
@@ -6427,8 +6464,8 @@ h1.landing-word-center {
 .landing-journey-drop-line {
   display: block;
   height: 100%;
-  background: linear-gradient(to bottom, #f07aac, rgba(240, 122, 172, 0.6));
-  box-shadow: 0 0 12px rgba(240, 122, 172, 0.55);
+  background: linear-gradient(to bottom, #9b2c45, rgba(155, 44, 69, 0.3));
+  box-shadow: 0 0 12px rgba(155, 44, 69, 0.165);
   transform-origin: top center;
   transform: scaleY(0);
   will-change: transform;
@@ -6447,8 +6484,8 @@ h1.landing-word-center {
   border-radius: 50%;
   background: #fff1f7;
   box-shadow:
-    0 0 0 3px rgba(240, 122, 172, 0.28),
-    0 0 18px 5px rgba(240, 122, 172, 0.75);
+    0 0 0 3px rgba(155, 44, 69, 0.084),
+    0 0 18px 5px rgba(155, 44, 69, 0.225);
   opacity: 0;
   transition: opacity 160ms linear;
   will-change: transform, opacity;
@@ -6483,19 +6520,19 @@ h1.landing-word-center {
 }
 
 .landing-journey-thread-rail {
-  stroke: rgba(240, 122, 172, 0.16);
+  stroke: rgba(155, 44, 69, 0.16);
   stroke-width: 1;
 }
 
 /* Un trazo ancho y tenue debajo hace de halo: un filtro de sombra en el
    SVG costaría pintura, esto no. */
 .landing-journey-thread-glow {
-  stroke: rgba(240, 122, 172, 0.2);
+  stroke: rgba(155, 44, 69, 0.2);
   stroke-width: 6;
 }
 
 .landing-journey-thread-lit {
-  stroke: #f07aac;
+  stroke: #9b2c45;
   stroke-width: 1.25;
 }
 
@@ -6524,10 +6561,10 @@ h1.landing-word-center {
   height: 11px;
   margin: 0 0 -5.5px -5.5px;
   border-radius: 50%;
-  background: #f07aac;
+  background: #9b2c45;
   box-shadow:
-    0 0 0 4px rgba(240, 122, 172, 0.16),
-    0 0 18px 3px rgba(240, 122, 172, 0.6);
+    0 0 0 4px rgba(155, 44, 69, 0.048),
+    0 0 18px 3px rgba(155, 44, 69, 0.18);
   opacity: 0.25;
   transform: scale(0.4);
   transition:
@@ -6540,7 +6577,7 @@ h1.landing-word-center {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 1px solid rgba(240, 122, 172, 0.8);
+  border: 1px solid rgba(155, 44, 69, 0.56);
   opacity: 0;
 }
 
@@ -6685,7 +6722,7 @@ h1.landing-word-center {
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.06;
-  color: #ffffff;
+  color: #1c0a10;
   text-wrap: balance;
 }
 
@@ -6695,7 +6732,7 @@ h1.landing-word-center {
   margin: 0 auto;
   font-size: 1rem;
   line-height: 1.55;
-  color: #b9a6b1;
+  color: #574049;
   text-wrap: pretty;
 }
 
@@ -6712,10 +6749,10 @@ h1.landing-word-center {
   box-sizing: border-box;
   padding: clamp(28px, 3vw, 40px) clamp(22px, 2.4vw, 32px);
   border-radius: 22px;
-  border: 1px solid rgba(248, 230, 208, 0.07);
+  border: 1px solid rgba(120, 29, 50, 0.08);
   background:
-    linear-gradient(180deg, rgba(248, 230, 208, 0.045) 0%, rgba(248, 230, 208, 0.012) 100%),
-    rgba(26, 6, 19, 0.62);
+    linear-gradient(180deg, rgba(155, 44, 69, 0.02) 0%, rgba(155, 44, 69, 0.012) 100%),
+    rgba(255, 255, 255, 0.62);
 }
 
 /* El recorrido: lo que llega arriba, lo que queda abajo. Ocupa el ancho de
@@ -6739,15 +6776,15 @@ h1.landing-word-center {
   box-sizing: border-box;
   padding: 12px 14px;
   border-radius: 18px;
-  border: 1px solid rgba(248, 230, 208, 0.1);
-  background: rgba(12, 3, 9, 0.55);
-  box-shadow: 0 14px 30px -16px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(120, 29, 50, 0.08);
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 14px 30px -16px rgba(56, 10, 28, 0.126);
 }
 
 /* El tuyo va en rosa, como tus burbujas en el chat de la línea de tiempo. */
 .landing-banks-msg--you {
-  border-color: rgba(240, 122, 172, 0.34);
-  background: rgba(240, 122, 172, 0.14);
+  border-color: rgba(155, 44, 69, 0.238);
+  background: rgba(155, 44, 69, 0.07);
 }
 
 .landing-banks-msg-head {
@@ -6764,17 +6801,17 @@ h1.landing-word-center {
   width: 30px;
   height: 30px;
   border-radius: 9px;
-  border: 1px solid rgba(248, 230, 208, 0.2);
-  background: linear-gradient(160deg, #3a1428 0%, #1d0915 100%);
-  color: #f2dcc4;
+  border: 1px solid rgba(120, 29, 50, 0.15);
+  background: linear-gradient(160deg, #3a1428 0%, #ffffff 100%);
+  color: #1c0a10;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.02em;
 }
 
 .landing-banks-msg--you .landing-banks-avatar {
-  border-color: rgba(240, 122, 172, 0.45);
-  color: #f07aac;
+  border-color: rgba(155, 44, 69, 0.315);
+  color: #9b2c45;
 }
 
 .landing-banks-sender {
@@ -6782,7 +6819,7 @@ h1.landing-word-center {
   min-width: 0;
   font-size: 0.82rem;
   font-weight: 600;
-  color: #ffffff;
+  color: #1c0a10;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -6793,20 +6830,20 @@ h1.landing-word-center {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #8f7484;
+  color: #75606a;
 }
 
 .landing-banks-msg-body {
   margin: 0;
   font-size: 0.82rem;
   line-height: 1.45;
-  color: #d9c9d1;
+  color: #1c0a10;
 }
 
 .landing-banks-msg--you .landing-banks-msg-body {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #ffffff;
+  color: #1c0a10;
 }
 
 .landing-banks-arrow {
@@ -6816,9 +6853,9 @@ h1.landing-word-center {
   height: 26px;
   margin: 8px 0;
   border-radius: 50%;
-  border: 1px solid rgba(240, 122, 172, 0.35);
-  color: #f07aac;
-  box-shadow: 0 0 14px -4px rgba(240, 122, 172, 0.7);
+  border: 1px solid rgba(155, 44, 69, 0.245);
+  color: #9b2c45;
+  box-shadow: 0 0 14px -4px rgba(155, 44, 69, 0.21);
 }
 
 /* Lo que queda: la fila del gasto, como en el panel. */
@@ -6830,7 +6867,7 @@ h1.landing-word-center {
   box-sizing: border-box;
   padding: 10px 14px;
   border-radius: 14px;
-  border: 1px solid rgba(111, 220, 165, 0.22);
+  border: 1px solid rgba(24, 121, 74, 0.22);
   background: rgba(111, 220, 165, 0.06);
 }
 
@@ -6841,8 +6878,8 @@ h1.landing-word-center {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(248, 230, 208, 0.08);
-  color: #f2dcc4;
+  background: rgba(155, 44, 69, 0.036);
+  color: #1c0a10;
 }
 
 .landing-banks-saved-main {
@@ -6855,7 +6892,7 @@ h1.landing-word-center {
 .landing-banks-saved-merchant {
   font-size: 0.84rem;
   font-weight: 600;
-  color: #ffffff;
+  color: #1c0a10;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -6867,13 +6904,13 @@ h1.landing-word-center {
   gap: 4px;
   font-size: 0.72rem;
   font-weight: 600;
-  color: #6fdca5;
+  color: #18794a;
 }
 
 .landing-banks-saved-amount {
   font-size: 0.86rem;
   font-weight: 700;
-  color: #f2dcc4;
+  color: #1c0a10;
   white-space: nowrap;
 }
 
@@ -6882,7 +6919,7 @@ h1.landing-word-center {
   font-size: 1.08rem;
   font-weight: 600;
   letter-spacing: -0.01em;
-  color: #ffffff;
+  color: #1c0a10;
 }
 
 .landing-banks-card-text {
@@ -6890,7 +6927,7 @@ h1.landing-word-center {
   margin: 0 0 20px;
   font-size: 0.9rem;
   line-height: 1.55;
-  color: #b3a0ab;
+  color: #574049;
   text-wrap: pretty;
 }
 
@@ -6898,8 +6935,8 @@ h1.landing-word-center {
   margin-top: auto;
   padding: 4px 10px;
   border-radius: 999px;
-  border: 1px solid rgba(240, 122, 172, 0.32);
-  color: #f2c9dc;
+  border: 1px solid rgba(155, 44, 69, 0.224);
+  color: #9b2c45;
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -6907,8 +6944,8 @@ h1.landing-word-center {
 }
 
 .landing-banks-card--manual .landing-banks-chip {
-  border-color: rgba(228, 204, 166, 0.35);
-  color: #e4cca6;
+  border-color: rgba(120, 29, 50, 0.24);
+  color: #8a2440;
 }
 
 .landing-banks-foot {
@@ -6925,15 +6962,15 @@ h1.landing-word-center {
   gap: 8px;
   margin: 0;
   font-size: 0.84rem;
-  color: #c2b0bb;
+  color: #574049;
 }
 
 .landing-banks-pending-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #e0a32e;
-  box-shadow: 0 0 10px 1px rgba(224, 163, 46, 0.6);
+  background: #d08f1e;
+  box-shadow: 0 0 10px 1px rgba(176, 114, 18, 0.27);
 }
 
 .landing-banks-note {
@@ -6941,7 +6978,7 @@ h1.landing-word-center {
   margin: 0 0 8px;
   font-size: 0.8rem;
   line-height: 1.5;
-  color: #8f7484;
+  color: #75606a;
 }
 
 /* ── La horquilla: el hilo del martes se reparte en las tres tarjetas ──
@@ -6973,7 +7010,7 @@ h1.landing-word-center {
   left: calc(50% - 0.5px);
   width: 1px;
   height: calc(50% - 10px);
-  background: linear-gradient(to bottom, rgba(240, 122, 172, 0), #f07aac);
+  background: linear-gradient(to bottom, rgba(155, 44, 69, 0), #9b2c45);
   transform-origin: top center;
 }
 
@@ -6982,8 +7019,8 @@ h1.landing-word-center {
   left: var(--fork-col);
   right: var(--fork-col);
   height: 1px;
-  background: linear-gradient(to right, rgba(240, 122, 172, 0.45), #f07aac 50%, rgba(240, 122, 172, 0.45));
-  box-shadow: 0 0 10px rgba(240, 122, 172, 0.4);
+  background: linear-gradient(to right, rgba(155, 44, 69, 0.225), #9b2c45 50%, rgba(155, 44, 69, 0.225));
+  box-shadow: 0 0 10px rgba(155, 44, 69, 0.12);
   transform-origin: center;
 }
 
@@ -6991,7 +7028,7 @@ h1.landing-word-center {
   top: 50%;
   bottom: 0;
   width: 1px;
-  background: linear-gradient(to bottom, #f07aac, rgba(240, 122, 172, 0.35));
+  background: linear-gradient(to bottom, #9b2c45, rgba(155, 44, 69, 0.175));
   transform-origin: top center;
 }
 
@@ -7010,7 +7047,7 @@ h1.landing-word-center {
   left: 20%;
   right: 20%;
   height: 1px;
-  background: linear-gradient(to right, rgba(240, 122, 172, 0), #f07aac, rgba(240, 122, 172, 0));
+  background: linear-gradient(to right, rgba(155, 44, 69, 0), #9b2c45, rgba(155, 44, 69, 0));
   opacity: 0.8;
   pointer-events: none;
 }
@@ -7104,10 +7141,10 @@ h1.landing-word-center {
   box-sizing: border-box;
   padding: clamp(22px, 2.4vw, 32px);
   border-radius: 22px;
-  border: 1px solid rgba(248, 230, 208, 0.08);
+  border: 1px solid rgba(120, 29, 50, 0.08);
   background:
-    linear-gradient(180deg, rgba(248, 230, 208, 0.045) 0%, rgba(248, 230, 208, 0.012) 100%),
-    rgba(24, 5, 18, 0.62);
+    linear-gradient(180deg, rgba(155, 44, 69, 0.02) 0%, rgba(155, 44, 69, 0.012) 100%),
+    rgba(255, 255, 255, 0.62);
   overflow: hidden;
 }
 
@@ -7126,10 +7163,10 @@ h1.landing-word-center {
   overflow: visible;
 }
 
-.landing-vault-stop-cream { stop-color: #f8e6d0; }
-.landing-vault-stop-fade { stop-color: rgba(248, 230, 208, 0.12); }
-.landing-vault-stop-rose { stop-color: rgba(240, 122, 172, 0.34); }
-.landing-vault-stop-clear { stop-color: rgba(240, 122, 172, 0); }
+.landing-vault-stop-cream { stop-color: #9b2c45; }
+.landing-vault-stop-fade { stop-color: rgba(120, 29, 50, 0.192); }
+.landing-vault-stop-rose { stop-color: rgba(155, 44, 69, 0.34); }
+.landing-vault-stop-clear { stop-color: rgba(155, 44, 69, 0); }
 
 .landing-vault-art {
   flex: 1;
@@ -7144,7 +7181,7 @@ h1.landing-word-center {
   font-size: 1.1rem;
   font-weight: 600;
   letter-spacing: -0.01em;
-  color: #ffffff;
+  color: #1c0a10;
 }
 
 .landing-vault-text {
@@ -7152,7 +7189,7 @@ h1.landing-word-center {
   margin: 0;
   font-size: 0.88rem;
   line-height: 1.55;
-  color: #b3a0ab;
+  color: #574049;
   text-wrap: pretty;
 }
 
@@ -7178,7 +7215,7 @@ h1.landing-word-center {
 
 .landing-vault-zero-ring path {
   fill: none;
-  stroke: rgba(248, 230, 208, 0.16);
+  stroke: rgba(120, 29, 50, 0.256);
   stroke-width: 5;
   stroke-linecap: round;
 }
@@ -7190,7 +7227,7 @@ h1.landing-word-center {
   letter-spacing: -0.05em;
   line-height: 1;
   font-variant-numeric: tabular-nums;
-  color: #ffffff;
+  color: #1c0a10;
 }
 
 .landing-vault-zero-label {
@@ -7198,7 +7235,7 @@ h1.landing-word-center {
   font-size: clamp(1.4rem, 2.2vw, 1.85rem);
   font-weight: 600;
   letter-spacing: -0.02em;
-  color: #ffffff;
+  color: #1c0a10;
 }
 
 /* La lectura que corta el SMS. */
@@ -7209,13 +7246,13 @@ h1.landing-word-center {
 
 .landing-vault-ring {
   fill: none;
-  stroke: rgba(248, 230, 208, 0.08);
+  stroke: rgba(120, 29, 50, 0.128);
   stroke-width: 1;
 }
 
 .landing-vault-ring--inner {
-  fill: rgba(248, 230, 208, 0.015);
-  stroke: rgba(248, 230, 208, 0.05);
+  fill: rgba(120, 29, 50, 0.04);
+  stroke: rgba(120, 29, 50, 0.08);
 }
 
 .landing-vault-arc {
@@ -7225,10 +7262,10 @@ h1.landing-word-center {
 }
 
 .landing-vault-scanline {
-  stroke: #fbeee0;
+  stroke: #9b2c45;
   stroke-width: 2.5;
   stroke-linecap: round;
-  filter: drop-shadow(0 0 6px rgba(240, 122, 172, 0.85));
+  filter: drop-shadow(0 0 6px rgba(155, 44, 69, 0.255));
 }
 
 /* La descarga. */
@@ -7254,7 +7291,7 @@ h1.landing-word-center {
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: #c2b0bb;
+  color: #574049;
 }
 
 .landing-vault-download-icon {
@@ -7263,14 +7300,14 @@ h1.landing-word-center {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  border: 1px solid rgba(248, 230, 208, 0.16);
-  color: #f2dcc4;
+  border: 1px solid rgba(120, 29, 50, 0.12);
+  color: #1c0a10;
 }
 
 .landing-vault-download-meta {
   font-size: 0.72rem;
   font-variant-numeric: tabular-nums;
-  color: #8f7484;
+  color: #75606a;
 }
 
 .landing-vault-wave {
@@ -7281,9 +7318,9 @@ h1.landing-word-center {
 
 .landing-vault-wave-line {
   fill: none;
-  stroke: #f07aac;
+  stroke: #9b2c45;
   stroke-width: 1.8;
-  filter: drop-shadow(0 0 5px rgba(240, 122, 172, 0.6));
+  filter: drop-shadow(0 0 5px rgba(155, 44, 69, 0.18));
 }
 
 /* Las dos anchas: texto a la izquierda, gráfica pegada al borde. */
@@ -7311,9 +7348,9 @@ h1.landing-word-center {
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  border: 1px solid rgba(248, 230, 208, 0.1);
-  color: #f2dcc4;
-  box-shadow: 0 0 0 8px rgba(248, 230, 208, 0.025);
+  border: 1px solid rgba(120, 29, 50, 0.08);
+  color: #1c0a10;
+  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.3);
 }
 
 .landing-vault-window {
@@ -7325,11 +7362,11 @@ h1.landing-word-center {
   min-height: 190px;
   box-sizing: border-box;
   padding: 14px 16px 20px;
-  border: 1px solid rgba(248, 230, 208, 0.1);
+  border: 1px solid rgba(120, 29, 50, 0.08);
   border-right: none;
   border-bottom: none;
   border-radius: 12px 0 0 0;
-  background: #0d030a;
+  background: #ffffff;
 }
 
 .landing-vault-window-dots {
@@ -7342,7 +7379,7 @@ h1.landing-word-center {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgba(248, 230, 208, 0.15);
+  background: rgba(155, 44, 69, 0.068);
 }
 
 .landing-vault-row {
@@ -7356,22 +7393,22 @@ h1.landing-word-center {
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: #5a4452;
+  color: #75606a;
 }
 
 .landing-vault-row-bar {
   height: 6px;
   border-radius: 3px;
-  background: rgba(248, 230, 208, 0.07);
+  background: rgba(155, 44, 69, 0.032);
 }
 
 .landing-vault-row--you .landing-vault-row-key {
-  color: #f07aac;
+  color: #9b2c45;
 }
 
 .landing-vault-row--you .landing-vault-row-bar {
-  background: linear-gradient(to right, #f07aac, rgba(240, 122, 172, 0.4));
-  box-shadow: 0 0 10px rgba(240, 122, 172, 0.4);
+  background: linear-gradient(to right, #9b2c45, rgba(155, 44, 69, 0.2));
+  box-shadow: 0 0 10px rgba(155, 44, 69, 0.12);
 }
 
 .landing-vault-who {
@@ -7398,11 +7435,11 @@ h1.landing-word-center {
 .landing-vault-who-tag {
   padding: 7px 12px;
   border-radius: 8px;
-  border: 1px solid rgba(248, 230, 208, 0.14);
-  background: #1a0814;
+  border: 1px solid rgba(120, 29, 50, 0.105);
+  background: #ffffff;
   font-size: 0.8rem;
   font-weight: 500;
-  color: #e9dde3;
+  color: #9b2c45;
 }
 
 .landing-vault-who-icon {
@@ -7411,8 +7448,8 @@ h1.landing-word-center {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 1px solid rgba(248, 230, 208, 0.14);
-  color: #8f7484;
+  border: 1px solid rgba(120, 29, 50, 0.105);
+  color: #75606a;
 }
 
 .landing-vault-who-row--you {
@@ -7420,14 +7457,14 @@ h1.landing-word-center {
 }
 
 .landing-vault-who-row--you .landing-vault-who-tag {
-  border-color: rgba(240, 122, 172, 0.5);
-  color: #ffffff;
+  border-color: rgba(155, 44, 69, 0.35);
+  color: #1c0a10;
 }
 
 .landing-vault-who-row--you .landing-vault-who-icon {
-  border-color: rgba(240, 122, 172, 0.6);
-  color: #f07aac;
-  box-shadow: 0 0 18px -4px rgba(240, 122, 172, 0.7);
+  border-color: rgba(155, 44, 69, 0.42);
+  color: #9b2c45;
+  box-shadow: 0 0 18px -4px rgba(155, 44, 69, 0.21);
 }
 
 @media (max-width: 900px) {
@@ -7504,7 +7541,8 @@ h1.landing-word-center {
       right: 0;
       top: 52%;
       height: 1px;
-      background: #8f7484;
+      /* Tachado en vino, como una pluma: sobre blanco el gris se perdía. */
+      background: rgba(138, 36, 64, 0.6);
       transform-origin: left center;
       transform: scaleX(0);
       animation: landing-strike-draw linear both;
@@ -7530,9 +7568,11 @@ h1.landing-word-center {
     to   { transform: scaleX(1); }
   }
 
+  /* Hasta 0,7 y no 0,42: sobre blanco el paso tachado tiene que seguir
+     leyéndose (≈4:1); lo que dice que ya no va es la línea, no el gris. */
   @keyframes landing-strike-fade {
     from { opacity: 1; }
-    to   { opacity: 0.42; }
+    to   { opacity: 0.7; }
   }
 
   @keyframes landing-light-up {
@@ -7540,15 +7580,11 @@ h1.landing-word-center {
     to   { opacity: 1; }
   }
 
+  /* Solo opacidad: animar color y text-shadow repintaba en el hilo
+     principal (DESIGN_SYSTEM.md §5.1). El color fijo vive en la regla. */
   @keyframes landing-num-glow {
-    from {
-      color: rgba(228, 204, 166, 0.18);
-      text-shadow: none;
-    }
-    to {
-      color: #f2dcc4;
-      text-shadow: 0 0 14px rgba(240, 122, 172, 0.7);
-    }
+    from { opacity: 0.3; }
+    to   { opacity: 1; }
   }
 }
 
@@ -7599,7 +7635,7 @@ h1.landing-word-center {
 .landing-faq-byline {
   margin: 14px 0 0;
   font-size: 0.95rem;
-  color: var(--landing-champagne-gold);
+  color: #8a2440;
 }
 
 /* "TÚ PAGAS / PILO ANOTA" is twice as long as "YOUR / MONEY" was. One line
@@ -7635,6 +7671,30 @@ h1.landing-word-center {
       transform: none;
     }
   }
+}
+
+/* ==========================================================================
+   El día — piezas sueltas (31-oct-2026, docs/DESIGN_SYSTEM.md §2.7)
+   ========================================================================== */
+
+/* El tramo claro, sin el amanecer ni el anochecer: lo mira la barra superior
+   para saber cuándo cambiar de piel. */
+.landing-day-zone {
+  position: absolute;
+  top: var(--dawn);
+  bottom: var(--dusk);
+  left: 0;
+  width: 1px;
+  pointer-events: none;
+}
+
+/* El botón champaña es el de la noche: sobre blanco apenas se separa del
+   fondo (1,9:1). De día el botón es vino con texto blanco, 7,4:1. */
+.landing-showcase-section--app .landing-gold-cta-btn {
+  background: #9b2c45;
+  color: #ffffff;
+  border-color: rgba(120, 29, 50, 0.3);
+  box-shadow: 0 12px 28px -12px rgba(120, 29, 50, 0.5);
 }
 
 nextjs-portal,

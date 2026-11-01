@@ -140,6 +140,37 @@ Los pasos ya están validados contra superficie `#FCFCFB` y quedan aquí para no
 
 **No se implementa en Fase 1.** Ambas referencias son oscuras, la app se abre en ráfagas cortas y duplicar el QA visual no se paga todavía. Los tokens se estructuran para que sea un intercambio de variables, no una reescritura.
 
+#### Excepción: la landing de día (31-oct-2026)
+
+La franja central de la landing (`#product-showcase`, de «Anotar cada gasto a mano» a «Anotar es la mitad») va en claro. El video de la noche arriba y el pie abajo siguen oscuros: la página amanece y anochece (`--dawn` y `--dusk` en `landing.css`), y el día del martes queda en medio. **El panel no cambia**: sigue oscuro hasta la Fase 3 (`IMPLEMENTATION_PLAN.md` §4.5).
+
+**Por qué no azul cielo y rosa, que era la referencia** (medido con el método de §2.1, más CIEDE2000):
+
+| Medida | Resultado |
+| :--- | :--- |
+| Rosa `#D83995` contra el magenta de Nequi `#DA0081` (el color dominante de nequi.com.co) | 5,2: el ojo los lee como el mismo color |
+| Azul `#0593C6` contra `--cat-3` · rosa contra `--cat-5` | 3,7 y 3,5: casi idénticos a dos categorías de las gráficas |
+| Texto blanco sobre el azul · sobre el rosa | 3,5:1 y 4,2:1, por debajo del 4,5:1 |
+
+**Tokens de día**, medidos sobre `#FCFFFF` (el blanco de la referencia):
+
+| Rol | Valor | Contraste |
+| :--- | :--- | :--- |
+| Tinta principal | `#1C0A10` | 19,0:1 |
+| Tinta secundaria | `#574049` | 9,4:1 |
+| Tinta tenue | `#75606A` | 5,7:1 |
+| Acento de texto (antes champaña) | `#8A2440` | 8,7:1 |
+| Vino: hilo, puntos, botones | `#9B2C45` | 7,4:1 |
+| Verde de texto · ámbar de texto | `#18794A` · `#9A6410` | 5,4:1 · 5,0:1 |
+
+Reglas de la franja:
+
+- **La champaña deja de ser texto**: sobre blanco da 1,5:1. Queda como relleno (botón dentro de la tarjeta vino) y en las nubes del fondo.
+- **El rosa neón del hilo del día (`#F07AAC`) pasa a vino.** Sobre blanco era otra vez el terreno de Nequi.
+- **El teléfono sigue oscuro**: es la app real, y la app es oscura.
+- **Un solo objeto oscuro en el día**: la tarjeta «Pulsa y mira qué pasa cuando pagas», en vino, con la luz rosé y champaña detrás del teléfono. El texto blanco vive sobre el vino liso (10:1), nunca sobre el rosé.
+- **Las nubes del fondo son `radial-gradient`, sin `filter: blur`**: un degradado radial ya es difuso y no añade una capa de pintura.
+
 ---
 
 ## 3. Tipografía

@@ -24,6 +24,7 @@ export function LandingTopBar(): React.ReactElement {
   const sentinelRef = useRef<HTMLDivElement | null>(null);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [isMobileOpen, setIsMobileOpen] = useState<boolean>(false);
+  const [isOverDay, setIsOverDay] = useState<boolean>(false);
 
   useEffect(() => {
     const el = sentinelRef.current;
@@ -39,6 +40,34 @@ export function LandingTopBar(): React.ReactElement {
     return () => observer.disconnect();
   }, []);
 
+  // Over the light "day" band the capsule takes its light skin. The sentinel
+  // (.landing-day-zone) leaves out the dark dawn and dusk joints, so the
+  // switch happens where the background actually turns light. The root is a
+  // 1px line at the capsule's height (it sits 16-68px from the top); it is
+  // rebuilt on resize because rootMargin cannot take a percentage minus px.
+  useEffect(() => {
+    const zone = document.querySelector('.landing-day-zone');
+    if (!zone || !('IntersectionObserver' in window)) return;
+    let observer: IntersectionObserver | undefined;
+    const observe = (): void => {
+      observer?.disconnect();
+      observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (entry) setIsOverDay(entry.isIntersecting);
+        },
+        { rootMargin: `-42px 0px -${Math.max(0, window.innerHeight - 43)}px 0px` },
+      );
+      observer.observe(zone);
+    };
+    observe();
+    window.addEventListener('resize', observe);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', observe);
+    };
+  }, []);
+
   useEffect(() => {
     document.body.style.overflow = isMobileOpen ? 'hidden' : '';
     return () => {
@@ -52,7 +81,7 @@ export function LandingTopBar(): React.ReactElement {
 
       {/* Top Header: Full capsule on Desktop, ultra-minimal brand-only on Mobile */}
       <header
-        className={`landing-top-bar landing-top-bar--dark ${isScrolled ? 'landing-top-bar--scrolled' : ''}`}
+        className={`landing-top-bar ${isOverDay ? 'landing-top-bar--light' : 'landing-top-bar--dark'} ${isScrolled ? 'landing-top-bar--scrolled' : ''}`}
       >
         <div className="landing-top-bar-inner">
           <Link href="/" className="landing-brand" aria-label="Pilo">
