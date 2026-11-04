@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { buildIntentSystemPrompt, validateIntent } from './chat-intent';
+import { buildIntentSystemPrompt, localNoon, matchCategory, validateIntent } from './chat-intent';
 import { readAmountText } from './quick-entry';
 
 const TODAY = '2026-10-10';
@@ -78,5 +78,61 @@ describe('readAmountText', () => {
 describe('buildIntentSystemPrompt', () => {
   it('tells the model what day it is, by name', () => {
     expect(buildIntentSystemPrompt(TODAY)).toContain('Hoy es sábado 2026-10-10.');
+  });
+});
+
+describe('matchCategory', () => {
+  const categories = [
+    { name: 'Supermercado' },
+    { name: 'Restaurantes y Café' },
+    { name: 'Transporte' },
+    { name: 'Compras' },
+    { name: 'Otros Gastos' },
+  ];
+
+  it('finds a category by its name, ignoring case and accents', () => {
+    expect(matchCategory('supermercado', categories)?.name).toBe('Supermercado');
+    expect(matchCategory('TRANSPORTE', categories)?.name).toBe('Transporte');
+  });
+
+  it('finds a category by one word of its name, singular or plural', () => {
+    expect(matchCategory('cafe', categories)?.name).toBe('Restaurantes y Café');
+    expect(matchCategory('restaurante', categories)?.name).toBe('Restaurantes y Café');
+    expect(matchCategory('compra', categories)?.name).toBe('Compras');
+  });
+
+  it('reports a category the user does not have instead of approximating one', () => {
+    // "comida" is what a restaurant is FOR, not what this one is called.
+    expect(matchCategory('comida', categories)).toBeNull();
+    expect(matchCategory('', categories)).toBeNull();
+  });
+
+  it('refuses a word that names two categories', () => {
+    const twoGastos = [{ name: 'Gastos fijos' }, { name: 'Otros Gastos' }];
+    expect(matchCategory('gastos', twoGastos)).toBeNull();
+  });
+
+  it('prefers a whole name over a word inside another one', () => {
+    const both = [{ name: 'Café' }, { name: 'Restaurantes y Café' }];
+    expect(matchCategory('café', both)?.name).toBe('Café');
+  });
+});
+
+describe('localNoon', () => {
+  it('is midday on that day in the profile zone', () => {
+    // Bogotá is UTC-5 all year.
+    expect(localNoon('2026-10-30', 'America/Bogota').toISOString()).toBe('2026-10-30T17:00:00.000Z');
+  });
+
+  it('stays on the named day in zones far from UTC on both sides', () => {
+    expect(localNoon('2026-10-30', 'Asia/Tokyo').toISOString()).toBe('2026-10-30T03:00:00.000Z');
+    expect(localNoon('2026-10-30', 'Pacific/Kiritimati').toISOString()).toBe('2026-10-29T22:00:00.000Z');
+    expect(localNoon('2026-10-30', 'Pacific/Pago_Pago').toISOString()).toBe('2026-10-30T23:00:00.000Z');
+  });
+
+  it('follows daylight saving on the day itself', () => {
+    // Madrid is UTC+2 until the last Sunday of October and UTC+1 after it.
+    expect(localNoon('2026-10-24', 'Europe/Madrid').toISOString()).toBe('2026-10-24T10:00:00.000Z');
+    expect(localNoon('2026-10-26', 'Europe/Madrid').toISOString()).toBe('2026-10-26T11:00:00.000Z');
   });
 });

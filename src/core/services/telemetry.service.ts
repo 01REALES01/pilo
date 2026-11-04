@@ -16,6 +16,7 @@ import { getRuleStats } from '@/core/repositories/categorization-rule.repository
 import { getFailureStats, type FailureStats } from '@/core/repositories/ingestion-failure.repository';
 import { getPromptStats, type PromptStats } from '@/core/repositories/notification-prompt.repository';
 import {
+  getChatIntentOutcomes,
   getDailyUsage,
   getMetricPercentiles,
   recordTelemetryEvent,
@@ -260,5 +261,45 @@ export async function getPhase4Snapshot(userId: UserId): Promise<Phase4Snapshot>
     rules,
     prompts,
     failures,
+  };
+}
+
+/**
+ * Block L1, in the shape METRICS.md asks for: how often the language model
+ * rescued a message the strict parser rejected, how long it took, and what it
+ * cost in tokens.
+ *
+ * The rescue rate counts 'understood' over every message the model was ASKED
+ * about, failures to answer included. Leaving the timeouts out would make the
+ * model look better than the bot the user actually talked to.
+ */
+export interface ChatIntentSnapshot {
+  readonly latency: MetricSummary;
+  readonly outcomes: ReadonlyArray<{ readonly outcome: string; readonly n: number; readonly pct: number }>;
+  readonly total: number;
+  readonly rescueRate: number;
+  readonly promptTokens: number;
+  readonly outputTokens: number;
+}
+
+export async function getChatIntentSnapshot(
+  userId: UserId,
+  since?: Date,
+): Promise<ChatIntentSnapshot> {
+  const [latency, outcomes] = await Promise.all([
+    summarise(userId, 'chat_intent', since),
+    getChatIntentOutcomes(userId, since),
+  ]);
+
+  const total = outcomes.reduce((sum, row) => sum + row.n, 0);
+  const understood = outcomes.find((row) => row.outcome === 'understood')?.n ?? 0;
+
+  return {
+    latency,
+    outcomes: outcomes.map((row) => ({ outcome: row.outcome, n: row.n, pct: pct(row.n, total) })),
+    total,
+    rescueRate: pct(understood, total),
+    promptTokens: outcomes.reduce((sum, row) => sum + row.promptTokens, 0),
+    outputTokens: outcomes.reduce((sum, row) => sum + row.outputTokens, 0),
   };
 }

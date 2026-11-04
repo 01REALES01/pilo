@@ -200,6 +200,18 @@ export async function sendMessage(
 }
 
 /**
+ * "Escribiendo…" under the chat's name. Telegram shows it for about five
+ * seconds or until the bot's next message, whichever comes first - so a wait
+ * longer than that needs it sent again.
+ */
+export async function sendChatAction(
+  chatId: bigint | number,
+  action: 'typing',
+): Promise<TelegramResult<boolean>> {
+  return call<boolean>('sendChatAction', { chat_id: String(chatId), action });
+}
+
+/**
  * Stops the spinner on a tapped button.
  *
  * Mandatory and FIRST, before any database work (PROJECT_SPEC §3.6). Telegram

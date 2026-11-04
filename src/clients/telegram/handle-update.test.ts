@@ -6,7 +6,7 @@ vi.mock('@/core/services/telegram-link.service', () => ({
 }));
 
 vi.mock('@/core/services/chat-capture.service', () => ({
-  captureFromText: vi.fn(),
+  answerChatText: vi.fn(),
   shouldOfferCommandsTip: vi.fn(),
 }));
 
@@ -29,10 +29,11 @@ vi.mock('@/infrastructure/messaging/telegram', () => ({
   answerCallbackQuery: vi.fn(),
   editMessageText: vi.fn(),
   editMessageReplyMarkup: vi.fn(),
+  sendChatAction: vi.fn(),
 }));
 
 import { getDashboardData, getMonthViewData } from '@/core/services/analytics.service';
-import { captureFromText, shouldOfferCommandsTip } from '@/core/services/chat-capture.service';
+import { answerChatText, shouldOfferCommandsTip } from '@/core/services/chat-capture.service';
 import {
   answerCategoryPrompt,
   createCategoryForPrompt,
@@ -46,6 +47,7 @@ import {
   answerCallbackQuery,
   editMessageReplyMarkup,
   editMessageText,
+  sendChatAction,
   sendMessage,
 } from '@/infrastructure/messaging/telegram';
 
@@ -101,6 +103,11 @@ const transaction = {
 };
 
 const category = { id: CATEGORY_ID, name: 'Restaurantes', icon: 'Utensils' };
+
+/** What the service answers when a line became a spend - or failed to. */
+function captured(capture: Record<string, unknown>, day: unknown = null) {
+  return { kind: 'capture', capture, day } as never;
+}
 
 /** The text of the nth message the bot sent back. */
 function reply(n = 0): string {
@@ -239,38 +246,44 @@ describe('the Telegram client', () => {
       await handleTelegramUpdate(update('12000 juan valdez'));
 
       expect(resolveChat).toHaveBeenCalledWith(BigInt(CHAT_ID));
-      expect(captureFromText).not.toHaveBeenCalled();
+      expect(answerChatText).not.toHaveBeenCalled();
       expect(reply()).toContain('no está conectado');
     });
 
     it('keys the write to the message id, so a redelivery is not a second coffee', async () => {
-      vi.mocked(captureFromText).mockResolvedValue({
+      vi.mocked(answerChatText).mockResolvedValue(captured({
         ok: true,
         transaction,
         isDuplicate: false,
         autoCategorized: false,
         appliedCategory: null,
-      } as never);
+      }));
 
       await handleTelegramUpdate(update('12000 juan valdez'));
 
-      expect(captureFromText).toHaveBeenCalledWith(
+      expect(answerChatText).toHaveBeenCalledWith(
         USER_ID,
         expect.anything(),
         '12000 juan valdez',
-        { source: 'telegram_text', externalId: `telegram:${CHAT_ID}:${MESSAGE_ID}` },
+        expect.objectContaining({
+          source: 'telegram_text',
+          externalId: `telegram:${CHAT_ID}:${MESSAGE_ID}`,
+          // The model goes in with every line; the service decides whether
+          // the strict parser already read it.
+          model: expect.any(Function),
+        }),
       );
     });
 
     it('answers with the category when the engine already knew it, and asks nothing', async () => {
       // Level 1. The whole point: the second time, there is nothing to tap.
-      vi.mocked(captureFromText).mockResolvedValue({
+      vi.mocked(answerChatText).mockResolvedValue(captured({
         ok: true,
         transaction,
         isDuplicate: false,
         autoCategorized: true,
         appliedCategory: { name: 'Restaurantes', icon: 'Utensils' },
-      } as never);
+      }));
 
       await handleTelegramUpdate(update('12000 juan valdez'));
 
@@ -281,13 +294,13 @@ describe('the Telegram client', () => {
 
     it('lets the question be the receipt when the engine had no answer', async () => {
       // Two messages for one coffee is how a useful bot becomes a muted one.
-      vi.mocked(captureFromText).mockResolvedValue({
+      vi.mocked(answerChatText).mockResolvedValue(captured({
         ok: true,
         transaction,
         isDuplicate: false,
         autoCategorized: false,
         appliedCategory: null,
-      } as never);
+      }));
 
       await handleTelegramUpdate(update('12000 juan valdez'));
 
@@ -297,13 +310,13 @@ describe('the Telegram client', () => {
 
     it('still confirms the spend when the question could not be delivered', async () => {
       // Rule 7: the money is stored. Silence here would read as a lost expense.
-      vi.mocked(captureFromText).mockResolvedValue({
+      vi.mocked(answerChatText).mockResolvedValue(captured({
         ok: true,
         transaction,
         isDuplicate: false,
         autoCategorized: false,
         appliedCategory: null,
-      } as never);
+      }));
       vi.mocked(notifyIfUncategorized).mockResolvedValue({
         sent: false,
         reason: 'no_categories',
@@ -319,13 +332,13 @@ describe('the Telegram client', () => {
       // A second message per spend forever is how a useful bot gets muted.
       // The count of captures IS the state - there is no flag to get wrong.
       vi.mocked(shouldOfferCommandsTip).mockResolvedValue(true);
-      vi.mocked(captureFromText).mockResolvedValue({
+      vi.mocked(answerChatText).mockResolvedValue(captured({
         ok: true,
         transaction,
         isDuplicate: false,
         autoCategorized: true,
         appliedCategory: { name: 'Restaurantes', icon: 'Utensils' },
-      } as never);
+      }));
 
       await handleTelegramUpdate(update('12000 juan valdez'));
 
@@ -336,13 +349,13 @@ describe('the Telegram client', () => {
 
     it('stays quiet about the commands on every other spend', async () => {
       vi.mocked(shouldOfferCommandsTip).mockResolvedValue(false);
-      vi.mocked(captureFromText).mockResolvedValue({
+      vi.mocked(answerChatText).mockResolvedValue(captured({
         ok: true,
         transaction,
         isDuplicate: false,
         autoCategorized: true,
         appliedCategory: { name: 'Restaurantes', icon: 'Utensils' },
-      } as never);
+      }));
 
       await handleTelegramUpdate(update('12000 juan valdez'));
 
@@ -350,13 +363,13 @@ describe('the Telegram client', () => {
     });
 
     it('says nothing new about a redelivered message', async () => {
-      vi.mocked(captureFromText).mockResolvedValue({
+      vi.mocked(answerChatText).mockResolvedValue(captured({
         ok: true,
         transaction,
         isDuplicate: true,
         autoCategorized: false,
         appliedCategory: null,
-      } as never);
+      }));
 
       await handleTelegramUpdate(update('12000 juan valdez'));
 
@@ -369,7 +382,7 @@ describe('the Telegram client', () => {
       ['no_merchant', 'no en qué fue'],
       ['not_positive', 'mayor que cero'],
     ])('explains a %s failure in words the user can act on', async (reason, expected) => {
-      vi.mocked(captureFromText).mockResolvedValue({ ok: false, reason } as never);
+      vi.mocked(answerChatText).mockResolvedValue(captured({ ok: false, reason }));
 
       await handleTelegramUpdate(update('lo que sea'));
 
@@ -382,7 +395,7 @@ describe('the Telegram client', () => {
         // The message that failed is the moment somebody will actually read
         // the instructions, and income is the half nobody discovers on their
         // own - there is no reason to guess that `+` means money coming in.
-        vi.mocked(captureFromText).mockResolvedValue({ ok: false, reason } as never);
+        vi.mocked(answerChatText).mockResolvedValue(captured({ ok: false, reason }));
 
         await handleTelegramUpdate(update('lo que sea'));
 
@@ -395,10 +408,10 @@ describe('the Telegram client', () => {
     it('does not blame the format when the failure was ours', async () => {
       // 'unknown_account' is a bug on our side. Answering it with "here is how
       // to write an expense" tells the user they did something wrong.
-      vi.mocked(captureFromText).mockResolvedValue({
+      vi.mocked(answerChatText).mockResolvedValue(captured({
         ok: false,
         reason: 'unknown_account',
-      } as never);
+      }));
 
       await handleTelegramUpdate(update('12000 juan valdez'));
 
@@ -416,7 +429,7 @@ describe('the Telegram client', () => {
 
       expect(getDashboardData).toHaveBeenCalledTimes(1);
       expect(getMonthViewData).not.toHaveBeenCalled();
-      expect(captureFromText).not.toHaveBeenCalled();
+      expect(answerChatText).not.toHaveBeenCalled();
       expect(reply()).toContain(expected);
     });
 
@@ -436,13 +449,13 @@ describe('the Telegram client', () => {
     it('does not read a query as a merchant', async () => {
       await handleTelegramUpdate(update('/saldo'));
 
-      expect(captureFromText).not.toHaveBeenCalled();
+      expect(answerChatText).not.toHaveBeenCalled();
     });
 
     it('answers /ayuda with the format instead of trying to parse it', async () => {
       await handleTelegramUpdate(update('/ayuda'));
 
-      expect(captureFromText).not.toHaveBeenCalled();
+      expect(answerChatText).not.toHaveBeenCalled();
       expect(reply()).toContain('juan valdez');
     });
 
@@ -451,10 +464,128 @@ describe('the Telegram client', () => {
       // IS built, not a dead end.
       await handleTelegramUpdate(update('/presupuesto'));
 
-      expect(captureFromText).not.toHaveBeenCalled();
+      expect(answerChatText).not.toHaveBeenCalled();
       expect(reply()).toContain('No conozco');
       expect(reply()).toContain('GASTOS');
       expect(reply()).toContain('/saldo');
+    });
+  });
+
+  describe('what the language model understood (block L1)', () => {
+    beforeEach(() => {
+      vi.mocked(resolveChat).mockResolvedValue({ id: USER_ID, baseCurrency: 'COP' } as never);
+    });
+
+    it('shows "typing" while the model reads, and only then', async () => {
+      vi.mocked(answerChatText).mockImplementation(async (_u, _p, _t, options) => {
+        options.onThinking?.();
+        return captured({ ok: false, reason: 'no_amount' });
+      });
+
+      await handleTelegramUpdate(update('hola'));
+
+      expect(sendChatAction).toHaveBeenCalledWith(BigInt(CHAT_ID), 'typing');
+    });
+
+    it('names the day on the receipt when the spend was not today', async () => {
+      // The user's only proof that "ayer" was read as yesterday.
+      vi.mocked(answerChatText).mockResolvedValue(
+        captured(
+          {
+            ok: true,
+            transaction,
+            isDuplicate: false,
+            autoCategorized: true,
+            appliedCategory: { name: 'Transporte', icon: 'Car' },
+          },
+          { key: '2026-10-29', relative: 'yesterday' },
+        ),
+      );
+
+      await handleTelegramUpdate(update('ayer gasté 12k en uber'));
+
+      expect(reply()).toContain('12.000');
+      expect(reply()).toContain('· ayer');
+    });
+
+    it('answers a question in words with the same report the command gives', async () => {
+      vi.mocked(answerChatText).mockResolvedValue({
+        kind: 'balance',
+        data: await getDashboardData(USER_ID as never),
+      } as never);
+
+      await handleTelegramUpdate(update('¿cuánto tengo?'));
+
+      expect(reply()).toContain('1.234.500');
+    });
+
+    it('answers a past day with its total and its date', async () => {
+      vi.mocked(answerChatText).mockResolvedValue({
+        kind: 'day',
+        day: { key: '2026-10-28', relative: null },
+        totalExpenseMinor: 4_500_000n,
+        count: 2,
+        currency: 'COP',
+      } as never);
+
+      await handleTelegramUpdate(update('¿cuánto gasté el martes?'));
+
+      expect(reply()).toContain('28 de octubre');
+      expect(reply()).toContain('45.000');
+      expect(reply()).toContain('2 movimientos');
+    });
+
+    it('answers one category of the month', async () => {
+      vi.mocked(answerChatText).mockResolvedValue({
+        kind: 'month',
+        data: await getMonthViewData(USER_ID as never, 0),
+        category: { found: true, name: 'Transporte', icon: 'Car', totalMinor: 15_000_000n },
+      } as never);
+
+      await handleTelegramUpdate(update('¿cuánto llevo en transporte?'));
+
+      expect(reply()).toContain('Transporte');
+      expect(reply()).toContain('150.000');
+      expect(reply()).toContain('15%');
+    });
+
+    it('says a category does not exist instead of guessing one, and shows the month', async () => {
+      vi.mocked(answerChatText).mockResolvedValue({
+        kind: 'month',
+        data: await getMonthViewData(USER_ID as never, 0),
+        category: { found: false, word: 'comida' },
+      } as never);
+
+      await handleTelegramUpdate(update('¿cuánto llevo en comida?'));
+
+      expect(reply()).toContain('No tienes una categoría llamada «comida»');
+      expect(reply()).toContain('Septiembre 2026');
+    });
+
+    it('refuses investment advice with the fixed text, not a recommendation (P4)', async () => {
+      vi.mocked(answerChatText).mockResolvedValue({ kind: 'unsupported', topic: 'advice' } as never);
+
+      await handleTelegramUpdate(update('¿en qué invierto?'));
+
+      expect(reply()).toContain('asesoría');
+      expect(reply()).toContain('/mes');
+    });
+
+    it('says budgets do not exist yet rather than inventing one', async () => {
+      vi.mocked(answerChatText).mockResolvedValue({ kind: 'unsupported', topic: 'budget' } as never);
+
+      await handleTelegramUpdate(update('¿cómo voy con mi presupuesto?'));
+
+      expect(reply()).toContain('Todavía no hay presupuestos');
+    });
+
+    it('answers anything else it cannot do with what it CAN do', async () => {
+      vi.mocked(answerChatText).mockResolvedValue({ kind: 'unsupported', topic: 'other' } as never);
+
+      await handleTelegramUpdate(update('mándale plata a mi mamá'));
+
+      expect(reply()).toContain('todavía no lo sé hacer');
+      expect(reply()).toContain('GASTOS');
     });
   });
 
@@ -483,7 +614,7 @@ describe('the Telegram client', () => {
 
       expect(resolvePromptContext).toHaveBeenCalledWith(USER_ID, 'telegram', BigInt(CHAT_ID), 55n);
       expect(createCategoryForPrompt).toHaveBeenCalledWith(USER_ID, expect.anything(), 'Mercado');
-      expect(captureFromText).not.toHaveBeenCalled();
+      expect(answerChatText).not.toHaveBeenCalled();
       expect(reply()).toContain('Restaurantes');
     });
 
@@ -526,39 +657,39 @@ describe('the Telegram client', () => {
         kind: 'category_pick',
         transaction,
       } as never);
-      vi.mocked(captureFromText).mockResolvedValue({
+      vi.mocked(answerChatText).mockResolvedValue(captured({
         ok: true,
         transaction,
         isDuplicate: false,
         autoCategorized: false,
         appliedCategory: null,
-      } as never);
+      }));
 
       await handleTelegramUpdate(
         update('12000 juan valdez', { reply_to_message: { message_id: 55, chat: { id: CHAT_ID, type: 'private' }, date: 0 } }),
       );
 
       expect(createCategoryForPrompt).not.toHaveBeenCalled();
-      expect(captureFromText).toHaveBeenCalled();
+      expect(answerChatText).toHaveBeenCalled();
     });
 
     it('reads a reply to anything else as a spend, not as a category name', async () => {
       // Quoting an old message while writing `12000 tienda` must still record it.
       vi.mocked(resolvePromptContext).mockResolvedValue(null);
-      vi.mocked(captureFromText).mockResolvedValue({
+      vi.mocked(answerChatText).mockResolvedValue(captured({
         ok: true,
         transaction,
         isDuplicate: false,
         autoCategorized: false,
         appliedCategory: null,
-      } as never);
+      }));
 
       await handleTelegramUpdate(
         update('12000 tienda', { reply_to_message: { message_id: 55, chat: { id: CHAT_ID, type: 'private' }, date: 0 } }),
       );
 
       expect(createCategoryForPrompt).not.toHaveBeenCalled();
-      expect(captureFromText).toHaveBeenCalled();
+      expect(answerChatText).toHaveBeenCalled();
     });
   });
 
@@ -740,7 +871,7 @@ describe('the Telegram client', () => {
         },
       } as never);
 
-      expect(captureFromText).not.toHaveBeenCalled();
+      expect(answerChatText).not.toHaveBeenCalled();
       expect(reply()).toContain('mensajes editados');
     });
 

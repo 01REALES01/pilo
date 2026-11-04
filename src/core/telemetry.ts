@@ -38,9 +38,27 @@ export const TELEMETRY_METRICS = [
   'TTFB',
   'manual_entry_duration',
   'dashboard_query_duration',
+  // One row per message the language model read (block L1): the value is its
+  // latency, the metadata says what it understood. Written by the server only.
+  'chat_intent',
 ] as const;
 
 export type TelemetryMetric = (typeof TELEMETRY_METRICS)[number];
+
+/**
+ * What a browser may report. Every metric except the ones the server records
+ * about itself: the endpoint takes any body a signed-in user sends, and a
+ * forged chat_intent row would quietly move the rescue rate in METRICS.md.
+ */
+export const CLIENT_METRICS = [
+  'LCP',
+  'INP',
+  'CLS',
+  'FCP',
+  'TTFB',
+  'manual_entry_duration',
+  'dashboard_query_duration',
+] as const satisfies readonly TelemetryMetric[];
 
 export const TELEMETRY_RATINGS = ['good', 'needs-improvement', 'poor'] as const;
 

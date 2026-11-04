@@ -1,0 +1,2 @@
+ALTER TABLE "telemetry_events" DROP CONSTRAINT "telemetry_metric_check";--> statement-breakpoint
+ALTER TABLE "telemetry_events" ADD CONSTRAINT "telemetry_metric_check" CHECK ("telemetry_events"."metric" IN ('LCP','INP','CLS','FCP','TTFB','manual_entry_duration','dashboard_query_duration','chat_intent'));

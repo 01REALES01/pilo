@@ -281,7 +281,7 @@ export const DICTIONARY = {
       '+80000 venta\n\n' +
       '📝 NOTA — después de un guion:\n' +
       '12000 tienda - almuerzo del lunes\n\n' +
-      'El monto va al principio o al final, nunca en medio. Si no lo entiendo, no lo guardo: prefiero preguntarte a apuntar un número equivocado.\n\n📊 CONSULTAS — /saldo · /hoy · /mes',
+      'El monto va al principio o al final, nunca en medio. Si no lo entiendo, no lo guardo: prefiero preguntarte a apuntar un número equivocado.\n\n🗣️ También puedes escribirme con tus palabras: «ayer gasté 32k en uber», «¿cuánto llevo en transporte este mes?»\n\n📊 CONSULTAS — /saldo · /hoy · /mes',
     bot_ask_category: '¿En qué categoría va?',
     bot_saved: 'Guardado',
     bot_saved_duplicate: 'Ese ya lo tenía registrado.',
@@ -325,6 +325,16 @@ export const DICTIONARY = {
     bot_commands_hint:
       '💡 Además de anotar, puedo responderte:\n\n/saldo — tu saldo total\n/hoy — lo que llevas hoy\n/mes — el resumen del mes\n\nEstán también en el botón Menu, junto a la caja de texto.',
     bot_help_queries: '📊 CONSULTAS — /saldo · /hoy · /mes',
+    // Lo que el modelo de lenguaje entiende y no es un gasto (bloque L1). Las
+    // tres respuestas a lo que todavía no existe son fijas, del catálogo: el
+    // modelo nunca redacta, y menos un consejo de inversión (P4).
+    bot_day_yesterday: 'ayer',
+    bot_category_missing: 'No tienes una categoría llamada',
+    bot_unsupported_budget:
+      'Todavía no hay presupuestos en Pilo. Lo que sí te puedo decir es cuánto llevas este mes: /mes',
+    bot_unsupported_advice:
+      'No te puedo decir en qué invertir ni qué hacer con tu plata: eso es asesoría, y Pilo no la da. Lo que sí hago es mostrarte en qué se te va: /mes',
+    bot_unsupported_other: 'Eso todavía no lo sé hacer.',
   },
   en: {
     // Navigation & Common
@@ -595,7 +605,7 @@ export const DICTIONARY = {
       '+80000 sale\n\n' +
       '📝 NOTE — after a dash:\n' +
       '12000 store - monday lunch\n\n' +
-      'The amount goes first or last, never in the middle. If I cannot read it I do not save it: I would rather ask than write down the wrong number.\n\n📊 QUERIES — /saldo · /hoy · /mes',
+      'The amount goes first or last, never in the middle. If I cannot read it I do not save it: I would rather ask than write down the wrong number.\n\n🗣️ You can also write it in your own words: «spent 32k on uber yesterday», «how much on transport this month?»\n\n📊 QUERIES — /saldo · /hoy · /mes',
     bot_ask_category: 'Which category does it go in?',
     bot_saved: 'Saved',
     bot_saved_duplicate: 'I already had that one.',
@@ -638,6 +648,13 @@ export const DICTIONARY = {
     bot_commands_hint:
       '💡 Besides writing things down, I can answer:\n\n/saldo — your total balance\n/hoy — today so far\n/mes — this month\n\nThey are also in the Menu button, next to the text box.',
     bot_help_queries: '📊 QUERIES — /saldo · /hoy · /mes',
+    bot_day_yesterday: 'yesterday',
+    bot_category_missing: 'You have no category called',
+    bot_unsupported_budget:
+      'Pilo has no budgets yet. What I can tell you is how much you have spent this month: /mes',
+    bot_unsupported_advice:
+      'I cannot tell you what to invest in or what to do with your money: that is financial advice, and Pilo does not give it. What I can do is show you where it goes: /mes',
+    bot_unsupported_other: 'I cannot do that yet.',
   },
 } as const;
 

@@ -1,7 +1,13 @@
 import { formatMoney, money } from '@/core/money';
 import type { ProfileRow } from '@/core/repositories/profile.repository';
 import { getDashboardData, getMonthViewData } from '@/core/services/analytics.service';
-import { captureFromText, shouldOfferCommandsTip } from '@/core/services/chat-capture.service';
+import {
+  answerChatText,
+  shouldOfferCommandsTip,
+  type ChatCaptureResult,
+  type ChatDay,
+  type ChatTextResult,
+} from '@/core/services/chat-capture.service';
 import {
   answerCategoryPrompt,
   createCategoryForPrompt,
@@ -13,10 +19,12 @@ import {
 } from '@/core/services/notification.service';
 import { linkChatWithToken, resolveChat } from '@/core/services/telegram-link.service';
 import { toUserId, type UserId } from '@/core/types';
+import { generateJson } from '@/infrastructure/ai/gemini';
 import {
   answerCallbackQuery,
   editMessageReplyMarkup,
   editMessageText,
+  sendChatAction,
   sendMessage,
   type TelegramCallbackQuery,
   type TelegramMessage,
@@ -28,7 +36,14 @@ import { DEFAULT_LOCALE, intlTag, t, type Locale } from '@/lib/i18n';
 import { categoryLabel } from './category-emoji';
 import { fullKeyboard, parseCallbackData } from './keyboards';
 import { telegramAdapter } from './messaging-adapter';
-import { balanceReport, monthReport, todayReport } from './reports';
+import {
+  balanceReport,
+  categoryMonthReport,
+  dayLabel,
+  dayReport,
+  monthReport,
+  todayReport,
+} from './reports';
 
 /**
  * The Telegram client. A translator, nothing else.
@@ -102,8 +117,12 @@ function savedLine(
   merchant: string,
   category: { readonly name: string; readonly icon: string } | null,
   locale: Locale,
+  day: ChatDay | null = null,
 ): string {
-  const head = `✅ ${t('bot_saved', locale)} · ${amountText(amountMinor, currency, locale)} · ${merchant}`;
+  // The day only when it is not today. "· ayer" is the user's only proof that
+  // the sentence was read as yesterday and not filed under now.
+  const when = day ? ` · ${dayLabel(day, locale, 'inline')}` : '';
+  const head = `✅ ${t('bot_saved', locale)} · ${amountText(amountMinor, currency, locale)} · ${merchant}${when}`;
   return category ? `${head}\n${categoryLabel(category.name, category.icon)}` : head;
 }
 
@@ -168,13 +187,24 @@ async function handleCategoryNameReply(
 }
 
 /**
- * A line of text becomes a spend, and then a question if it needs one.
- *
- * The order is rule 7 made literal: the transaction is stored first and the
- * keyboard goes out second. If the send fails - blocked bot, dead network -
- * the money is already recorded and /revisar has it.
+ * How often "escribiendo…" is sent again while the model reads. Telegram
+ * drops the indicator after about five seconds, and the model may take ten.
  */
-async function captureSpend(
+const TYPING_REFRESH_MS = 4_000;
+
+/** The three things that do not exist yet, each with a fixed answer. */
+function unsupportedReply(topic: 'budget' | 'advice' | 'other', locale: Locale): string {
+  if (topic === 'budget') return t('bot_unsupported_budget', locale);
+  if (topic === 'advice') return t('bot_unsupported_advice', locale);
+  return `${t('bot_unsupported_other', locale)}\n\n${t('bot_help', locale)}`;
+}
+
+/**
+ * A line of text: a spend, a question, or something the bot cannot do yet.
+ *
+ * What it IS is decided in chat-capture.service; this only says it back.
+ */
+async function answerText(
   userId: UserId,
   profile: ProfileRow,
   chatId: bigint,
@@ -182,13 +212,71 @@ async function captureSpend(
   text: string,
   locale: Locale,
 ): Promise<void> {
-  const result = await captureFromText(userId, profile, text, {
-    source: SOURCE,
-    // The message id, not a hash of the words: two coffees at the same place
-    // for the same amount is two spends, and a redelivered update is one.
-    externalId: `${PROVIDER}:${chatId}:${messageId}`,
-  });
+  let typing: ReturnType<typeof setInterval> | undefined;
+  let answer: ChatTextResult;
+  try {
+    answer = await answerChatText(userId, profile, text, {
+      source: SOURCE,
+      // The message id, not a hash of the words: two coffees at the same place
+      // for the same amount is two spends, and a redelivered update is one.
+      externalId: `${PROVIDER}:${chatId}:${messageId}`,
+      model: generateJson,
+      // "escribiendo…" rather than an "Entendiendo…" message: when the answer
+      // is a category keyboard it goes out as a NEW message, and a placeholder
+      // would be left behind with nothing to edit it into. The indicator
+      // leaves nothing behind. Not awaited: it is decoration, and its own
+      // failure is already logged by the adapter.
+      onThinking: () => {
+        void sendChatAction(chatId, 'typing');
+        typing = setInterval(() => void sendChatAction(chatId, 'typing'), TYPING_REFRESH_MS);
+      },
+    });
+  } finally {
+    clearInterval(typing);
+  }
 
+  switch (answer.kind) {
+    case 'capture':
+      await replyToCapture(userId, profile, chatId, answer.capture, answer.day, locale);
+      return;
+    case 'balance':
+      await sendMessage(chatId, balanceReport(answer.data, locale));
+      return;
+    case 'today':
+      await sendMessage(chatId, todayReport(answer.data, locale));
+      return;
+    case 'day':
+      await sendMessage(chatId, dayReport(answer, locale));
+      return;
+    case 'month':
+      await sendMessage(
+        chatId,
+        answer.category
+          ? categoryMonthReport(answer.data, answer.category, locale)
+          : monthReport(answer.data, locale),
+      );
+      return;
+    case 'unsupported':
+      await sendMessage(chatId, unsupportedReply(answer.topic, locale));
+      return;
+  }
+}
+
+/**
+ * A spend was read, and then a question if it needs one.
+ *
+ * The order is rule 7 made literal: the transaction is stored first and the
+ * keyboard goes out second. If the send fails - blocked bot, dead network -
+ * the money is already recorded and /revisar has it.
+ */
+async function replyToCapture(
+  userId: UserId,
+  profile: ProfileRow,
+  chatId: bigint,
+  result: ChatCaptureResult,
+  day: ChatDay | null,
+  locale: Locale,
+): Promise<void> {
   if (!result.ok) {
     // Diagnosis, then the whole format underneath.
     //
@@ -235,6 +323,7 @@ async function captureSpend(
         result.transaction.merchant,
         result.appliedCategory,
         locale,
+        day,
       ),
     );
     await offerCommandsTip(chatId, offerTip, locale);
@@ -267,6 +356,7 @@ async function captureSpend(
       result.transaction.merchant,
       null,
       locale,
+      day,
     )}${hint}`,
   );
 
@@ -406,7 +496,7 @@ async function handleMessage(message: TelegramMessage): Promise<void> {
     return;
   }
 
-  await captureSpend(userId, profile, chatId, message.message_id, text, locale);
+  await answerText(userId, profile, chatId, message.message_id, text, locale);
 }
 
 // ── Buttons ─────────────────────────────────────────────────────────────────

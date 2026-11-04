@@ -14,7 +14,7 @@ const { Pool, neonConfig } = await import('@neondatabase/serverless');
 const { loadEnvFiles, resolveConnectionString } = await import(
   '../src/infrastructure/db/env'
 );
-const { getPhase1Baselines, getPhase4Snapshot } = await import(
+const { getChatIntentSnapshot, getPhase1Baselines, getPhase4Snapshot } = await import(
   '../src/core/services/telemetry.service'
 );
 const { toUserId } = await import('../src/core/types');
@@ -150,6 +150,21 @@ try {
       `  ${row.source.padEnd(16)} ${row.error.padEnd(22)} ${String(row.n).padStart(3)}` +
         `   resolved ${row.resolved}`,
     );
+  }
+
+  // Block L1. Only messages the strict parser rejected ever reach the model,
+  // so n here is "rejected messages", not "messages".
+  const l1 = await getChatIntentSnapshot(toUserId(profile.id), since);
+  console.log(`\nLanguage model (L1)  (n=${l1.total} rejected messages it was asked about)`);
+  if (l1.total === 0) {
+    console.log('  none yet');
+  } else {
+    for (const row of l1.outcomes) {
+      console.log(`  ${row.outcome.padEnd(16)} ${String(row.n).padStart(5)}   ${row.pct}%`);
+    }
+    console.log(`  -> rescued: ${l1.rescueRate}%`);
+    console.log(line(l1.latency));
+    console.log(`  tokens   ${l1.promptTokens} in / ${l1.outputTokens} out`);
   }
 
   if (baselines.manualEntryDuration.n === 0) {

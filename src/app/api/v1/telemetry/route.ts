@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { z } from 'zod';
 
 import { recordMetrics } from '@/core/services/telemetry.service';
-import { TELEMETRY_METRICS, TELEMETRY_RATINGS } from '@/core/telemetry';
+import { CLIENT_METRICS, TELEMETRY_RATINGS } from '@/core/telemetry';
 import { toUserId } from '@/core/types';
 import { getCurrentUser } from '@/lib/session';
 
@@ -20,7 +20,7 @@ export const dynamic = 'force-dynamic';
 const MAX_SAMPLES_PER_REQUEST = 10;
 
 const SampleSchema = z.object({
-  metric: z.enum(TELEMETRY_METRICS),
+  metric: z.enum(CLIENT_METRICS),
   // Bounded on both ends. Negative is a broken clock; the ceiling is a day in
   // milliseconds, which no real LCP or form fill approaches, and which stops a
   // absurd value from dragging every future percentile with it.
