@@ -220,3 +220,50 @@ export async function getDailyUsage(
     daysElapsed: result?.daysElapsed ?? 0,
   };
 }
+
+export interface ChatIntentOutcomeRow {
+  readonly outcome: string;
+  readonly n: number;
+  readonly promptTokens: number;
+  readonly outputTokens: number;
+}
+
+/**
+ * How the language model's readings came out, by outcome (block L1).
+ *
+ * Grouped from the metadata each `chat_intent` row carries. The latency is the
+ * row's value and getMetricPercentiles already reads it; this is the other
+ * half - how many messages the model rescued, how many it could not, how many
+ * it never got to answer - plus the tokens behind the cost line in METRICS.md.
+ */
+export async function getChatIntentOutcomes(
+  userId: UserId,
+  since?: Date,
+): Promise<ChatIntentOutcomeRow[]> {
+  const db = getDb();
+  const outcome = sql<string>`COALESCE(${telemetryEvents.metadata}->>'outcome', 'unknown')`;
+
+  const rows = await db
+    .select({
+      outcome,
+      n: sql<number>`COUNT(*)::int`,
+      promptTokens: sql<number>`COALESCE(SUM((${telemetryEvents.metadata}->>'promptTokens')::int), 0)::int`,
+      outputTokens: sql<number>`COALESCE(SUM((${telemetryEvents.metadata}->>'outputTokens')::int), 0)::int`,
+    })
+    .from(telemetryEvents)
+    .where(
+      and(
+        eq(telemetryEvents.userId, userId),
+        eq(telemetryEvents.metric, 'chat_intent'),
+        ...(since ? [gte(telemetryEvents.createdAt, since)] : []),
+      ),
+    )
+    .groupBy(outcome);
+
+  return rows.map((row) => ({
+    outcome: row.outcome,
+    n: Number(row.n),
+    promptTokens: Number(row.promptTokens),
+    outputTokens: Number(row.outputTokens),
+  }));
+}

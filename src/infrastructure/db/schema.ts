@@ -554,7 +554,7 @@ export const telemetryEvents = pgTable(
     index('idx_telemetry_user_metric_time').on(t.userId, t.metric, t.createdAt.desc()),
     check(
       'telemetry_metric_check',
-      sql`${t.metric} IN ('LCP','INP','CLS','FCP','TTFB','manual_entry_duration','dashboard_query_duration')`,
+      sql`${t.metric} IN ('LCP','INP','CLS','FCP','TTFB','manual_entry_duration','dashboard_query_duration','chat_intent')`,
     ),
     // A negative duration means a broken clock, not a fast page. Rejecting it
     // at the constraint keeps it out of the percentiles instead of making

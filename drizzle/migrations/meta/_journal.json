@@ -71,6 +71,13 @@
       "when": 1791327596608,
       "tag": "0009_consents",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1793733311138,
+      "tag": "0010_good_the_santerians",
+      "breakpoints": true
     }
   ]
 }

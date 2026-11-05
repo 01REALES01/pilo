@@ -1,7 +1,8 @@
 import { formatMoney, money } from '@/core/money';
 import type { CategorySpendingBreakdown } from '@/core/repositories/transaction.repository';
 import type { DashboardData, MonthViewData } from '@/core/services/analytics.service';
-import { intlTag, t, type Locale } from '@/lib/i18n';
+import type { ChatDay, MonthCategory } from '@/core/services/chat-capture.service';
+import { formatDate, intlTag, t, type Locale } from '@/lib/i18n';
 
 import { categoryLabel } from './category-emoji';
 
@@ -147,4 +148,69 @@ export function monthReport(data: MonthViewData, locale: Locale): string {
   }
 
   return lines.join('\n');
+}
+
+/**
+ * A day the user named, as a title ("Ayer", "Martes 28 de octubre") or
+ * inside a receipt ("ayer", "28 oct").
+ *
+ * The key is already the local day, so it is formatted at noon UTC in UTC:
+ * no zone can move it, and the user's own zone has already been applied.
+ */
+export function dayLabel(day: ChatDay, locale: Locale, style: 'title' | 'inline'): string {
+  if (day.relative === 'yesterday') {
+    const word = t('bot_day_yesterday', locale);
+    return style === 'title' ? word.charAt(0).toUpperCase() + word.slice(1) : word;
+  }
+  const text = formatDate(
+    `${day.key}T12:00:00Z`,
+    'UTC',
+    locale,
+    style === 'title'
+      ? { weekday: 'long', day: 'numeric', month: 'long' }
+      : { day: 'numeric', month: 'short' },
+  );
+  return style === 'title' ? text.charAt(0).toUpperCase() + text.slice(1) : text;
+}
+
+/** "¿Cuánto gasté ayer?" - the shape of /hoy, for any day. */
+export function dayReport(
+  answer: {
+    readonly day: ChatDay;
+    readonly totalExpenseMinor: bigint;
+    readonly count: number;
+    readonly currency: string;
+  },
+  locale: Locale,
+): string {
+  return [
+    `📅 ${dayLabel(answer.day, locale, 'title')}`,
+    `${amount(answer.totalExpenseMinor, answer.currency, locale)}  ·  ${movements(answer.count, locale)}`,
+  ].join('\n');
+}
+
+/**
+ * "¿Cuánto llevo en transporte?" - one category of the month.
+ *
+ * A category the user does not have is said plainly, with the whole month
+ * under it: the question was about this month's spending, and the full view
+ * shows which names they DO have, which is the way to ask again.
+ */
+export function categoryMonthReport(
+  data: MonthViewData,
+  category: MonthCategory,
+  locale: Locale,
+): string {
+  if (!category.found) {
+    return `${t('bot_category_missing', locale)} «${category.word}».\n\n${monthReport(data, locale)}`;
+  }
+
+  const { baseCurrency: c, monthlyTotals: totals } = data;
+  return [
+    `📊 ${data.monthLabel}`,
+    '',
+    `${categoryLabel(category.name, category.icon)}  ${amount(category.totalMinor, c, locale)}` +
+      share(category.totalMinor, totals.totalExpenseMinor),
+    row(t('bot_month_expenses', locale), amount(totals.totalExpenseMinor, c, locale)),
+  ].join('\n');
 }

@@ -300,6 +300,8 @@ Registro de mediciones del proyecto. Gobernado por el **principio P6** de `IMPLE
 - **Conclusión:** se mantiene `gemini-3.5-flash-lite`: mismo acierto, la mitad de p95 y sin timeouts en la corrida de comparación. El timeout de producción es 10 s con respuesta inmediata ("Entendiendo…") y caída al formato corto.
 - **Re-corrida 2026-10-12** (n=42, añadidas frases con "k": "32k", "100k", "2k", "300k"): **40/42 (95%)**, registrar gasto **17/17**, p50/p95 772/904 ms, 315/65 tokens, sin timeouts.
 - **Hallazgo lateral:** la evaluación detectó que el parser, tras aprender "k/mil/M", aceptaba frases que debía dejar al modelo ("gasté 20 lucas…" se habría guardado como $20). Corregido antes de producción. La segunda corrida destapó otro: "anoche en rappi se me fueron 45k" lo tomaba el parser con fecha de hoy; ahora toda línea que nombra un día va al modelo.
+- **Cambio de diseño, 2026-11-03 (al conectar L1 al chat, Fase 0 de L2):** en vez del mensaje "Entendiendo…" se usa el indicador nativo "escribiendo…" de Telegram, renovado cada 4 s hasta el timeout de 10 s. Cuando la respuesta es el teclado de categorías sale como mensaje nuevo, y "Entendiendo…" habría quedado huérfano. Con el p95 medido (904 ms) el indicador casi nunca se nota.
+- **Medición en producción:** cada mensaje que el parser rechaza y llega al modelo deja una fila `chat_intent` en `telemetry_events` (latencia, tokens, intención y resultado: `understood`, `unclear` o `unavailable`; **sin el texto del mensaje**). `pnpm metrics:report` imprime la tasa de rescate con n. La primera lectura real va en una entrada nueva, con fecha.
 
 ## Landing (superficie pública)
 

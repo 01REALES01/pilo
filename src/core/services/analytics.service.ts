@@ -155,7 +155,7 @@ export function dayKeyReader(timezone: string): (date: Date) => string {
  * Moves a day key by whole days. The key is already local, so this is plain
  * calendar arithmetic in UTC: no zone or DST change can shift it.
  */
-function shiftDayKey(day: string, days: number): string {
+export function shiftDayKey(day: string, days: number): string {
   const [year, month, date] = day.split('-').map(Number);
   return isoDate(year!, month! - 1, date! + days);
 }

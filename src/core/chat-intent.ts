@@ -175,3 +175,73 @@ export function buildIntentSystemPrompt(todayKey: string): string {
     'Nunca uses una fecha futura.',
   ].join('\n');
 }
+
+/** "Café", "cafe" and "CAFÉ" are one word to the person who typed it. */
+function fold(text: string): string {
+  return text.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().trim();
+}
+
+/** "restaurante" asks for "Restaurantes". Spanish plurals end in -s or -es. */
+function sameWord(a: string, b: string): boolean {
+  return a === b || a === `${b}s` || b === `${a}s` || a === `${b}es` || b === `${a}es`;
+}
+
+/**
+ * Which of the user's categories a word names, or null.
+ *
+ * Deterministic, which is the point: the model hands back the word the user
+ * wrote and this decides, so "café" means the same category every time and a
+ * category the user does not have is reported as missing instead of
+ * approximated. The model never sees the list (option A) - "comida" for
+ * "Restaurantes y Café" is a semantic leap, and a leap is a guess.
+ *
+ * The whole name first, then any one word of it. Either way only a single
+ * match counts: two candidates means the word did not say which.
+ */
+export function matchCategory<T extends { readonly name: string }>(
+  word: string,
+  categories: readonly T[],
+): T | null {
+  const wanted = fold(word);
+  if (!wanted) return null;
+
+  const whole = categories.filter((c) => sameWord(fold(c.name), wanted));
+  if (whole.length > 0) return whole.length === 1 ? (whole[0] ?? null) : null;
+
+  const partial = categories.filter((c) =>
+    fold(c.name)
+      .split(/[^\p{L}\p{N}]+/u)
+      .some((part) => sameWord(part, wanted)),
+  );
+  return partial.length === 1 ? (partial[0] ?? null) : null;
+}
+
+/**
+ * The instant at midday of a local day - when a spend dated "ayer" is stored.
+ *
+ * A spend the user says was yesterday has no time of its own, and the row only
+ * has to land on the right local day. Midnight would sit on the edge, where
+ * one wrong hour of offset moves it to the day before; midday is twelve hours
+ * from both edges in every zone, so the month totals and the calendar, which
+ * group with AT TIME ZONE (rule 4), put it on the day the user named.
+ */
+export function localNoon(dayKey: string, timezone: string): Date {
+  const [y, m, d] = dayKey.split('-').map(Number) as [number, number, number];
+  const guess = Date.UTC(y, m - 1, d, 12);
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: timezone,
+    hourCycle: 'h23',
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  }).formatToParts(new Date(guess));
+  const part = (type: Intl.DateTimeFormatPartTypes): number =>
+    Number(parts.find((p) => p.type === type)?.value);
+
+  // What the zone's clock reads at `guess`. The gap between that and `guess`
+  // is the zone's offset on that day, DST included.
+  const wall = Date.UTC(part('year'), part('month') - 1, part('day'), part('hour'), part('minute'));
+  return new Date(guess - (wall - guess));
+}
