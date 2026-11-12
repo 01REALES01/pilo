@@ -73,17 +73,31 @@ export default async function TelegramPage(): Promise<React.ReactElement> {
                 lo que pagues en efectivo y queda registrado aquí.
               </p>
               {invite ? (
-                <div className="ingest-lede">
-                  <a href={invite.url} className="settings-link" target="_blank" rel="noreferrer">
-                    <span className="settings-link-text">
-                      <span className="settings-link-title">Abrir el chat</span>
-                      <span className="settings-link-sub">
-                        Vuelve a enlazar si cambiaste de cuenta de Telegram
+                <>
+                  {/* No target="_blank": in the installed iOS app it opens an
+                      in-app Safari sheet first, and the start token was seen
+                      not to survive that hop. Same link as the unlinked state. */}
+                  <div className="ingest-lede">
+                    <a href={invite.url} className="settings-link">
+                      <span className="settings-link-text">
+                        <span className="settings-link-title">Abrir el chat</span>
+                        <span className="settings-link-sub">
+                          Vuelve a enlazar si cambiaste de cuenta de Telegram
+                        </span>
                       </span>
-                    </span>
-                    <CategoryIcon name="ChevronRight" size={18} />
-                  </a>
-                </div>
+                      <CategoryIcon name="ChevronRight" size={18} />
+                    </a>
+                  </div>
+                  {/* Relinking is exactly when the deep link fails: the chat
+                      already exists, Telegram opens it, and nothing is sent.
+                      Without the typed command this state was a dead end -
+                      "Conectado" here, "not connected" in the bot. */}
+                  <p className="ingest-lede">
+                    ¿El bot dice que el chat no está conectado? Pega esto en el chat con{' '}
+                    <strong>@{invite.botUsername}</strong>:
+                  </p>
+                  <pre className="ingest-copy-block">{invite.command}</pre>
+                </>
               ) : null}
             </>
           ) : (
