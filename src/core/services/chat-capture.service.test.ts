@@ -397,7 +397,7 @@ describe('answering a line of chat text', () => {
       expect(listCategories).toHaveBeenCalledWith(userId, { type: 'expense' });
       expect(result).toMatchObject({
         kind: 'month',
-        category: { found: true, name: 'Transporte', icon: 'Car', totalMinor: 15_000_000n },
+        category: { found: true, name: 'Transporte', icon: 'Car', totalMinor: 15_000_000n, transactionCount: expect.any(Number) },
       });
     });
 
@@ -406,7 +406,7 @@ describe('answering a line of chat text', () => {
 
       const result = await answerChatText(userId, profile, '¿cuánto llevo en salud?', { ...options, model });
 
-      expect(result).toMatchObject({ category: { found: true, name: 'Salud', totalMinor: 0n } });
+      expect(result).toMatchObject({ category: { found: true, name: 'Salud', totalMinor: 0n, transactionCount: 0 } });
     });
 
     it('reports a category the user does not have instead of approximating one', async () => {

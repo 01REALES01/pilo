@@ -330,6 +330,10 @@ export const DICTIONARY = {
     // modelo nunca redacta, y menos un consejo de inversión (P4).
     bot_day_yesterday: 'ayer',
     bot_category_missing: 'No tienes una categoría llamada',
+    bot_category_in: 'en',
+    bot_category_empty: 'sin movimientos en esta categoría',
+    bot_category_share_lead: 'Es el',
+    bot_category_share_of: 'de todo lo que gastaste en el mes',
     bot_unsupported_budget:
       'Todavía no hay presupuestos en Pilo. Lo que sí te puedo decir es cuánto llevas este mes: /mes',
     bot_unsupported_advice:
@@ -650,6 +654,10 @@ export const DICTIONARY = {
     bot_help_queries: '📊 QUERIES — /saldo · /hoy · /mes',
     bot_day_yesterday: 'yesterday',
     bot_category_missing: 'You have no category called',
+    bot_category_in: 'across',
+    bot_category_empty: 'nothing in this category yet',
+    bot_category_share_lead: 'That is',
+    bot_category_share_of: 'of everything you spent in the month',
     bot_unsupported_budget:
       'Pilo has no budgets yet. What I can tell you is how much you have spent this month: /mes',
     bot_unsupported_advice:

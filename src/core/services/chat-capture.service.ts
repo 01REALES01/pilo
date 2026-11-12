@@ -118,7 +118,14 @@ export interface ChatDay {
 }
 
 export type MonthCategory =
-  | { readonly found: true; readonly name: string; readonly icon: string; readonly totalMinor: bigint }
+  | {
+      readonly found: true;
+      readonly name: string;
+      readonly icon: string;
+      readonly totalMinor: bigint;
+      /** How many spends make up the total - "$150.000" alone reads like one purchase. */
+      readonly transactionCount: number;
+    }
   /** The word the user wrote, for "you have no category called …". */
   | { readonly found: false; readonly word: string };
 
@@ -369,7 +376,13 @@ async function act(
       return {
         kind: 'month',
         data,
-        category: { found: true, name: match.name, icon: match.icon, totalMinor: spent?.totalMinor ?? 0n },
+        category: {
+          found: true,
+          name: match.name,
+          icon: match.icon,
+          totalMinor: spent?.totalMinor ?? 0n,
+          transactionCount: spent?.transactionCount ?? 0,
+        },
       };
     }
 

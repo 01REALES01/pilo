@@ -539,14 +539,34 @@ describe('the Telegram client', () => {
       vi.mocked(answerChatText).mockResolvedValue({
         kind: 'month',
         data: await getMonthViewData(USER_ID as never, 0),
-        category: { found: true, name: 'Transporte', icon: 'Car', totalMinor: 15_000_000n },
+        category: {
+          found: true,
+          name: 'Transporte',
+          icon: 'Car',
+          totalMinor: 15_000_000n,
+          transactionCount: 9,
+        },
       } as never);
 
       await handleTelegramUpdate(update('¿cuánto llevo en transporte?'));
 
-      expect(reply()).toContain('Transporte');
-      expect(reply()).toContain('150.000');
-      expect(reply()).toContain('15%');
+      expect(reply()).toContain('Transporte · Septiembre 2026');
+      expect(reply()).toMatch(/150\.000 en 9 movimientos/);
+      // The share is said in words, not left as a bare "15%" beside a second total.
+      expect(reply()).toContain('Es el 15% de todo lo que gastaste en el mes');
+    });
+
+    it('says a category with no spends is empty, without a 0% share', async () => {
+      vi.mocked(answerChatText).mockResolvedValue({
+        kind: 'month',
+        data: await getMonthViewData(USER_ID as never, 0),
+        category: { found: true, name: 'Salud', icon: 'Heart', totalMinor: 0n, transactionCount: 0 },
+      } as never);
+
+      await handleTelegramUpdate(update('¿cuánto llevo en salud?'));
+
+      expect(reply()).toContain('sin movimientos en esta categoría');
+      expect(reply()).not.toContain('%');
     });
 
     it('says a category does not exist instead of guessing one, and shows the month', async () => {

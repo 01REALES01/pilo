@@ -206,11 +206,33 @@ export function categoryMonthReport(
   }
 
   const { baseCurrency: c, monthlyTotals: totals } = data;
-  return [
-    `📊 ${data.monthLabel}`,
-    '',
-    `${categoryLabel(category.name, category.icon)}  ${amount(category.totalMinor, c, locale)}` +
-      share(category.totalMinor, totals.totalExpenseMinor),
-    row(t('bot_month_expenses', locale), amount(totals.totalExpenseMinor, c, locale)),
-  ].join('\n');
+  const title = `${categoryLabel(category.name, category.icon)} · ${data.monthLabel}`;
+  const spent = amount(category.totalMinor, c, locale);
+
+  // WHY SENTENCES AND NOT THE MONTH REPORT'S COLUMNS
+  // ------------------------------------------------
+  // This used to reuse the /mes layout: "Transporte  $150.000  15%" over
+  // "Gastos  $1.000.000". In a list of categories the columns explain each
+  // other; alone, a bare "15%" and a second total gave no hint of what was a
+  // part of what. Users asked one question, so the answer leads with the
+  // figure they asked for and says the share in words.
+  if (category.transactionCount === 0) {
+    return [title, `${spent} · ${t('bot_category_empty', locale)}`].join('\n');
+  }
+
+  const lines = [title, `${spent} ${t('bot_category_in', locale)} ${movements(category.transactionCount, locale)}`];
+
+  // Integer division on minor units, like share(). A 0% would read as "none of
+  // it", which is false for a category that does have spends, so it is left out.
+  const percent =
+    totals.totalExpenseMinor > 0n ? (category.totalMinor * 100n) / totals.totalExpenseMinor : 0n;
+  if (percent > 0n) {
+    lines.push(
+      '',
+      `${t('bot_category_share_lead', locale)} ${percent}% ${t('bot_category_share_of', locale)} ` +
+        `(${amount(totals.totalExpenseMinor, c, locale)}).`,
+    );
+  }
+
+  return lines.join('\n');
 }
