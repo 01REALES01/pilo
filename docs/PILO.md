@@ -21,7 +21,7 @@
 | Cómo se dibuja | Con la skill **illo** y un modelo de imagen, siempre con la hoja de referencia | §3.5 |
 | Colores de la interfaz | **Los que ya tiene el código**: vino para rellenos, champaña para acentos. Pilo usa los mismos tokens | §4 |
 | Animación | **CSS sobre un redibujo vectorial por capas** (pendiente). Rive solo si un día hace falta, como excepción registrada | §6 |
-| Comportamiento | Reacciona a hábitos, **nunca a montos**. No hay cara triste. No aparece en pantallas de datos | §5 |
+| Comportamiento | Reacciona a hábitos, **nunca a montos**. No hay cara triste. En el panel solo va al borde de una tarjeta, nunca sobre los datos (enmienda del 24-nov-2026) | §5 |
 
 ---
 
@@ -204,6 +204,7 @@ Salen de los principios del proyecto (`IMPLEMENTATION_PLAN.md` §3):
 3. **No opina de tu plata (P4).** Nunca dice «deberías ahorrar más».
 4. **No insiste (P2).** Nada de la culpa de Duolingo como recordatorio. «Dormido» existe para que de noche no moleste.
 5. **Fuera de las pantallas de datos.** Vive en el icono, la landing, la bienvenida, los estados vacíos, los errores y el bot (avatar y stickers). En `/mes`, en la lista y en las gráficas mandan los números. Así se respeta lo que el sistema de diseño dijo de los personajes en §1 («no aportan aquí»): no aportan *encima de los datos*.
+   **Enmienda del 24-nov-2026 (decisión del autor):** Pilo sí puede estar *dentro* del panel, con tres condiciones. (a) Va **al borde** de una tarjeta, asomado por encima, nunca sobre una cifra ni sobre una gráfica. (b) Su pose **no depende de los números**: es la misma con el mes en rojo o en verde (regla 1). (c) Uno por pantalla a la vista, quieto. Hoy aparece sobre la pila de cuentas en Inicio y sobre «Día a día» y al final de `/mes`. La lista de movimientos y el calendario siguen sin él.
 6. **Se lee en chico.** Medido el 30-oct-2026 con el icono reducido: a **60 px** se lee completo; a **32 px** se leen el copete y el borde de la tarjeta, y los ojos casi desaparecen. A **16 px** (pestaña del navegador) hace falta una versión aparte con solo el copete y la cara (§8.2).
 7. **Toda celebración se puede apagar.** Es el modelo de Asana.
 

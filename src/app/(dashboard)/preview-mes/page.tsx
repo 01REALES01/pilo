@@ -5,8 +5,12 @@ import React from 'react';
 
 import { CategoryBreakdownPanel } from '@/components/dashboard/category-breakdown-panel';
 import { MonthCalendar } from '@/components/dashboard/month-calendar';
+import { MonthDots } from '@/components/dashboard/month-dots';
+import { MonthNetTotal } from '@/components/dashboard/month-net';
+import { PiloPose } from '@/components/landing/pilo-pose';
 import { CategoryIcon } from '@/components/ui/category-icon';
 import { Money } from '@/components/ui/money';
+import { t } from '@/lib/i18n';
 import { formatDate } from '@/lib/i18n';
 import type { DayGroup } from '@/core/services/analytics.service';
 import type { CategorySpendingBreakdown } from '@/core/repositories/transaction.repository';
@@ -27,7 +31,7 @@ export default function PreviewMesPage(): React.ReactElement {
       categoryId: 'cat-housing',
       categoryName: 'Vivienda',
       categoryIcon: 'Home',
-      categoryColor: 'var(--brand-500)',
+      categoryColor: 'var(--cat-tone-cream)',
       totalMinor: 160000000n, // $1.600.000
       transactionCount: 2,
     },
@@ -35,7 +39,7 @@ export default function PreviewMesPage(): React.ReactElement {
       categoryId: 'cat-food',
       categoryName: 'Alimentación',
       categoryIcon: 'ShoppingCart',
-      categoryColor: 'var(--cat-5)',
+      categoryColor: 'var(--cat-tone-salmon)',
       totalMinor: 106960000n, // $1.069.600
       transactionCount: 18,
     },
@@ -43,7 +47,7 @@ export default function PreviewMesPage(): React.ReactElement {
       categoryId: 'cat-transport',
       categoryName: 'Transporte',
       categoryIcon: 'Car',
-      categoryColor: 'var(--positive)',
+      categoryColor: 'var(--cat-tone-rose)',
       totalMinor: 68760000n, // $687.600
       transactionCount: 14,
     },
@@ -51,7 +55,7 @@ export default function PreviewMesPage(): React.ReactElement {
       categoryId: 'cat-leisure',
       categoryName: 'Café y Ocio',
       categoryIcon: 'Coffee',
-      categoryColor: 'var(--brand-400)',
+      categoryColor: 'var(--cat-tone-sand)',
       totalMinor: 45840000n, // $458.400
       transactionCount: 12,
     },
@@ -110,13 +114,7 @@ export default function PreviewMesPage(): React.ReactElement {
       }}
     >
       <div className="entry animate-entrance-1">
-        <div className="entry-bar">
-          <Link href="/preview" className="entry-back">
-            <CategoryIcon name="ArrowLeft" size={15} />
-            <span>Volver al inicio</span>
-          </Link>
-        </div>
-
+        {/* No "back to home" here any more: the dock names the way. */}
         <nav className="month-switch" aria-label="Navegación de mes">
           <span className="month-switch-btn" aria-hidden="true">
             <CategoryIcon name="ArrowLeft" size={16} />
@@ -140,6 +138,23 @@ export default function PreviewMesPage(): React.ReactElement {
               <Money amountMinor={totalIncomeMinor} currency="COP" />
             </span>
           </div>
+          <MonthNetTotal
+            incomeMinor={totalIncomeMinor}
+            expenseMinor={totalExpenseMinor}
+            currency="COP"
+          />
+        </div>
+
+        {/* Pilo sits on the edge of the card, thinking. Above the chart, not
+            on it (docs/PILO.md 5.1). */}
+        <div className="month-pilo-wrap">
+          <PiloPose pose="pensando" width={96} className="month-pilo" />
+          <MonthDots
+            days={days}
+            monthKey={monthKey}
+            todayKey={todayKey}
+            currency="COP"
+          />
         </div>
 
         <MonthCalendar
@@ -155,6 +170,13 @@ export default function PreviewMesPage(): React.ReactElement {
           totalExpenseMinor={totalExpenseMinor}
           currency="COP"
         />
+
+        <div className="month-closing">
+          <PiloPose pose="dormido" width={92} />
+          <a href="/api/v1/export" download className="dash-closing-link">
+            {t('nav_export')}
+          </a>
+        </div>
 
 
       </div>

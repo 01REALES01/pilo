@@ -4,6 +4,9 @@ import { redirect } from 'next/navigation';
 
 import { CategoryBreakdownPanel } from '@/components/dashboard/category-breakdown-panel';
 import { MonthCalendar } from '@/components/dashboard/month-calendar';
+import { MonthDots } from '@/components/dashboard/month-dots';
+import { MonthNetTotal } from '@/components/dashboard/month-net';
+import { PiloPose } from '@/components/landing/pilo-pose';
 import { CategoryIcon } from '@/components/ui/category-icon';
 import { Money } from '@/components/ui/money';
 import { isDayKey, monthOffsetForDay } from '@/core/calendar';
@@ -53,13 +56,7 @@ export default async function MonthPage(props: {
   return (
     <main className="entry-page entry-page--mes">
       <div className="entry">
-        <div className="entry-bar">
-          <Link href="/dashboard" className="entry-back">
-            <CategoryIcon name="ArrowLeft" size={15} />
-            <span>{t('back')}</span>
-          </Link>
-        </div>
-
+        {/* No "back to home" here any more: the dock names the way. */}
         {/* Older is always reachable; newer only when there is a newer month,
             so the control never offers a month that cannot have data. */}
         <nav className="month-switch" aria-label={t('month_nav')}>
@@ -107,6 +104,23 @@ export default async function MonthPage(props: {
               />
             </span>
           </div>
+          <MonthNetTotal
+            incomeMinor={data.monthlyTotals.totalIncomeMinor}
+            expenseMinor={data.monthlyTotals.totalExpenseMinor}
+            currency={data.baseCurrency}
+          />
+        </div>
+
+        {/* Pilo sits on the edge of the card, thinking. Above the chart, not
+            on it (docs/PILO.md 5.1). */}
+        <div className="month-pilo-wrap">
+          <PiloPose pose="pensando" width={96} className="month-pilo" />
+          <MonthDots
+            days={data.days}
+            monthKey={data.monthKey}
+            todayKey={data.todayKey}
+            currency={data.baseCurrency}
+          />
         </div>
 
         <MonthCalendar
@@ -123,6 +137,13 @@ export default async function MonthPage(props: {
           totalExpenseMinor={data.monthlyTotals.totalExpenseMinor}
           currency={data.baseCurrency}
         />
+
+        <div className="month-closing">
+          <PiloPose pose="dormido" width={92} />
+          <a href="/api/v1/export" download className="dash-closing-link">
+            {t('nav_export')}
+          </a>
+        </div>
       </div>
     </main>
   );

@@ -507,3 +507,50 @@ Regla previa: **antes de dibujar, preguntar si hace falta un gráfico.** Un solo
 5. **Nada de un segundo degradado** más allá de la tarjeta héroe.
 6. **Nada de color semántico usado como categoría** de gráfica.
 7. **Nada de paleta categórica ampliada sin volver a correr el validador.**
+
+---
+
+## 10. Panel de noche con luz de puntos (24-nov-2026)
+
+Decisión del autor, registrada en `docs/IMPLEMENTATION_PLAN.md` §4.5. Enmienda varias reglas de este documento **solo dentro del panel** (`.app-shell`), y deja dicho cuáles.
+
+### 10.1 Qué cambia
+
+- **Fondo y superficies.** El panel usa `--night-ground` y `--night-surface`, la noche de la landing, en lugar del fondo vino. Las tarjetas son una superficie con un borde fino (`--night-line`), sin desenfoque: se desplazan, y §9.3 ya lo prohibía.
+- **La luz es el héroe.** Enmienda §6.1 y §9.5: el degradado de la tarjeta de saldo desaparece y en su lugar hay una luz de puntos en la parte alta de la pantalla. Sigue habiendo **un solo** objeto con degradado por pantalla; cambió cuál es.
+- **Intensidad por pantalla.** `--light-strength` y `--light-height` las fija cada pantalla. Inicio es la más encendida; `/mes`, Perfil y Revisar van más tenues, porque ahí se trabaja con datos.
+- **Cómo está hecha.** Un degradado radial visto a través de una máscara de puntos repetida, todo en CSS (`--dot-light`, `--dot-mask`). Sin canvas y sin script: no se redibuja al desplazar.
+- **El texto nunca va sobre los puntos encendidos.** La cifra del saldo empieza donde la luz ya se apagó, y los controles de arriba llevan fondo opaco.
+
+### 10.2 Gráficas de puntos
+
+Enmienda §7.1 y §6.6. Dos reglas valen para todas:
+
+1. **Todos los puntos valen lo mismo y la leyenda dice cuánto.** La unidad se calcula en `src/core/dot-chart.ts`, en enteros, y siempre es un monto redondo.
+2. **El punto es el relleno de una forma conocida, no una forma nueva.** Las barras de la semana siguen siendo barras; solo su relleno es punteado.
+
+| Gráfica | Dónde | Un punto vale |
+| :--- | :--- | :--- |
+| Barras de la semana, punteadas | Inicio | No es unidad: es el mismo relleno, en trama |
+| El mes día a día | `/mes` | Un monto redondo, dicho en la leyenda |
+| Categorías en cien puntos | `/mes` | 1 % del gasto; siempre suman 100 |
+
+La rejilla de cien puntos sustituye a la barra segmentada de §6.6 en `/mes`. Con más de seis categorías, las menores se agrupan en «Otros».
+
+El calendario de `/mes` es la vista de tabla de «el mes día a día» (§7.3), y la lista bajo la rejilla lo es de las categorías.
+
+### 10.3 Menú inferior
+
+Enmienda §6.8: cinco lugares con nombre — **Inicio · Mes · + · Revisar · Perfil**. «Revisar» muestra cuántos movimientos esperan categoría; el número se lee una vez por navegación y, si falla, el menú se muestra sin él.
+
+### 10.4 Tonos de categoría
+
+Enmienda §2.6 y §9.7, por decisión expresa del autor (24-nov-2026): las categorías se dibujan con **tonos sacados de la luz** (`--cat-tone-*`: crema, champaña, arena, rubor, salmón, rosa, vino, ciruela, malva y un gris para «Otros») en lugar de los verdes, azules y violetas genéricos.
+
+**Lo que se sabe y se aceptó:** estos tonos **no pasaron** el validador de §2.6 (no está en el repo y el autor renunció a esa verificación), varios son vecinos entre sí, y el rosa queda cerca de `--critical`. Por eso la regla de §8 pesa más aquí que en cualquier otro sitio: **una categoría nunca se distingue solo por su color**; siempre va con su icono y su nombre.
+
+**Los datos no cambian.** Cada categoría conserva el color con el que se guardó. La traducción ocurre al dibujar, en `displayCategoryColor` (`src/lib/category-palette.ts`); borrar ese mapa devuelve cada categoría a su color guardado. El selector de color de una categoría nueva ofrece ya los tonos nuevos.
+
+### 10.5 El bloque del saldo
+
+Enmienda §6.1 y §6.4. Un interruptor «Gastado | Saldo» sustituye a los dos controles que hacían lo mismo. El ritmo de gasto y el avance del mes van junto a la cifra, una sola vez. Debajo, dos luces dicen si el guardado automático y Telegram están funcionando; apagada es una forma distinta (punteada), no solo un color más tenue. Los botones «Registrar gasto» e «Ingreso» salen del cuerpo: el «+» del menú ya hacía lo mismo.

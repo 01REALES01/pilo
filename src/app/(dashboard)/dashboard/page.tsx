@@ -57,6 +57,7 @@ export default async function DashboardPage(): Promise<React.ReactElement> {
         data={data}
         userEmail={session.email}
         displayName={profile.fullName}
+        telegramLinked={profile.telegramChatId !== null}
       />
     </div>
   );

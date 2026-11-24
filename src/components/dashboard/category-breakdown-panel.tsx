@@ -2,7 +2,9 @@ import React from 'react';
 
 import { CategoryIcon } from '@/components/ui/category-icon';
 import { Money } from '@/components/ui/money';
+import { allocateHundred } from '@/core/dot-chart';
 import type { CategorySpendingBreakdown } from '@/core/repositories/transaction.repository';
+import { displayCategoryColor } from '@/lib/category-palette';
 import { t } from '@/lib/i18n';
 
 interface CategoryBreakdownPanelProps {
@@ -49,42 +51,65 @@ export function CategoryBreakdownPanel({
     );
   }
 
-  const totalNum = Number(totalExpenseMinor);
-
-  const slices = breakdown.map((item, idx) => ({
+  // Six rows at most, like the palette (DESIGN_SYSTEM.md 2.6): past that the
+  // smallest ones are folded into "Otros". The grid and the list are built
+  // from the same rows, so a category can no longer be in one and not in the
+  // other - the bar used to draw every category while the list stopped at six.
+  const MAX_ROWS = 6;
+  const named = breakdown.map((item, idx) => ({
     key: item.categoryId ?? `cat-${idx}`,
-    // The repository returns null for the uncategorised bucket rather than a
-    // label; naming it belongs here, through the catalog.
     name: item.categoryName ?? t('uncategorized'),
     icon: item.categoryIcon,
-    color:
-      item.categoryColor ||
-      CATEGORICAL_COLORS[idx % CATEGORICAL_COLORS.length] ||
-      'var(--cat-1)',
-    share: Number(item.totalMinor) / totalNum,
-    pct: Math.round((Number(item.totalMinor) / totalNum) * 100),
+    color: item.categoryColor
+      ? displayCategoryColor(item.categoryColor)
+      : (CATEGORICAL_COLORS[idx % CATEGORICAL_COLORS.length] ?? 'var(--cat-1)'),
     totalMinor: item.totalMinor,
   }));
+  const kept = named.length > MAX_ROWS ? named.slice(0, MAX_ROWS - 1) : named;
+  const folded = named.slice(kept.length);
+  const rows =
+    folded.length > 0
+      ? [
+          ...kept,
+          {
+            key: 'others',
+            name: t('breakdown_others'),
+            icon: 'MoreHorizontal',
+            color: 'var(--ink-muted)',
+            totalMinor: folded.reduce((sum, item) => sum + item.totalMinor, 0n),
+          },
+        ]
+      : kept;
+
+  // One dot per percentage point, and exactly a hundred of them: the shares
+  // are split in integers so the grid never comes out a dot short.
+  const dots = allocateHundred(rows.map((row) => row.totalMinor));
+  const slices = rows.map((row, idx) => ({ ...row, pct: dots[idx] ?? 0 }));
 
   return (
     <section className="breakdown-panel">
       <h2 className="breakdown-panel-title">{t('breakdown_title')}</h2>
 
-      <div className="breakdown-bar">
-        {slices.map((slice) => (
-          <span
-            key={slice.key}
-            className="breakdown-seg"
-            title={`${slice.name}: ${slice.pct}%`}
-            style={
-              { flexGrow: slice.share, '--seg-ink': slice.color } as React.CSSProperties
-            }
-          />
-        ))}
+      <span className="dot-legend">
+        <span className="dot-legend-mark" aria-hidden="true" />
+        {t('breakdown_dots_legend')}
+      </span>
+
+      {/* The list below carries the same numbers as text. */}
+      <div className="breakdown-dots" aria-hidden="true">
+        {slices.flatMap((slice) =>
+          Array.from({ length: slice.pct }, (_, i) => (
+            <span
+              key={`${slice.key}-${i}`}
+              className="breakdown-dot"
+              style={{ '--seg-ink': slice.color } as React.CSSProperties}
+            />
+          )),
+        )}
       </div>
 
       <ul className="breakdown-list">
-        {slices.slice(0, 6).map((slice) => (
+        {slices.map((slice) => (
           <li key={slice.key} className="breakdown-row">
             <span
               className="breakdown-icon"

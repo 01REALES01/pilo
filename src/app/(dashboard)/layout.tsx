@@ -5,6 +5,7 @@ import React from 'react';
 import { PhoneDock } from '@/components/dashboard/phone-dock';
 import { AppPermissionsPrompt } from '@/components/pwa/app-permissions-prompt';
 import { CONSENT_INTENT_COOKIE } from '@/core/privacy';
+import { countUncategorizedTransactions } from '@/core/repositories/transaction.repository';
 import { resolveConsent } from '@/core/services/privacy.service';
 import { toUserId } from '@/core/types';
 import { getCurrentUser } from '@/lib/session';
@@ -29,6 +30,7 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }): Promise<React.ReactElement> {
   const session = await getCurrentUser();
+  let reviewCount = 0;
   if (session) {
     const store = await cookies();
     const decision = await resolveConsent(
@@ -39,13 +41,21 @@ export default async function DashboardLayout({
     if (decision === 'ask') {
       redirect('/autorizacion');
     }
+
+    // The badge on the dock. One COUNT per navigation, and never a reason for
+    // a screen to fail: if it cannot be read, the dock simply shows no number.
+    try {
+      reviewCount = await countUncategorizedTransactions(toUserId(session.id));
+    } catch (error) {
+      console.error('[dock] failed to count pending reviews:', error);
+    }
   }
 
   return (
     <div className="app-shell">
       <AppPermissionsPrompt />
       {children}
-      <PhoneDock />
+      <PhoneDock reviewCount={reviewCount} />
     </div>
   );
 }

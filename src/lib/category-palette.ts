@@ -26,15 +26,52 @@ export interface CategoryColor {
 }
 
 export const CATEGORY_PALETTE: readonly CategoryColor[] = [
-  { id: 'rose', label: 'Rosa', hex: '#f07aac', cssVar: 'var(--cat-color-rose)' },
-  { id: 'champagne', label: 'Champagne', hex: '#e4cca6', cssVar: 'var(--cat-color-champagne)' },
-  { id: 'emerald', label: 'Esmeralda', hex: '#10b981', cssVar: 'var(--cat-color-emerald)' },
-  { id: 'amber', label: 'Ámbar', hex: '#f59e0b', cssVar: 'var(--cat-color-amber)' },
-  { id: 'blue', label: 'Azul', hex: '#3b82f6', cssVar: 'var(--cat-color-blue)' },
-  { id: 'purple', label: 'Púrpura', hex: '#a855f7', cssVar: 'var(--cat-color-purple)' },
-  { id: 'cyan', label: 'Cian', hex: '#06b6d4', cssVar: 'var(--cat-color-cyan)' },
-  { id: 'coral', label: 'Coral', hex: '#fb7185', cssVar: 'var(--cat-color-coral)' },
+  { id: 'cream', label: 'Crema', hex: '#f6e3c4', cssVar: 'var(--cat-tone-cream)' },
+  { id: 'champagne', label: 'Champaña', hex: '#e4cca6', cssVar: 'var(--cat-tone-champagne)' },
+  { id: 'sand', label: 'Arena', hex: '#d4b382', cssVar: 'var(--cat-tone-sand)' },
+  { id: 'blush', label: 'Rubor', hex: '#e9b7b0', cssVar: 'var(--cat-tone-blush)' },
+  { id: 'salmon', label: 'Salmón', hex: '#ef9c8f', cssVar: 'var(--cat-tone-salmon)' },
+  { id: 'rose', label: 'Rosa', hex: '#d9506a', cssVar: 'var(--cat-tone-rose)' },
+  { id: 'wine', label: 'Vino', hex: '#b23a57', cssVar: 'var(--cat-tone-wine)' },
+  { id: 'mauve', label: 'Malva', hex: '#b98aa0', cssVar: 'var(--cat-tone-mauve)' },
 ];
+
+/**
+ * What a stored colour looks like on screen since the night panel
+ * (24-nov-2026).
+ *
+ * Categories keep the hex they were saved with: the old defaults and the old
+ * drawer swatches were generic greens, blues and purples. Rewriting those rows
+ * would be a data migration on three people's accounts for what is a matter of
+ * paint, and could not be undone by reverting a commit. So the database stays
+ * as it is and the translation happens here, at draw time: delete this map and
+ * every category is back to its saved colour.
+ *
+ * A hex that is not in the map - one of the new tones, or anything else - is
+ * drawn as stored.
+ */
+const DISPLAY_TONES: Readonly<Record<string, string>> = {
+  // Default categories (category.repository.ts)
+  '#10b981': 'var(--cat-tone-salmon)',
+  '#f59e0b': 'var(--cat-tone-sand)',
+  '#3b82f6': 'var(--cat-tone-rose)',
+  '#8b5cf6': 'var(--cat-tone-cream)',
+  '#ef4444': 'var(--cat-tone-wine)',
+  '#ec4899': 'var(--cat-tone-blush)',
+  '#06b6d4': 'var(--cat-tone-champagne)',
+  '#6366f1': 'var(--cat-tone-plum)',
+  '#14b8a6': 'var(--cat-tone-mauve)',
+  '#6b7280': 'var(--cat-tone-grey)',
+  // Swatches the drawer offered before
+  '#f07aac': 'var(--cat-tone-blush)',
+  '#a855f7': 'var(--cat-tone-cream)',
+  '#fb7185': 'var(--cat-tone-wine)',
+};
+
+export function displayCategoryColor(stored: string): string {
+  return DISPLAY_TONES[stored.trim().toLowerCase()] ?? stored;
+}
+
 
 export const DEFAULT_CATEGORY_COLOR = '#e4cca6';
 

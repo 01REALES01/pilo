@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import { displayCategoryColor } from '@/lib/category-palette';
 import { CategoryIcon } from '@/components/ui/category-icon';
 import type { CategoryRow } from '@/core/repositories/category.repository';
 
@@ -65,7 +66,7 @@ export function CategoryPicker({
             aria-pressed={isSelected}
             onClick={() => onSelect(cat.id)}
             className={`entry-category-tile${isSelected ? ' entry-category-tile--selected' : ''}`}
-            style={(cat.color ? { '--cat-tile-ink': cat.color } : {}) as React.CSSProperties}
+            style={(cat.color ? { '--cat-tile-ink': displayCategoryColor(cat.color) } : {}) as React.CSSProperties}
           >
             <div className="entry-category-tile-icon">
               <CategoryIcon name={cat.icon} size={19} />

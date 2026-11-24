@@ -274,6 +274,7 @@ export default async function PreviewPage({ searchParams }: PageProps): Promise<
         data={previewData}
         userEmail="demo@example.com"
         displayName="Carlos"
+        telegramLinked={!isNewUser}
       />
 
       {view === 'ledger' && (

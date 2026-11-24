@@ -4,6 +4,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 import { CategoryIcon } from '@/components/ui/category-icon';
+import { PiloPose } from '@/components/landing/pilo-pose';
 import { Money } from '@/components/ui/money';
 import { getAuthClient } from '@/lib/auth-client';
 import { formatDate, formatTime, t } from '@/lib/i18n';
@@ -19,6 +20,8 @@ interface BalanceHeroProps {
   readonly uncategorizedCount: number;
   readonly lastCaptureAt?: string | null | undefined;
   readonly autoCaptureCount?: number | undefined;
+  /** Whether the Telegram chat is linked. Only lights the status dot. */
+  readonly telegramLinked?: boolean | undefined;
   readonly timeZone?: string | undefined;
   readonly accounts?: readonly UserAccountItem[] | undefined;
   readonly activeCardIndex?: number | undefined;
@@ -270,6 +273,7 @@ export function BalanceHero({
   uncategorizedCount,
   lastCaptureAt,
   autoCaptureCount,
+  telegramLinked = false,
   timeZone = 'America/Bogota',
   accounts,
   activeCardIndex: propActiveCardIndex,
@@ -303,7 +307,9 @@ export function BalanceHero({
     parts.find((p) => p.type === 'year')?.value ?? now.getFullYear(),
   );
 
-  const daysInMonth = new Date(Date.UTC(currentYear, currentMonth, 0)).getDate();
+  // getUTCDate, not getDate: the date is built in UTC, and read in local time
+  // it lands on the evening before - a 30-day month came out as 29 in Bogotá.
+  const daysInMonth = new Date(Date.UTC(currentYear, currentMonth, 0)).getUTCDate();
   const daysRemaining = Math.max(1, daysInMonth - currentDay);
   const monthProgressPct = Math.min(
     100,
@@ -365,6 +371,7 @@ export function BalanceHero({
   // as that bank's balance. The card in front only narrows the recent list.
   // The month's spend is likewise known only for all accounts together.
   const isShowingAvailable = activeView === 'available';
+  const captureWorking = (autoCaptureCount ?? 0) > 0;
   const displayedAmount = isShowingAvailable ? totalBalanceMinor : monthExpenseMinor;
 
   const labelTitle = isShowingAvailable
@@ -435,15 +442,29 @@ export function BalanceHero({
       {/* 2. Central Monumental Typography */}
       <div className="balance-hero-focus">
         {/* Clickable Label to toggle Saldo vs Gastado */}
-        <button
-          type="button"
-          onClick={() => setActiveView((prev) => (prev === 'available' ? 'spent' : 'available'))}
-          className="balance-hero-label-btn"
-          title="Toca para cambiar entre Saldo y Gastado"
-        >
-          <span>{labelTitle}</span>
-          <span className="balance-hero-label-switch-hint">⇄</span>
-        </button>
+        {/* One switch. There used to be two controls that did the same thing -
+            the label and the pill under the figure - and neither looked like a
+            choice between two views. */}
+        <div className="hero-switch" role="group" aria-label={t('hero_view_group')}>
+          <button
+            type="button"
+            onClick={() => setActiveView('spent')}
+            className={`hero-switch-opt${isShowingAvailable ? '' : ' hero-switch-opt--on'}`}
+            aria-pressed={!isShowingAvailable}
+          >
+            {t('hero_view_spent')}
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveView('available')}
+            className={`hero-switch-opt${isShowingAvailable ? ' hero-switch-opt--on' : ''}`}
+            aria-pressed={isShowingAvailable}
+          >
+            {t('hero_view_balance')}
+          </button>
+        </div>
+
+        <span className="hero-caption">{labelTitle}</span>
 
         <div className="balance-hero-amount">
           <span
@@ -458,26 +479,77 @@ export function BalanceHero({
           </span>
         </div>
 
-        {/* Solitary Translucent Frosted Glass Pill (Reference: ↗ 2.46% this month) */}
-        <div className="balance-hero-actions-row">
-          <button
-            type="button"
-            onClick={() => setActiveView((prev) => (prev === 'available' ? 'spent' : 'available'))}
-            className="balance-hero-liquid-pill"
-            title="Toca para alternar vista"
-          >
-            <span className="balance-liquid-pill-arrow" aria-hidden="true">
-              {isShowingAvailable ? '↗' : '↘'}
-            </span>
-            <span>
-              {isShowingAvailable
-                ? `${daysRemaining} días restantes`
-                : `${monthProgressPct}% del mes`}
-            </span>
-          </button>
+        {/* Pace and month progress, once and next to the figure they explain.
+            They used to live in a card of their own further down, where "days
+            remaining" was said a second time. */}
+        <p className="hero-pace">
+          {t('hero_day')}{' '}
+          <strong>
+            {currentDay} {t('hero_day_of')} {daysInMonth}
+          </strong>
+          {' · '}
+          <strong>
+            {isHidden ? '$ ••••' : <Money amountMinor={dailyPaceMinor} currency={currency} />}
+          </strong>{' '}
+          {t('hero_per_day')}
+        </p>
+        <div
+          className="hero-ticks"
+          style={{ '--tick-count': daysInMonth } as React.CSSProperties}
+          role="progressbar"
+          aria-valuenow={currentDay}
+          aria-valuemin={1}
+          aria-valuemax={daysInMonth}
+          aria-label={`${t('hero_day')} ${currentDay} ${t('hero_day_of')} ${daysInMonth}`}
+        >
+          {Array.from({ length: daysInMonth }, (_, index) => (
+            <span
+              key={index}
+              className={`hero-tick${
+                index + 1 < currentDay
+                  ? ' hero-tick--past'
+                  : index + 1 === currentDay
+                    ? ' hero-tick--today'
+                    : ''
+              }`}
+            />
+          ))}
         </div>
 
-        {/* 3. The Liquid Glass Card Stack (Anchored at bottom, Apple Wallet style) */}
+        {/* Whether the two ways in are working. The last capture was already
+            computed and shown nowhere; "is it still saving on its own?" is the
+            first thing anyone wonders when a purchase does not appear. */}
+        <div className="hero-status">
+          <Link
+            href="/captura"
+            className={`hero-status-item${captureWorking ? '' : ' hero-status-item--off'}`}
+          >
+            <span className="hero-status-light" aria-hidden="true" />
+            <span>
+              {t('hero_status_capture')}
+              {' · '}
+              <strong suppressHydrationWarning>
+                {captureWorking
+                  ? formatRelativeSyncTime(lastCaptureAt) || t('hero_status_on')
+                  : t('hero_status_off')}
+              </strong>
+            </span>
+          </Link>
+          <Link
+            href="/telegram"
+            className={`hero-status-item${telegramLinked ? '' : ' hero-status-item--off'}`}
+            aria-label={`Telegram: ${telegramLinked ? t('hero_status_on') : t('hero_status_off')}`}
+          >
+            <span className="hero-status-light" aria-hidden="true" />
+            <span>Telegram</span>
+          </Link>
+        </div>
+
+        {/* Pilo looks over the stack, as on the app icon. He is above the
+            data, never on it, and he is the same pose whatever the numbers
+            say (docs/PILO.md 5.1). */}
+        <div className="hero-stack-wrap">
+        <PiloPose pose="anota" width={112} className="hero-pilo" />
         <button
           type="button"
           onClick={() => {
@@ -555,53 +627,10 @@ export function BalanceHero({
             </div>
           </div>
         </button>
+        </div>
       </div>
     </div>
 
-    {/* 4. Standalone Companion Module: Month Pace & Rhythm */}
-    <div className="balance-pace-capsule-standalone">
-      <div className="balance-pace-row">
-        <div className="balance-pace-stat">
-          <span className="balance-pace-label">Ritmo de gasto</span>
-          <span className="balance-pace-val">
-            {isHidden ? (
-              <span>$ ••••</span>
-            ) : (
-              <>
-                <Money amountMinor={dailyPaceMinor} currency={currency} />
-                <span className="balance-pace-unit"> / día</span>
-              </>
-            )}
-          </span>
-        </div>
-
-        <div className="balance-pace-divider" aria-hidden="true" />
-
-        <div className="balance-pace-stat balance-pace-stat--end">
-          <span className="balance-pace-label">Avance del mes</span>
-          <span className="balance-pace-val balance-pace-val--highlight">
-            Día {currentDay} de {daysInMonth}
-            <span className="balance-pace-remaining"> ({daysRemaining}d restantes)</span>
-          </span>
-        </div>
-      </div>
-
-      <div
-        className="balance-pace-track"
-        role="progressbar"
-        aria-valuenow={monthProgressPct}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-label={`Progreso del mes: ${monthProgressPct}% transcurrido`}
-      >
-        <div
-          className="balance-pace-fill"
-          style={{ '--pace-progress': `${monthProgressPct}%` } as React.CSSProperties}
-        />
-      </div>
-    </div>
-
-    {/* 5. Menú Desplegable de Perfil (Apple Liquid Glass Popover centrado sin recortes) */}
     {isProfileOpen && (
       <div
         className="profile-overlay-root"
