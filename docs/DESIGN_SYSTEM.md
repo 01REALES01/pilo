@@ -554,3 +554,17 @@ Enmienda §2.6 y §9.7, por decisión expresa del autor (24-nov-2026): las categ
 ### 10.5 El bloque del saldo
 
 Enmienda §6.1 y §6.4. Un interruptor «Gastado | Saldo» sustituye a los dos controles que hacían lo mismo. El ritmo de gasto y el avance del mes van junto a la cifra, una sola vez. Debajo, dos luces dicen si el guardado automático y Telegram están funcionando; apagada es una forma distinta (punteada), no solo un color más tenue. Los botones «Registrar gasto» e «Ingreso» salen del cuerpo: el «+» del menú ya hacía lo mismo.
+
+---
+
+## 11. La landing «Cielo despejado» (24-nov-2026)
+
+Decisión del autor, registrada en `docs/IMPLEMENTATION_PLAN.md` §4.5. Sustituye a la landing de noche con franja de día (§2.7, excepción del 31-oct-2026). Vale **solo para la página pública** (`/`); la app no cambia por esto.
+
+- **Color.** Champaña (`--brand-400`) de cielo, crema y papel de fondo, tinta del contorno de Pilo para el texto y vino (`--brand-500`) para botones y acentos. Los tokens viven al principio de `src/app/landing-sky.css`, bajo `.sky`, y son los únicos literales de color de la página.
+- **Tipografía.** Titulares en **Instrument Serif**, texto en Inter y los fragmentos de «máquina» (SMS, cuaderno) en JetBrains Mono. Se cargan con `next/font` solo en `/`; la app conserva sus dos familias (§3.1).
+- **Imagen.** Nubes tramadas a dos tintas y una mano en semitono, en lugar del video. La mascota es siempre la de sus archivos, sin tratar.
+- **Movimiento.** Ninguna librería (§5.5, P7). Entradas con CSS; la frase que se enciende palabra por palabra y la línea del martes leen el scroll y escriben una variable o un `transform` por cuadro, sin volver a pintar React. Con movimiento reducido o sin JavaScript todo el contenido está visible y la línea del martes se lee en vertical.
+- **Aislamiento.** Todas las reglas van bajo `.sky`. Los nombres de clase de la landing son cortos y comunes; sin ese prefijo se filtrarían a la app al iniciar sesión.
+- **Dinero.** Los montos de ejemplo pasan por `<Money>` (§9.2), igual que en la app.
+

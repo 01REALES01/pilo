@@ -1,16 +1,28 @@
 import type { Metadata } from 'next';
 import React from 'react';
 
-import './landing.css';
-import { CinematicVideoCanvas } from '@/components/landing/cinematic-video-canvas';
-import { LandingGrandFinaleFooter } from '@/components/landing/landing-grand-finale-footer';
-import { LandingProductShowcase } from '@/components/landing/landing-product-showcase';
-import { LandingSectionEnter } from '@/components/landing/landing-section-enter';
-import { LandingSectionObserve } from '@/components/landing/landing-section-observe';
-import { LandingSectionTrust } from '@/components/landing/landing-section-trust';
-import { LandingSectionUnderstand } from '@/components/landing/landing-section-understand';
-import { LandingTopBar } from '@/components/landing/landing-top-bar';
+import './landing-sky.css';
+import { Instrument_Serif, Inter, JetBrains_Mono } from 'next/font/google';
+import ReactDOM from 'react-dom';
+
+import { LandingSky } from '@/components/landing-sky/landing-sky';
 import { tl } from '@/lib/i18n-landing';
+
+// The landing's own type, loaded only here: the app keeps its two families and
+// does not pay for these three.
+const serif = Instrument_Serif({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-sky-serif',
+});
+const sans = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-sky-sans' });
+const mono = JetBrains_Mono({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-sky-mono',
+});
 
 const DESCRIPTION = tl('landing_meta_description');
 const TITLE = tl('landing_meta_title');
@@ -55,26 +67,23 @@ const jsonLd = {
 };
 
 export default function LandingPage(): React.ReactElement {
+  // The sky behind the headline is a CSS background, which the browser only
+  // discovers after the stylesheet: preloading it keeps the first screen from
+  // painting as a flat colour and then changing.
+  ReactDOM.preload('/images/landing/cielo.png', { as: 'image', fetchPriority: 'high' });
+
   return (
-    <div className="landing-experience">
+    <div className={`sky ${serif.variable} ${sans.variable} ${mono.variable}`}>
       <script
         type="application/ld+json"
-        // Static, no user input — safe to inline.
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-
-      <CinematicVideoCanvas />
-      <LandingTopBar />
-
-      <div id="cinematic-track" className="landing-cinematic-track">
-        <LandingSectionEnter />
-        <LandingSectionObserve />
-        <LandingSectionUnderstand />
-        <LandingSectionTrust />
-      </div>
-
-      <LandingProductShowcase />
-      <LandingGrandFinaleFooter />
+      {/* Without JavaScript nothing marks the blocks as seen, so they are
+          simply shown. */}
+      <noscript>
+        <style>{'.sky .aparece,.sky .panel-mano .libro li{opacity:1;transform:none}.sky .palabras span{opacity:1}'}</style>
+      </noscript>
+      <LandingSky />
     </div>
   );
 }
