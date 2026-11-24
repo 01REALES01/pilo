@@ -222,12 +222,11 @@ export function WeekSpendingCard({
               <Money amountMinor={week.todayExpenseMinor} currency={currency} />
             </span>
           </div>
-          <div className="week-card-stat">
-            <span className="fin-stat-label">{t('month_this')}</span>
-            <span className="week-card-stat-value">
-              <Money amountMinor={monthExpenseMinor} currency={currency} />
-            </span>
-          </div>
+          {/* The month's total is the figure at the top of the screen; said
+              here again it was the third time on one page. */}
+          <Link href="/mes" className="week-card-calendar-link">
+            {t('calendar_open')} →
+          </Link>
         </div>
       )}
     </section>

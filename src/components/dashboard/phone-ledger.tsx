@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 
+import { displayCategoryColor } from '@/lib/category-palette';
 import { CategoryIcon } from '@/components/ui/category-icon';
 import { Money } from '@/components/ui/money';
 import type { DayGroup } from '@/core/services/analytics.service';
@@ -123,7 +124,7 @@ export function PhoneLedger({
                         className="phone-tx-icon"
                         style={
                           (tx.category?.color
-                            ? { '--tx-icon-ink': tx.category.color }
+                            ? { '--tx-icon-ink': displayCategoryColor(tx.category.color) }
                             : {}) as React.CSSProperties
                         }
                       >

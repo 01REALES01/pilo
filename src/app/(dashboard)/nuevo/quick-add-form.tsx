@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { displayCategoryColor } from '@/lib/category-palette';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState, useTransition } from 'react';
 
@@ -530,7 +531,7 @@ export function QuickAddForm({
                     aria-pressed={isSelected}
                     onClick={() => handleCategorySelect(cat.id)}
                     className={`entry-category-tile${isSelected ? ' entry-category-tile--selected' : ''}`}
-                    style={(cat.color ? { '--cat-tile-ink': cat.color } : {}) as React.CSSProperties}
+                    style={(cat.color ? { '--cat-tile-ink': displayCategoryColor(cat.color) } : {}) as React.CSSProperties}
                   >
                     <div className="entry-category-tile-icon">
                       <CategoryIcon name={cat.icon} size={19} />

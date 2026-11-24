@@ -6,6 +6,7 @@ import { CategoryIcon } from '@/components/ui/category-icon';
 import { Money } from '@/components/ui/money';
 import { buildMonthGrid, topCategories } from '@/core/calendar';
 import type { DayGroup } from '@/core/services/analytics.service';
+import { displayCategoryColor } from '@/lib/category-palette';
 import { formatDate, t } from '@/lib/i18n';
 
 import { PhoneLedger } from './phone-ledger';
@@ -110,7 +111,7 @@ export function MonthCalendar({
                         <span
                           key={c.icon}
                           className="month-calendar-icon"
-                          style={{ '--tx-icon-ink': c.color } as React.CSSProperties}
+                          style={{ '--tx-icon-ink': displayCategoryColor(c.color) } as React.CSSProperties}
                         >
                           <CategoryIcon name={c.icon} size={12} />
                         </span>

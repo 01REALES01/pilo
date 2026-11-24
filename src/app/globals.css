@@ -7954,3 +7954,623 @@ textarea:focus-visible {
 
 
 
+
+/* ══ Night panel with dot light (decision of 24-nov-2026, plan §4.5) ════════
+   The panel moves from the wine ground to the landing's night, and the light
+   at the top becomes a screen of dots. Everything is scoped to .app-shell and
+   kept in one block at the end of the file, on purpose: it restyles surfaces
+   that are defined all over this stylesheet, and one block is one thing to
+   read and one thing to revert.
+
+   The light is CSS, not a canvas: one radial gradient seen through a repeating
+   dot mask. Nothing runs, nothing redraws on scroll, and it costs no script on
+   the most-opened screen. Its strength is a variable, so each screen sets how
+   lit it is - the home is the brightest, the screens you work in are dimmer. */
+:root {
+  --night-ground: #140a0e;
+  --night-surface: #1f1117;
+  --night-surface-deep: #1a0d13;
+  --night-surface-lit: #2c1620;
+  --night-line: rgba(251, 247, 242, 0.11);
+  --night-line-lit: rgba(228, 204, 166, 0.32);
+  --light-rose: #d9506a;
+  --light-salmon: #ef9c8f;
+  --light-cream: #f6e3c4;
+  --light-blush: #e9b7b0;
+  --light-wine: #b23a57;
+  --light-plum: #4a1026;
+  --dot-light: radial-gradient(
+    ellipse 110% 86% at 50% -30%,
+    var(--light-rose) 0%,
+    var(--light-salmon) 40%,
+    var(--light-cream) 56%,
+    var(--light-blush) 66%,
+    var(--light-wine) 77%,
+    var(--light-plum) 90%,
+    transparent 100%
+  );
+  --dot-mask: radial-gradient(circle, #000 2.9px, transparent 3.3px);
+}
+
+.app-shell .phone-screen-container,
+.app-shell .entry-page--mes,
+.app-shell .entry-page--perfil,
+.app-shell .entry-page--revisar,
+.app-shell .entry-page--nuevo,
+.app-shell .entry-page--movimiento,
+.app-shell .ingest-fullscreen {
+  background-color: var(--night-ground);
+  background-image: none;
+  isolation: isolate;
+}
+
+.app-shell .phone-screen-container::before,
+.app-shell .entry-page--mes::before,
+.app-shell .entry-page--perfil::before,
+.app-shell .entry-page--revisar::before,
+.app-shell .entry-page--nuevo::before,
+.app-shell .entry-page--movimiento::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--light-height, 420px);
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 0;
+  opacity: var(--light-strength, 1);
+  background-image: var(--dot-light);
+  background-size: auto;
+  background-repeat: no-repeat;
+  -webkit-mask-image: var(--dot-mask);
+  mask-image: var(--dot-mask);
+  -webkit-mask-size: 8px 8px;
+  mask-size: 8px 8px;
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+}
+
+.app-shell .phone-screen-container {
+  --light-height: 520px;
+}
+
+.app-shell .entry-page--mes {
+  --light-height: 250px;
+  --light-strength: 0.65;
+}
+
+.app-shell .entry-page--perfil,
+.app-shell .entry-page--revisar {
+  --light-height: 230px;
+  --light-strength: 0.6;
+}
+
+/* Where something is being typed or read closely, the light is barely on. */
+.app-shell .entry-page--nuevo,
+.app-shell .entry-page--movimiento {
+  --light-height: 180px;
+  --light-strength: 0.4;
+}
+
+/* Every panel inside the shell follows the night, including the ones on
+   screens that have no block of their own here (the capture wizard, Telegram,
+   the movement detail): they all read these two tokens. */
+.app-shell {
+  --app-panel: var(--night-surface);
+  --app-panel-border: var(--night-line);
+}
+
+/* The hero stops being a wine card: the light is the hero now, and the figure
+   sits below it, where the dots have faded and the number is not fighting
+   them for contrast. */
+.app-shell .balance-hero--liquid-glass {
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.app-shell .balance-hero--liquid-glass .balance-hero-focus {
+  padding-top: 104px;
+}
+
+.app-shell .balance-hero-glow {
+  display: none;
+}
+
+/* Over the brightest dots: opaque night, or the name and the icons vanish. */
+.app-shell .balance-hero-profile-trigger,
+.app-shell .balance-hero-glass-action-btn,
+.app-shell .balance-hero-glass-bell,
+.app-shell .entry-back {
+  background: var(--night-ground);
+  border-color: var(--night-line);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+.app-shell .balance-hero-profile-trigger {
+  padding: 4px 12px 4px 4px;
+  border-radius: var(--radius-full);
+}
+
+/* The account stack keeps its shape and its gesture; only the material
+   changes, from rose glass to a dark card with a champagne edge, so it sits in
+   the night instead of being the one pink object left on the screen. */
+.app-shell .balance-card-front {
+  background: linear-gradient(160deg, var(--night-surface-lit), var(--night-surface) 60%);
+  border: 1px solid var(--night-line-lit);
+  box-shadow: 0 -10px 34px -16px rgba(228, 204, 166, 0.55);
+}
+
+.app-shell .balance-card-layer {
+  background: var(--night-surface-deep);
+  border: 1px solid var(--night-line);
+  border-bottom: none;
+  box-shadow: none;
+}
+
+.app-shell .review-callout,
+.app-shell .capture-callout {
+  background: var(--night-surface);
+  border: 1px solid var(--night-line-lit);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* Cards: one night surface with a hairline, no blur. They scroll, so
+   backdrop-filter never belonged on them (DESIGN_SYSTEM.md 9.3). */
+.app-shell .week-card,
+.app-shell .balance-pace-capsule-standalone,
+.app-shell .phone-tx-row,
+.app-shell .month-switch,
+.app-shell .month-total,
+.app-shell .month-calendar,
+.app-shell .month-dots,
+.app-shell .breakdown-panel,
+.app-shell .panel {
+  background: var(--night-surface);
+  border: 1px solid var(--night-line);
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* ── Week bars, dotted ──────────────────────────────────────────────────────
+   Same chart, same seven bars. The mask goes on the track, not on the fill:
+   the fill is sized with scaleY, and a mask on a scaled element stretches its
+   dots into ovals. The track does not scale, so the dots stay round and the
+   fill only decides how many of them are lit. */
+.app-shell .week-bar-track {
+  max-width: 32px;
+  height: 72px;
+  border-radius: 0;
+  background: rgba(251, 247, 242, 0.1);
+  -webkit-mask: var(--dot-mask) left bottom / 8px 8px;
+  mask: var(--dot-mask) left bottom / 8px 8px;
+}
+
+.app-shell .week-bar-fill {
+  background: linear-gradient(
+    to top,
+    var(--light-wine),
+    var(--light-rose) 30%,
+    var(--light-salmon) 65%,
+    var(--light-cream)
+  );
+}
+
+.app-shell .week-bar--today .week-bar-fill {
+  background: linear-gradient(to top, var(--light-salmon), var(--light-cream) 40%, var(--ink-primary));
+}
+
+/* ── Dot charts on /mes ───────────────────────────────────────────────────── */
+.dot-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--text-caption);
+  color: var(--ink-secondary);
+  white-space: nowrap;
+}
+
+.dot-legend-mark {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--brand-400);
+}
+
+.month-dots {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+}
+
+.month-dots-head,
+.month-dots-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.month-dots-title-group,
+.month-dots-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.month-dots-hint {
+  font-size: var(--text-caption);
+  color: var(--ink-secondary);
+}
+
+.month-dots-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--dot-columns, 31), minmax(0, 1fr));
+  gap: 3px;
+}
+
+.month-dots-col {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 4px;
+}
+
+.month-dot {
+  width: 100%;
+  max-width: 7px;
+  aspect-ratio: 1;
+  border-radius: var(--radius-full);
+  background: rgba(251, 247, 242, 0.08);
+}
+
+/* Wine at the base, cream at the top: the same light as the header, so a tall
+   column reads as brighter, not just as longer. */
+.month-dot--lit {
+  background: color-mix(
+    in srgb,
+    var(--light-cream) calc(var(--dot-row, 0) * 16%),
+    var(--light-wine)
+  );
+}
+
+.month-dots-col--today .month-dot--lit {
+  background: var(--ink-primary);
+  box-shadow: 0 0 8px 1px rgba(228, 204, 166, 0.85);
+}
+
+.month-dots-col--future .month-dot {
+  background: rgba(251, 247, 242, 0.04);
+}
+
+.month-dots-foot {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--night-line);
+}
+
+.month-dots-stat--end {
+  align-items: flex-end;
+}
+
+.month-dots-stat-value {
+  font-size: var(--text-body);
+  font-weight: 600;
+  color: var(--ink-primary);
+}
+
+.breakdown-dots {
+  display: grid;
+  grid-template-columns: repeat(20, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.breakdown-dot {
+  aspect-ratio: 1;
+  border-radius: var(--radius-full);
+  background: var(--seg-ink, var(--cat-1));
+}
+
+/* ── Dock with names ────────────────────────────────────────────────────────
+   Four unlabelled icons asked the user to remember what each one was. Five
+   places now, each with its name, and the queue to review has a fixed seat. */
+.app-shell .phone-dock {
+  width: calc(100% - 32px);
+  min-width: 0;
+  max-width: 400px;
+  height: 66px;
+  border-radius: 26px;
+  padding: 0 6px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 64px 1fr 1fr;
+  justify-items: center;
+  background: rgba(20, 10, 14, 0.9);
+  border-color: var(--night-line);
+}
+
+.app-shell .phone-dock-item {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--ink-secondary);
+}
+
+.app-shell .phone-dock-item--active {
+  background: none;
+  box-shadow: none;
+  color: var(--brand-400);
+}
+
+.phone-dock-label {
+  font-size: 10.5px;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.app-shell .phone-dock-item--highlight {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: var(--brand-400);
+  border: none;
+  color: var(--night-ground);
+  box-shadow: 0 0 24px -2px rgba(228, 204, 166, 0.85);
+}
+
+.phone-dock-icon-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.phone-dock-badge {
+  position: absolute;
+  top: -6px;
+  left: calc(100% - 6px);
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: var(--radius-full);
+  background: var(--brand-400);
+  color: var(--night-ground);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Hero, rebuilt ──────────────────────────────────────────────────────────
+   One switch instead of two controls, the pace next to the figure it explains,
+   and two lights that say whether spending is still arriving on its own. */
+.hero-switch {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--night-line);
+  background: var(--night-ground);
+}
+
+.hero-switch-opt {
+  min-height: 32px;
+  padding: 0 16px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: none;
+  color: var(--ink-secondary);
+  font: inherit;
+  font-size: var(--text-caption);
+  cursor: pointer;
+}
+
+.hero-switch-opt--on {
+  background: rgba(251, 247, 242, 0.12);
+  color: var(--ink-primary);
+}
+
+.hero-switch-opt:focus-visible {
+  outline: 2px solid var(--brand-400);
+  outline-offset: 2px;
+}
+
+.hero-caption {
+  margin-top: 14px;
+  font-size: var(--text-caption);
+  color: var(--ink-secondary);
+}
+
+.hero-pace {
+  margin: 12px 0 0;
+  font-size: var(--text-caption);
+  color: var(--ink-secondary);
+}
+
+.hero-pace strong {
+  font-weight: 500;
+  color: var(--ink-primary);
+}
+
+.hero-ticks {
+  display: grid;
+  grid-template-columns: repeat(var(--tick-count, 30), minmax(0, 1fr));
+  gap: 3px;
+  width: calc(100% - 72px);
+  margin-top: 12px;
+}
+
+.hero-tick {
+  height: 12px;
+  border-radius: 2px;
+  background: rgba(251, 247, 242, 0.12);
+}
+
+.hero-tick--past {
+  background: var(--brand-400);
+  opacity: 0.5;
+}
+
+.hero-tick--today {
+  background: var(--ink-primary);
+  box-shadow: 0 0 12px 2px rgba(228, 204, 166, 0.9);
+}
+
+.hero-status {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 18px;
+  margin-top: 18px;
+}
+
+.hero-status-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 32px;
+  font-size: var(--text-caption);
+  color: var(--ink-secondary);
+  text-decoration: none;
+}
+
+.hero-status-item strong {
+  font-weight: 500;
+  color: var(--ink-primary);
+}
+
+.hero-status-light {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  background: var(--ink-primary);
+  box-shadow: 0 0 0 3px rgba(228, 204, 166, 0.14), 0 0 12px 3px rgba(228, 204, 166, 0.8);
+}
+
+/* Off is a different shape, not just a dimmer colour. */
+.hero-status-item--off .hero-status-light {
+  background: none;
+  box-shadow: none;
+  border: 1px dashed var(--ink-secondary);
+}
+
+.hero-stack-wrap {
+  position: relative;
+  width: 100%;
+  margin-top: 78px;
+}
+
+.hero-pilo {
+  position: absolute;
+  right: 40px;
+  bottom: calc(100% - 64px);
+  z-index: 0;
+  height: auto;
+  pointer-events: none;
+}
+
+.hero-stack-wrap .balance-card-stack {
+  position: relative;
+  z-index: 1;
+}
+
+.week-card-calendar-link,
+.dash-closing-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--text-label);
+  color: var(--brand-400);
+  text-decoration: none;
+}
+
+.week-card-calendar-link {
+  margin-left: auto;
+  align-self: flex-end;
+}
+
+.dash-closing,
+.month-closing {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-4) var(--space-5) 0;
+}
+
+.month-closing {
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* ── /mes: three totals, and Pilo on the edge of the chart ────────────────── */
+.app-shell .month-totals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.app-shell .month-total {
+  padding: 12px 10px;
+  min-width: 0;
+}
+
+.app-shell .month-total .fin-stat-label {
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.app-shell .month-total-value {
+  font-size: 0.86rem;
+  white-space: nowrap;
+}
+
+.month-total--net .month-total-value {
+  color: var(--brand-400);
+}
+
+.month-pilo-wrap {
+  position: relative;
+  margin-top: 56px;
+}
+
+.month-pilo {
+  position: absolute;
+  right: 26px;
+  bottom: calc(100% - 26px);
+  z-index: 0;
+  height: auto;
+  pointer-events: none;
+}
+
+.month-pilo-wrap .month-dots {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Category tones, from the light (decision of 24-nov-2026) ───────────────
+   The author chose these over the generic swatches and waived the colour-blind
+   check of DESIGN_SYSTEM.md 2.6 for them. Stored colours are untouched; the
+   mapping lives in src/lib/category-palette.ts. */
+:root {
+  --cat-tone-cream: #f6e3c4;
+  --cat-tone-champagne: #e4cca6;
+  --cat-tone-sand: #d4b382;
+  --cat-tone-blush: #e9b7b0;
+  --cat-tone-salmon: #ef9c8f;
+  --cat-tone-rose: #d9506a;
+  --cat-tone-wine: #b23a57;
+  --cat-tone-plum: #8f2f4a;
+  --cat-tone-mauve: #b98aa0;
+  --cat-tone-grey: #a8949b;
+}
+
+.app-shell .phone-ledger-empty {
+  background: var(--night-surface);
+  border: 1px solid var(--night-line);
+  box-shadow: none;
+}

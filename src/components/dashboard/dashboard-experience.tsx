@@ -1,13 +1,14 @@
 'use client';
 
+import Link from 'next/link';
 import React, { useMemo, useState } from 'react';
 
 import type { DayGroup, DashboardData } from '@/core/services/analytics.service';
 import type { EnrichedTransactionRow } from '@/core/repositories/transaction.repository';
+import { t } from '@/lib/i18n';
 
 import { BalanceHero, GENERAL_CARD_ID, type FormattedWalletCard } from './balance-hero';
 import { CaptureCallout } from './capture-callout';
-import { FinancialActions } from './financial-actions';
 import { PhoneLedger } from './phone-ledger';
 import { ReviewCallout } from './review-callout';
 import { WeekSpendingCard } from './week-spending';
@@ -16,6 +17,7 @@ interface DashboardExperienceProps {
   readonly data: DashboardData;
   readonly userEmail: string;
   readonly displayName: string | null;
+  readonly telegramLinked?: boolean;
 }
 
 // By id only. Matching on bank name or last four digits pulled one bank's
@@ -30,6 +32,7 @@ export function DashboardExperience({
   data,
   userEmail,
   displayName,
+  telegramLinked = false,
 }: DashboardExperienceProps): React.ReactElement {
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   const [activeCard, setActiveCard] = useState<FormattedWalletCard | null>(null);
@@ -80,6 +83,7 @@ export function DashboardExperience({
         uncategorizedCount={data.uncategorizedCount}
         lastCaptureAt={data.lastCaptureAt}
         autoCaptureCount={data.autoCaptureCount}
+        telegramLinked={telegramLinked}
         timeZone={data.timezone}
         accounts={data.accounts}
         activeCardIndex={activeCardIndex}
@@ -99,9 +103,6 @@ export function DashboardExperience({
         currency={data.baseCurrency}
       />
 
-      {/* 4. Purposeful Financial Actions (+ Registrar gasto, + Ingreso) */}
-      <FinancialActions />
-
       {/* 5. Recent transactions filtered by selected card, or showing all */}
       <PhoneLedger
         days={filteredRecentDays}
@@ -110,6 +111,19 @@ export function DashboardExperience({
         activeAccountFilterName={isSpecificAccount && activeCard ? activeCard.displayName : null}
         onClearAccountFilter={handleClearAccountFilter}
       />
+
+      {/* The list no longer ends in nothing: where to see the rest, and the
+          way to take it all with you. Recording a spend moved to the "+" on
+          the dock, which was already doing the same thing as the two buttons
+          that used to sit here. */}
+      <nav className="dash-closing" aria-label={t('month_view_full')}>
+        <Link href="/mes" className="dash-closing-link">
+          {t('month_view_full')} →
+        </Link>
+        <a href="/api/v1/export" download className="dash-closing-link">
+          {t('nav_export')}
+        </a>
+      </nav>
     </>
   );
 }
